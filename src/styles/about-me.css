@@ -19,7 +19,7 @@
   background-size: 150% 150%;
   background-repeat: no-repeat;
   background-position: center bottom -120px; /* Adjust the pixels as needed */
-  background-image: url(../images/webdev.svg); /* Replace with the actual path to your SVG file */
+  background-image: url(../../public/images/webdev.svg); /* Replace with the actual path to your SVG file */
 }
 
 .about-image02 {
@@ -28,7 +28,7 @@
   background-size: 150% 150%;
   background-repeat: no-repeat;
   background-position: center bottom -120px; /* Adjust the pixels as needed */
-  background-image: url(../images/database.svg); /* Replace with the actual path to your SVG file */
+  background-image: url(../../public/images/database.svg); /* Replace with the actual path to your SVG file */
 }
 
 .about-image03 {
@@ -37,7 +37,7 @@
   background-size: 150% 150%;
   background-repeat: no-repeat;
   background-position: center bottom -120px; /* Adjust the pixels as needed */
-  background-image: url(../images/games.svg); /* Replace with the actual path to your SVG file */
+  background-image: url(../../public/images/games.svg); /* Replace with the actual path to your SVG file */
 }
 
 .about-image04 {
@@ -46,7 +46,7 @@
   background-size: 150% 150%;
   background-repeat: no-repeat;
   background-position: center bottom -90px; /* Adjust the pixels as needed */
-  background-image: url(../images/artworks.svg); /* Replace with the actual path to your SVG file */
+  background-image: url(../../public/images/artworks.svg); /* Replace with the actual path to your SVG file */
 }
 
 .about-content01 {

@@ -1,0 +1,122 @@
+/* Migration fixes layered over the original design. */
+html {
+  scroll-behavior: smooth;
+}
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+#root {
+  min-height: 100%;
+}
+.header {
+  height: 100svh;
+  min-height: 600px;
+  position: relative;
+}
+#canvas {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+}
+#box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: -25px 0 0 -25px;
+  pointer-events: none;
+}
+.sandwich-btn {
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+.navigation-menu .nav-placeholder {
+  font:
+    800 3vw "Poppins",
+    sans-serif;
+  color: white;
+}
+.navigation-menu .nav-placeholder small {
+  display: block;
+  font-size: 12px;
+  opacity: 0.7;
+}
+.swiper-button-prev,
+.swiper-button-next {
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  display: none;
+}
+:focus-visible {
+  outline: 3px solid #ffd47c;
+  outline-offset: 6px;
+}
+.about-me {
+  height: auto;
+  padding-bottom: 30px;
+}
+#about {
+  scroll-margin-top: 30px;
+}
+@media (max-width: 767px) {
+  .header {
+    min-height: 600px;
+  }
+  .header .slide-inner h2 {
+    font-size: clamp(32px, 9vw, 56px) !important;
+  }
+  .header .slide-inner h5 {
+    font-size: clamp(18px, 5vw, 32px) !important;
+  }
+  .navigation-menu .nav-placeholder {
+    font-size: 8vw;
+  }
+  .header .social-media {
+    left: 20px;
+    bottom: 55px;
+  }
+  .sub-footer .container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+}
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  #canvas {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+main {
+  margin-top: 0;
+}
+.header .slide-inner::after {
+  pointer-events: none;
+}
+@media (max-width: 767px) {
+  .footer .container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .footer .container .content-box {
+    text-align: center;
+  }
+}

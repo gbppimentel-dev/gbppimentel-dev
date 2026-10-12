@@ -48,10 +48,6 @@ theme.
 
 */
 /* GOOGLE FONTS */
-@import url("https://fonts.googleapis.com/css?family=Libre+Baskerville:400|Poppins:300,400,600,800&subset=latin-ext");
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 /* BODY */
 body {
   height: 100%;
@@ -299,7 +295,7 @@ a {
   position: absolute;
   left: 0;
   top: 0;
-  background-image: url(../images/menu-background.png);
+  background-image: url(../../public/images/menu-background.png);
   background-size: cover;
   transition-delay: 0.8s;
 }
@@ -806,7 +802,7 @@ a {
   display: inline-block;
   border-radius: 15px;
   border-bottom: 6px solid rgba(0, 0, 0, 0.2);
-  /* background: url(../images/btn-bg.jpg); */
+  /* background: url(../../public/images/btn-bg.jpg); */
   background-color: white;
   background-size: cover;
   color: #474747;
@@ -903,7 +899,7 @@ a {
   left: 0;
   top: 0;
   background: none;
-  cursor: url("../images/arrow-left.png"), auto;
+  cursor: none, auto;
 }
 .header .swiper-carousel .swiper-button-next {
   width: 20%;
@@ -912,7 +908,7 @@ a {
   right: 0;
   top: 0;
   background: none;
-  cursor: url("../images/arrow-right.png"), auto;
+  cursor: none, auto;
 }
 .header .swiper-carousel .swiper-slide {
   height: 100%;
@@ -1096,7 +1092,7 @@ a {
   position: absolute;
   left: 0;
   top: 0;
-  background: url(../images/hero-lines-bg.png) center;
+  background: url(../../public/images/hero-lines-bg.png) center;
   opacity: 0.2;
 }
 
@@ -1121,7 +1117,7 @@ main {
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
-  background: url(../images/int-hero.jpg) center;
+  background: none center;
   background-size: cover;
 }
 .page-header .social-media {
@@ -1377,7 +1373,7 @@ main {
   display: flex;
   flex-wrap: wrap;
   padding: 100px 0;
-  background: url(../images/bg-shape-pattern.jpg) center no-repeat;
+  background: url(../../public/images/bg-shape-pattern.jpg) center no-repeat;
   background-size: auto 150%;
 }
 .awards h4 {
@@ -1643,7 +1639,7 @@ main {
   display: flex;
   flex-wrap: wrap;
   padding: 100px 0;
-  background: url(../images/bg-shape-pattern.jpg) center no-repeat;
+  background: url(../../public/images/bg-shape-pattern.jpg) center no-repeat;
   background-size: auto 100%;
 }
 .services-content-block .container {
@@ -1679,7 +1675,7 @@ main {
   font-size: 28px;
   font-weight: 800;
   margin-bottom: 20px;
-  background: url(../images/btn-bg.jpg) center;
+  background: url(../../public/images/btn-bg.jpg) center;
   -webkit-background-clip: text;
   color: transparent;
   background-size: auto 100%;
@@ -2739,7 +2735,7 @@ main {
   width: 45px;
   height: 45px;
   /* background: linear-gradient(#61afef, #c678dd); */
-  background-image: url(/images/button-top-03.png);
+  background-image: url(../../public/images/button-top-03.png);
   background-size: contain;
   display: flex;
   align-items: center;
@@ -2786,7 +2782,7 @@ main {
   opacity: 1;
   /* background: linear-gradient(to bottom, #e06c75, #ffd47c); */
   transform: scale(1.1);
-  background-image: url(/images/button-top-02.png);
+  background-image: url(../../public/images/button-top-02.png);
   background-size: cover;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
