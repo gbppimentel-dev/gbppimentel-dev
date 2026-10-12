@@ -9,7 +9,7 @@ function Background({ number }) {
     style={{ backgroundImage: `url(${asset(`images/slide0${number}.png`)})` }} />;
 }
 
-export default function Hero() {
+export default function Hero({ onActiveSlideChange }) {
   const [reduced, setReduced] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const [paused, setPaused] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -37,7 +37,15 @@ export default function Hero() {
       </ul>
       <Swiper className="swiper-container"
         modules={[Navigation, Pagination, Autoplay, Parallax, A11y, Keyboard]}
-        onSwiper={instance => { swiper.current = instance; if (reduced) instance.autoplay.stop(); }}
+        onSwiper={instance => {
+          swiper.current = instance;
+          onActiveSlideChange?.(instance.realIndex);
+          if (reduced) instance.autoplay.stop();
+        }}
+        onRealIndexChange={instance => {
+          // Use the slide identity, even when the looping carousel reorders its elements.
+          onActiveSlideChange?.(instance.realIndex);
+        }}
         loop speed={reduced ? 0 : 1000} parallax={!reduced} grabCursor
         autoplay={reduced ? false : { delay: 5500, disableOnInteraction: false }}
         navigation={{ nextEl: '.hero-next', prevEl: '.hero-prev', addIcons: false }}
