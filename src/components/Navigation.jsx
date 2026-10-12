@@ -50,7 +50,7 @@ export default function Navigation() {
     <div ref={menu} id="site-menu" className={`navigation-menu ${open ? 'open' : ''}`} aria-hidden={!open} inert={!open}>
       <div className="nav-bg" /><div className="nav-bg2" />
       <nav className="inner" aria-label="Main navigation">
-        <div className="menu-intro" aria-hidden="true"><img className="menu-brand-mark" src={asset('brand/mark-512.png')} width="80" height="80" alt="" /><span className="menu-brand-name">gbppimentel<span>-dev</span></span><p>A little code.<br />A lot of creativity.</p></div>
+        <div className="menu-intro" aria-hidden="true"><img className="menu-brand-mark" src={asset('brand/compact-mark-512.png')} width="80" height="80" alt="" /><span className="menu-brand-name">gbppimentel<span>-dev</span></span><p>A little code.<br />A lot of creativity.</p></div>
         <ul>{links.map(([id, label], index) => <li key={id}><a href={`#${id}`} onClick={navigate}><small>0{index + 1}</small>{label}</a></li>)}</ul>
       </nav>
     </div>

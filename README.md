@@ -1,26 +1,37 @@
-n# gbppimentel-dev — portfolio
+# gbppimentel-dev — portfolio
 
 This version starts from your working **original React + Vite migration**, not the replacement website in v2. The original visual identity remains: the full-screen three-slide carousel, abstract images, Tilt Warp typography, code-style headlines, illustrated About cards, animated full-screen menu, cursor follower, and hover effects.
 
-## Branding update (0.3.1)
+## Approved compact logo (0.3.5)
 
-This pass changes the identity to **gbppimentel-dev** while retaining the accepted layout, colors, carousel, animations, and original section artwork.
+This complete project can be used directly from the last applied **gbppimentel-dev** branding version. You can skip all previous logo-update ZIPs.
 
-- New muted-blue **p/** mark with an amber slash, paired with the exact lowercase wordmark.
-- New branding in the header, hero, open menu, and footer.
-- Glenn Bernard Pimentel appears as a small hero byline, in the About introduction, and in the copyright line.
-- Updated browser title, search/social metadata, favicon (16/32/48px), and home-screen icons.
-- No new runtime packages are required.
+- **Approved double-storey g:** the wider letter has a squared lower loop with a flat bottom.
+- **Compact proportions:** the slash no longer extends above the letter, and the shallow lower loop finishes at the same bottom edge as the slash.
+- **Three horizontal slices:** amber, coral, and blue sections retain the thinner transparent cuts from the first compact preview you selected.
+- **Exact selected preview:** this uses the FIRST compact preview, before the cuts were widened again. Exports preserve that image's proportions and alpha transparency.
+- **Transparent icons:** the mark, PNG favicons, embedded ICO images, and home-screen exports retain their alpha channels without a filled rectangle.
+- Header, open menu, footer, browser tab, and home-screen icons use the new artwork. Versioned icon filenames avoid the previous favicon cache.
 
-The full logo lockup lives in `src/components/Brand.jsx`; branding sizes and spacing are in `src/styles/branding.css`. The standalone transparent logo is `public/brand/mark-512.png`, and the original full-size generated asset is `public/brand/logo-master.png`. Browser icons live in `public/brand/` and `public/favicon.ico`.
+The rest of the accepted branding, real-name placement, page layouts, animations, text, and project content are carried over.
 
-The logo symbol was created with the built-in image-generation tool, then exported at the sizes needed by the site. Design prompt: “A compact, flat geometric lowercase p monogram with a separate forward slash, smoky blue #93AEC6 and muted amber #D8B97C, strong forms that remain readable at favicon size, transparent background, no GB initials and no embedded text.” The exact wordmark is rendered as live text for legibility.
+Logo files:
 
-For this update, the production build and existing DOM interaction checks pass. All icon files, brand references, and metadata were checked, and the exported mark was visually inspected. Full browser page rendering remains unverified in this environment.
+- `public/brand/compact-mark-512.png`: normalized transparent website mark.
+- `public/brand/compact-logo-master.png`: full-size approved generated original.
+- `public/brand/compact-favicon-16.png`, `compact-favicon-32.png`, and `compact-favicon-48.png`: transparent tab icons.
+- `public/favicon-compact.ico`: explicit browser ICO, with `public/favicon.ico` updated as a fallback.
+- `src/components/Brand.jsx`: the logo with the live gbppimentel-dev wordmark.
+
+The symbol was created with the built-in image-generation tool and approved before integration. Selected design direction: preserve the broad double-storey g and angular flat-bottom lower loop, remove the slash's top extension, compact the lower loop so it ends at the slash's bottom, and keep the thinner aligned horizontal cuts from the first compact preview. Use amber #D8B97C, coral #D79998, and blue #93AEC6 as the three solid-color sections, with a transparent background and counters. The approved raster master is included above; this update does not substitute a newly generated variation.
+
+Validation: production build and asset-reference checks pass. PNG and embedded ICO transparency were verified; the mark was visually checked on light and dark surfaces at header and favicon sizes. Full browser page rendering remains unverified in this environment.
+
+If a browser tab still shows an older icon, close and reopen that tab after starting the updated project.
 
 ## Run it in VS Code
 
-1. Extract `gbppimentel-dev-branding.zip` into a **new folder**. Keep your current working copy until you have compared them.
+1. Extract `gbppimentel-dev-logo-compact.zip` into a **new folder**. Keep your current working copy until you have compared them.
 2. In VS Code, choose **File → Open Folder** and open the extracted `gbppimentel-dev` folder. You should see `package.json` directly inside it.
 3. Choose **Terminal → New Terminal**.
 4. Run:
@@ -119,7 +130,7 @@ The included resume and About text are carried over from the original migration.
 ## Validation
 
 - Production build passes.
-- DOM interaction checks pass: menu open/close, keyboard focus, Escape, About navigation, project filters, valid section anchors, and reduced-motion autoplay behavior.
+- The accepted base previously passed DOM checks for menu open/close, keyboard focus, Escape, About navigation, project filters, section anchors, and reduced-motion autoplay. This logo-only update retains that behavior and does not rerun those interaction checks.
 - Local asset and archive integrity checks pass.
 - **Rendered browser visual checks remain unverified.** Chromium could not launch in this execution environment. Review the layout locally on desktop, tablet, and phone before publishing, including all three slides and the open menu. The DOM checks do not prove pixel layout or touch behavior.
 
