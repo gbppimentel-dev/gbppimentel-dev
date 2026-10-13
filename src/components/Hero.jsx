@@ -97,8 +97,22 @@ export default function Hero({ onActiveSlideChange }) {
             </div>
           </div>
         </SwiperSlide>
-        <button type="button" className="swiper-button-prev hero-prev" aria-label="Previous slide"><span data-hover="PREV">PREV</span></button>
-        <button type="button" className="swiper-button-next hero-next" aria-label="Next slide"><span data-hover="NEXT">NEXT</span></button>
+        <button type="button" className="swiper-button-prev hero-prev hero-control" aria-label="Previous slide">
+          <span className="hero-control-window" aria-hidden="true">
+            <span className="hero-control-track">
+              <span className="hero-control-face">PREV</span>
+              <span className="hero-control-face">PREV</span>
+            </span>
+          </span>
+        </button>
+        <button type="button" className="swiper-button-next hero-next hero-control" aria-label="Next slide">
+          <span className="hero-control-window" aria-hidden="true">
+            <span className="hero-control-track">
+              <span className="hero-control-face">NEXT</span>
+              <span className="hero-control-face">NEXT</span>
+            </span>
+          </span>
+        </button>
       </Swiper>
       {!reduced && <button className="hero-pause" type="button" onClick={() => setPaused(value => !value)} aria-pressed={paused}>
         {paused ? '▶ Play slides' : 'Ⅱ Pause slides'}
