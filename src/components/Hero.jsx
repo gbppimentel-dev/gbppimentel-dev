@@ -1,20 +1,23 @@
-// CHANGE VERSION: PORTFOLIO-POLISH-R9 | 2026-10-14 | Complete Hero.jsx
+// CHANGE VERSION: PORTFOLIO-POLISH-R10 | 2026-10-14 | Complete Hero.jsx
 import { useState } from 'react';
 import MorphNumber from './MorphNumber';
 import SocialLinks from './SocialLinks';
 import TerminalText from './TerminalText';
 import TechText from './TechText';
 import SlideTwoText from './SlideTwoText';
+import DecryptedText from './DecryptedText';
 import { HERO_SLIDE_DELAY, useHeroPlayback } from '../utils/heroPlayback';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay, Parallax, A11y, Keyboard } from 'swiper/modules';
 import { asset } from '../utils/assets';
 import '../styles/ScrollEffects.css';
+import '../styles/SlideThree.css';
 function Background({ number }) {
   return <div className="slide-art" data-swiper-parallax="-18%" aria-hidden="true" style={{ backgroundImage: `url(${asset(`images/slide0${number}.png`)})` }} />;
 }
 const INTERLEAVE_OFFSET = 0.5;
 const HERO_TRANSITION_EASE = 'cubic-bezier(.42, 0, .58, 1)';
+const slideThreeCode = 'design: "human-centered",\ndevelopment: "full-stack",\nERP: "connected workflows"';
 function interleaveSlides(swiper) {
   const offset = swiper.width * INTERLEAVE_OFFSET;
   swiper.slides.forEach(slide => {
@@ -85,11 +88,25 @@ export default function Hero({ onActiveSlideChange }) {
           </div></SwiperSlide>
         <SwiperSlide><div className="slide-inner slide-three">
             <Background number={3} />
-            <div className="container hero-copy">
-              <p className="hero-eyebrow" data-swiper-parallax="-100">From the first idea to the final detail.</p>
-              <p className="hero-design-line" data-swiper-parallax="-300"><span className="code-bracket">{'{'}</span> interactive frontend</p>
-              <h2 data-swiper-parallax="-200">seamless backend<span className="code-bracket">{'}'}</span></h2>
-              <a href="#projects" className="btn-ghost"><span data-hover="TAKE A LOOK">EXPLORE PROJECTS</span></a>
+            <div className="container hero-copy hero-copy-three">
+              <p className="hero-eyebrow" data-swiper-parallax="-100">Business needs, translated into digital solutions.</p>
+              <div className="hero-three-code" data-swiper-parallax="-220" role="group" aria-label="Design, development, and ERP solutions">
+                <code className="hero-three-code-text">
+                  {reduced ? <span>{slideThreeCode}</span> : <DecryptedText text={slideThreeCode} speed={24} maxIterations={10} sequential revealDirection="center" useOriginalCharsOnly className="hero-decrypted-char" parentClassName="hero-three-decrypted" encryptedClassName="hero-decrypted-encrypted" animateOn="view" />}
+                </code>
+              </div>
+              <div className="hero-three-actions" data-swiper-parallax="-100">
+                <a href="#projects" className="hero-resume hero-project-cta" aria-label="Explore projects">
+                  <span className="hero-resume-face hero-resume-rest" aria-hidden="true">
+                    <svg className="hero-resume-icon" viewBox="0 0 20 20" focusable="false"><path d="M3.5 10h12M10 4.5l5.5 5.5-5.5 5.5" /></svg>
+                    <span className="hero-resume-label">EXPLORE PROJECTS</span>
+                  </span>
+                  <span className="hero-resume-face hero-resume-hover" aria-hidden="true">
+                    <svg className="hero-resume-icon" viewBox="0 0 20 20" focusable="false"><circle cx="8.5" cy="8.5" r="5" /><path d="m12.2 12.2 4.3 4.3" /></svg>
+                    <span className="hero-resume-label">TAKE A LOOK!</span>
+                  </span>
+                </a>
+              </div>
             </div>
           </div></SwiperSlide>
         <div slot="container-end" className="hero-carousel-nav" role="group" aria-label="Slide controls">
@@ -105,4 +122,4 @@ export default function Hero({ onActiveSlideChange }) {
       {!reduced && <div className="hero-slide-timer" aria-hidden="true"><span ref={progressRef} className="hero-slide-timer-fill" /></div>}
     </header>;
 }
-// END OF FILE: PORTFOLIO-POLISH-R9 | Hero.jsx
+// END OF FILE: PORTFOLIO-POLISH-R10 | Hero.jsx

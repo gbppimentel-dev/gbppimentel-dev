@@ -1,0 +1,69 @@
+/* CHANGE VERSION: PORTFOLIO-POLISH-R10 | 2026-10-14 | Complete SlideThree.css */
+/* Center slide three around a compact code-like summary and a blue project action. */
+.slide-three .hero-copy-three {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1240px;
+  margin-inline: auto;
+  text-align: center;
+}
+.slide-three .hero-copy-three .hero-eyebrow {
+  max-width: 44rem;
+  margin: 0 0 clamp(20px, 3.2vh, 34px);
+  color: var(--blue);
+}
+.hero-three-code {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 auto clamp(22px, 3.4vh, 36px);
+  padding: .12em .72em;
+  color: var(--text);
+  text-align: left;
+  text-shadow: 0 0 18px rgb(147 174 198 / .12);
+}
+.hero-three-code::before,
+.hero-three-code::after {
+  position: absolute;
+  color: var(--blue);
+  font: 400 1.05em/1 'Poppins', sans-serif;
+  text-shadow: 0 0 14px rgb(147 174 198 / .25);
+  pointer-events: none;
+}
+.hero-three-code::before { content: '{'; top: 0; left: 0; }
+.hero-three-code::after { content: '}'; right: 0; bottom: 0; }
+.hero-three-code-text {
+  display: block;
+  max-width: 100%;
+  margin: 0;
+  color: inherit;
+  font: clamp(22px, 3.2vw, 44px)/1.5 var(--display);
+  letter-spacing: -.025em;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.hero-three-decrypted { display: block; white-space: pre-wrap; }
+.hero-decrypted-char { color: var(--text); }
+.hero-decrypted-encrypted { color: var(--blue); text-shadow: 0 0 10px rgb(147 174 198 / .6); }
+.hero-three-actions { display: flex; justify-content: center; width: 100%; margin-top: 0; }
+.hero-three-actions .hero-project-cta { margin-inline: auto; }
+.hero-three-actions .hero-project-cta .hero-resume-rest { background: var(--panel); color: var(--text); }
+.hero-three-actions .hero-project-cta .hero-resume-hover { background: var(--blue); color: var(--ink); }
+.hero-three-actions .hero-project-cta .hero-resume-icon { stroke-width: 1.8; }
+@media (max-width: 767px) {
+  .slide-three .hero-copy-three .hero-eyebrow { max-width: 28rem; margin-bottom: 18px; }
+  .hero-three-code { margin-bottom: 22px; padding-inline: .65em; }
+  .hero-three-code-text { font-size: clamp(15px, 4.1vw, 22px); line-height: 1.65; letter-spacing: -.02em; }
+}
+@media (max-height: 640px) and (min-width: 768px) {
+  .slide-three .hero-copy-three .hero-eyebrow { margin-bottom: 14px; }
+  .hero-three-code { margin-bottom: 16px; }
+  .hero-three-code-text { font-size: clamp(18px, 4.5vh, 30px); line-height: 1.4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-three-code, .hero-three-actions .hero-project-cta { text-shadow: none; }
+  .hero-decrypted-encrypted { color: var(--text); text-shadow: none; }
+}
+/* END OF FILE: PORTFOLIO-POLISH-R10 | SlideThree.css */
