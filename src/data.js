@@ -1,10 +1,5 @@
+// CHANGE VERSION: PORTFOLIO-POLISH-R1 | 2026-10-14 | Complete data.js
 export const socialLinks = [
-  {
-    name: "Facebook",
-    href: "https://www.facebook.com/glennbernardpalmapimentel",
-  },
-  { name: "X", href: "https://twitter.com/kiyowya" },
-  { name: "Instagram", href: "https://www.instagram.com/gbppimentel/" },
   {
     name: "LinkedIn",
     href: "https://www.linkedin.com/in/glenn-bernard-pimentel-2b3461265/",
@@ -40,3 +35,4 @@ export const contact = {
   email: '', // Your public contact email; leave empty to use LinkedIn instead.
   linkedin: 'https://www.linkedin.com/in/glenn-bernard-pimentel-2b3461265/',
 };
+// END OF FILE: PORTFOLIO-POLISH-R1 | data.js

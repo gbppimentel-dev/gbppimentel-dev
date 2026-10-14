@@ -1,3 +1,4 @@
+/* CHANGE VERSION: PORTFOLIO-POLISH-R8 | 2026-10-14 | Complete refinement.css */
 /* A refinement of the original portfolio. Original artwork + motion stay intact.
    Start here for future palette changes. Filters affect artwork, never text. */
 :root {
@@ -17,7 +18,7 @@
 }
 html { scroll-padding-top: 94px; }
 body { background: var(--ink); color: var(--text); }
-main { background: var(--ink); display: block; }
+main { background: var(--ink); display: block; position: relative; z-index: 1; margin-top: 100vh; margin-top: 100svh; }
 a { color: inherit; }
 a:hover { color: var(--amber); }
 button { font-family: inherit; }
@@ -57,10 +58,12 @@ section:focus, header:focus, footer:focus { outline: none; }
 .menu-intro > span { font: clamp(30px, 4.7vw, 76px)/1 var(--display); -webkit-text-stroke: 1px var(--blue); color: transparent; }
 .menu-intro p { margin-top: 26px; color: var(--muted); font-size: 15px; line-height: 1.8; }
 /* Same three-slide, full-screen introduction; original images underneath. */
-.header { height: 100svh; min-height: 690px; background: var(--ink); }
+.header { position: fixed; inset: 0 0 auto; z-index: 0; height: 100vh; height: 100svh; min-height: 0; background: var(--ink); }
 .header::before { display: none; }
 .header::after { height: 7px; width: 60%; left: 40px; background: var(--amber); }
 .header .slide-inner { padding: 120px clamp(40px, 8vw, 150px) 160px; isolation: isolate; flex-wrap: nowrap; }
+.header .swiper-wrapper { transition-timing-function: cubic-bezier(.22, .61, .36, 1); }
+.header .slide-inner { transition-timing-function: cubic-bezier(.22, .61, .36, 1); }
 .slide-art, .section-art, .contact-art, .project-art { position: absolute; inset: 0; background-position: center; background-size: cover; filter: saturate(var(--art-saturation)) brightness(var(--art-brightness)); pointer-events: none; }
 .slide-art { z-index: -3; }
 .header .slide-inner::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgb(11 13 22 / .36), rgb(11 13 22 / .12)); z-index: -2; pointer-events: none; }
@@ -138,6 +141,7 @@ section:focus, header:focus, footer:focus { outline: none; }
 .project-info p { color: var(--muted); font-size: 14px; line-height: 1.9; margin: 0; max-width: 510px; }
 .project-links { display: flex; gap: 24px; margin-top: 16px; font-size: 13px; }
 .project-links a, .project-info summary { color: var(--amber); }
+/* END OF FILE: PORTFOLIO-POLISH-R8 | refinement.css */
 .project-info details { padding-top: 14px; }
 .project-info details p { margin-top: 12px; }
 .collection-placeholder { grid-column: 1 / -1; padding: 55px 30px; text-align: center; border: 1px dashed var(--line); border-radius: 12px; background: var(--panel); }
@@ -269,3 +273,4 @@ section:focus, header:focus, footer:focus { outline: none; }
 .sub-footer .container ul li { margin: 0; float: none; }
 .sub-footer .container ul li a { float: none; display: inline-flex; align-items: center; min-height: 32px; }
 @media (max-width: 767px) { .sub-footer .container ul { margin: 18px 0 0; } }
+/* END OF FILE: PORTFOLIO-POLISH-R8 | refinement.css */

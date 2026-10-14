@@ -1,0 +1,41 @@
+/* CHANGE VERSION: PORTFOLIO-POLISH-R4 | 2026-10-14 | Complete ScrollEffects.css */
+/* Mouse animation adapted from Uiverse.io by mrhyddenn. */
+.header .hero-corner { position: absolute; z-index: 4; right: 40px; bottom: 32px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.header .hero-corner .hero-pagination { position: static; }
+.header .hero-scroll-mouse { --color: var(--brand-accent, var(--amber)); position: relative; display: flex; justify-content: center; flex: none; width: 44px; height: 76px; padding-top: 4px; color: var(--color); text-decoration: none; border-radius: 24px; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.hero-scroll-mouse:focus-visible { outline: 2px solid var(--color); outline-offset: 5px; }
+.hero-scroll-mouse .scrolldown { --sizeX: 30px; --sizeY: 50px; position: relative; display: block; width: var(--sizeX); height: var(--sizeY); box-sizing: border-box; border: 4px solid var(--color); border-radius: 50px; background: rgb(20 21 27 / .28); box-shadow: 0 2px 10px rgb(0 0 0 / .2); transition: border-color .4s; }
+.hero-scroll-mouse .scrolldown::before { content: ''; position: absolute; bottom: 28px; left: 50%; width: 7px; height: 6px; margin-left: -3.5px; box-sizing: border-box; border-radius: 100%; background: var(--color); box-shadow: 0 -5px 3px 1px rgb(42 84 112 / .4); animation: hero-mouse-wheel 2s infinite; transition: background-color .4s; }
+@keyframes hero-mouse-wheel {
+  0% { opacity: 0; height: 6px; transform: translateY(0); }
+  40% { opacity: 1; height: 10px; }
+  80% { transform: translateY(20px); height: 10px; opacity: 0; }
+  100% { transform: translateY(20px); height: 3px; opacity: 0; }
+}
+.hero-scroll-mouse .chevrons { position: absolute; top: calc(100% + 5px); left: -4px; width: var(--sizeX); display: flex; flex-direction: column; align-items: center; padding-top: 6px; }
+.hero-scroll-mouse .chevrondown { display: block; position: relative; flex: none; width: 10px; height: 10px; margin-top: -6px; box-sizing: content-box; border: solid var(--color); border-width: 0 4px 4px 0; transform: rotate(45deg); transition: border-color .4s; animation: hero-mouse-chevron .5s ease infinite alternate; }
+.hero-scroll-mouse .chevrondown:nth-child(even) { animation-delay: .25s; }
+@keyframes hero-mouse-chevron { from { opacity: 0; } to { opacity: .5; } }
+/* One shared corner stack keeps the mouse centered above the changing count. */
+@media (max-width: 767px) {
+  .header .hero-corner { right: 24px; bottom: 80px; gap: 8px; }
+  .header .hero-scroll-mouse { height: 60px; }
+  .hero-scroll-mouse .scrolldown { --sizeX: 24px; --sizeY: 40px; border-width: 3px; }
+  .hero-scroll-mouse .scrolldown::before { bottom: 22px; width: 5px; margin-left: -2.5px; }
+  .hero-scroll-mouse .chevrons { left: -3px; }
+  .hero-scroll-mouse .chevrondown { width: 7px; height: 7px; border-width: 0 3px 3px 0; margin-top: -4px; }
+}
+@media (max-height: 600px) and (min-width: 768px) { .header .hero-corner { bottom: 10px; gap: 4px; } }
+@media (max-height: 540px) and (min-width: 768px) { .header .hero-scroll-mouse { height: 60px; } .hero-scroll-mouse .scrolldown { transform: scale(.75); transform-origin: top center; } }
+/* Style both viewport scrollbar owners; no border/inset leaves dark corner pixels. */
+html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb { background: var(--scrollbar-color, #d8b97c); border: 0; box-shadow: none; border-radius: var(--scrollbar-top-radius, 0px) var(--scrollbar-top-radius, 0px) var(--scrollbar-bottom-radius, 10px) var(--scrollbar-bottom-radius, 10px); }
+html::-webkit-scrollbar-track, body::-webkit-scrollbar-track { border: 0; border-radius: 0; box-shadow: none; }
+html[data-scroll-edge="top"]::-webkit-scrollbar-thumb, html[data-scroll-edge="top"] body::-webkit-scrollbar-thumb { border-top-left-radius: 0; border-top-right-radius: 0; }
+html[data-scroll-edge="bottom"]::-webkit-scrollbar-thumb, html[data-scroll-edge="bottom"] body::-webkit-scrollbar-thumb { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+html[data-scroll-edge="both"]::-webkit-scrollbar-thumb, html[data-scroll-edge="both"] body::-webkit-scrollbar-thumb { border-radius: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-mouse *, .hero-scroll-mouse .scrolldown::before { animation: none; transition: none; }
+  .hero-scroll-mouse .scrolldown::before { opacity: 1; height: 6px; }
+  .hero-scroll-mouse .chevrondown { opacity: .65; }
+}
+/* END OF FILE: PORTFOLIO-POLISH-R4 | ScrollEffects.css */

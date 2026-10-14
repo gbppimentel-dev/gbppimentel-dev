@@ -1,0 +1,49 @@
+/* CHANGE VERSION: PORTFOLIO-POLISH-R1 | 2026-10-14 | Complete PortfolioDetails.css */
+.navbar.site-navbar .logo .brand-link { gap: 8px; }
+.navbar.site-navbar .logo .brand-triangle { display: block; flex: none; width: 28px; height: 28px; object-fit: contain; }
+/* Overlapping silhouettes soften each digit change without shifting the counter. */
+.morph-number { position: relative; display: inline-block; min-width: .7em; line-height: 1.1; vertical-align: baseline; font-variant-numeric: tabular-nums; }
+.number-accessible { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.number-size { display: block; visibility: hidden; }
+.number-shape { position: absolute; inset: 0; display: block; transform-origin: center; }
+.number-in { animation: number-morph-in .55s cubic-bezier(.2, .7, .2, 1) both; }
+.number-out { pointer-events: none; animation: number-morph-out .55s cubic-bezier(.2, .7, .2, 1) both; }
+@keyframes number-morph-in { from { opacity: 0; filter: blur(.12em); transform: translateY(.12em) scale(1.16, .8); } to { opacity: 1; filter: blur(0); transform: none; } }
+@keyframes number-morph-out { from { opacity: 1; filter: blur(0); transform: none; } to { opacity: 0; filter: blur(.12em); transform: translateY(-.12em) scale(.82, 1.12); } }
+.header .hero-pagination { position: absolute; right: 40px; bottom: 32px; z-index: 3; font: 400 40px/1.1 var(--display); color: var(--text); pointer-events: none; }
+.hero-pagination-total { font-size: 16px; color: var(--muted); }
+/* Compact profile cards, using the existing site colors. */
+.professional-socials { display: flex; gap: 12px; padding: 0; margin: 0; list-style: none; }
+.professional-socials > li { margin: 0; min-width: 0; }
+:is(.header, .staggered-menu) .professional-socials .social-card { --social-color: var(--blue); position: relative; display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 10px 12px; overflow: hidden; border: 1px solid rgb(147 174 198 / .25); border-radius: 10px; background: rgb(20 21 27 / .78); color: var(--text); text-decoration: none; box-shadow: 0 6px 18px rgb(0 0 0 / .1); transition: transform .25s, border-color .25s, background .25s, box-shadow .25s; }
+:is(.header, .staggered-menu) .professional-socials .social-card-github { --social-color: var(--coral); }
+.professional-socials .social-card::before { content: ''; position: absolute; inset: auto 10px 0; height: 2px; background: var(--social-color); transform: scaleX(.25); transform-origin: left; transition: transform .3s; }
+.professional-socials .social-icon { display: flex; flex: none; color: var(--social-color); }
+.professional-socials .social-icon svg { width: 21px; height: 21px; fill: currentColor; }
+.professional-socials .social-copy { display: flex; flex-direction: column; gap: 4px; white-space: nowrap; font-family: 'Poppins', sans-serif; }
+.professional-socials .social-copy strong { font-size: 12px; line-height: 1.1; font-weight: 600; }
+.professional-socials .social-copy small { color: var(--muted); font-size: 7px; line-height: 1.2; letter-spacing: .09em; }
+.professional-socials .social-arrow { margin-left: auto; color: var(--social-color); font: 17px/1 sans-serif; transition: transform .25s; }
+.professional-socials .social-card:focus-visible { outline: 2px solid var(--social-color); outline-offset: 4px; }
+.header .hero-socials { position: absolute; z-index: 4; left: 40px; bottom: 42px; }
+.staggered-menu .sm-socials .professional-socials { gap: 10px; }
+.staggered-menu .sm-socials .professional-socials > li { flex: 1; }
+.staggered-menu .sm-socials .social-card { gap: 8px; padding: 10px; }
+.staggered-menu .sm-socials .social-arrow { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  :is(.header, .staggered-menu) .professional-socials .social-card:hover { transform: translateY(-3px); border-color: var(--social-color); background: var(--panel); box-shadow: 0 10px 24px rgb(0 0 0 / .22); }
+  .professional-socials .social-card:hover::before { transform: scaleX(1); }
+  .professional-socials .social-card:hover .social-arrow { transform: translate(2px, -2px); }
+}
+@media (max-width: 767px) {
+  .navbar.site-navbar .logo .brand-triangle { width: 24px; height: 24px; }
+  .header .hero-socials { left: 24px; right: 24px; bottom: 18px; gap: 10px; }
+  .header .hero-socials > li { flex: 1; }
+  .header .hero-socials .social-card { min-height: 52px; gap: 8px; padding: 9px 10px; }
+  .header .hero-socials .social-icon svg { width: 19px; height: 19px; }
+  .header .hero-pagination { right: 24px; bottom: 80px; font-size: 34px; }
+}
+@media (max-width: 380px) { .professional-socials .social-arrow { display: none; } }
+@media (max-height: 600px) and (min-width: 768px) { .header .hero-socials { bottom: 16px; } .header .hero-pagination { bottom: 10px; } }
+@media (prefers-reduced-motion: reduce) { .number-in, .number-out { animation: none; filter: none; transform: none; } .number-out { display: none; } .professional-socials * { transition: none !important; } }
+/* END OF FILE: PORTFOLIO-POLISH-R1 | PortfolioDetails.css */

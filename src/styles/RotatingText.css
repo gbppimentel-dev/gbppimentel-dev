@@ -1,0 +1,62 @@
+/* CHANGE VERSION: PORTFOLIO-POLISH-R9 | 2026-10-14 | Complete RotatingText.css */
+/* React Bits: natural word widths, spring layout and three coordinated treatments. */
+.text-rotate, .text-rotate-content { display: inline-flex; flex-wrap: nowrap; white-space: pre; position: relative; }
+.text-rotate-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.text-rotate-word { display: inline-flex; }
+.text-rotate-lines { display: flex; flex-direction: column; width: 100%; }
+.text-rotate-element { display: inline-block; }
+.text-rotate-space { white-space: pre; }
+.text-rotate.text-rotate-stable { display: inline-grid; }
+.text-rotate-stable > .text-rotate-content, .text-rotate-stable > .text-rotate-sizer { grid-area: 1 / 1; }
+.text-rotate-sizer { display: grid; visibility: hidden; pointer-events: none; }
+.text-rotate-sizer > span { grid-area: 1 / 1; white-space: nowrap; }
+.hero-rotating-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: .08em .22em; position: relative; }
+.hero-rotating-group { display: inline-flex; align-items: baseline; gap: .18em; flex: none; white-space: nowrap; position: relative; }
+.hero-rotating-prefix { display: inline-block; }
+.hero-static-phrase { display: inline-block; flex: none; white-space: nowrap; }
+.hero-rotating-row .text-rotate { display: inline-flex; width: max-content; padding: .025em .16em .055em; overflow: hidden; border: 2px solid; border-radius: .09em; transition: background-color .45s, border-color .45s, box-shadow .45s; }
+.hero-rotating-window { padding-block: .05em .1em; margin-block: -.05em -.1em; }
+#home .slide-two .hero-rotating-line { font-size: clamp(32px, 5vw, 82px); line-height: 1.22; overflow-wrap: normal; }
+#home .slide-two h2.hero-rotating-line { margin: .13em 0 24px; }
+/* Graphic/web: light outlined coral with a softer blue companion. */
+.hero-rotate-design[data-word-index="0"] { background: rgb(46 35 42 / .82); border-color: rgb(215 153 152 / .72); }
+.hero-rotate-design .text-rotate-content[data-word-index="0"] { color: transparent; -webkit-text-stroke: 1.2px #f1c3bf; }
+.hero-rotate-development[data-word-index="0"] { background: #4c6678; border-color: var(--blue); }
+.hero-rotate-development .text-rotate-content[data-word-index="0"] { color: #f0e9dd; }
+/* Game uses rounded, playful lettering; keep its glow and a clean even outline. */
+.hero-rotate-design[data-word-index="1"] { background: #252a3c; border-color: var(--coral); border-width: 2px; padding-right: .22em; font-family: 'Arial Rounded MT Bold', 'Trebuchet MS', 'Tilt Warp', sans-serif; font-weight: 700; font-style: normal; letter-spacing: -.035em; box-shadow: 0 0 16px rgb(215 153 152 / .28), inset 0 0 12px rgb(215 153 152 / .08); }
+.hero-rotate-design .text-rotate-content[data-word-index="1"] { font-family: 'Arial Rounded MT Bold', 'Trebuchet MS', 'Tilt Warp', sans-serif; font-weight: 700; font-style: normal; text-shadow: 0 0 9px rgb(242 197 104 / .28), 0 0 15px rgb(140 199 232 / .18); }
+.hero-rotate-design .text-rotate-content[data-word-index="1"] .text-rotate-element:nth-child(3n+1) { color: #f2c568; }
+.hero-rotate-design .text-rotate-content[data-word-index="1"] .text-rotate-element:nth-child(3n+2) { color: #f08f88; }
+.hero-rotate-design .text-rotate-content[data-word-index="1"] .text-rotate-element:nth-child(3n) { color: #8cc7e8; }
+.hero-rotate-development[data-word-index="1"] { background: #35302a; border-color: var(--amber); border-style: dashed; }
+.hero-rotate-development .text-rotate-content[data-word-index="1"] { color: transparent; -webkit-text-stroke: 1.1px #f0d8a8; }
+/* Workflow: warm paper tones. Script: a restrained code-editor treatment. */
+.hero-rotate-design[data-word-index="2"] { background: #574b36; border-color: #bca36e; border-bottom-style: dashed; }
+.hero-rotate-design .text-rotate-content[data-word-index="2"] { color: #f3e4c7; }
+.hero-rotate-development[data-word-index="2"] { background: rgb(20 28 34 / .94); border-color: rgb(147 174 198 / .72); border-style: solid; box-shadow: inset 0 -2px 0 rgb(147 174 198 / .2); font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace; letter-spacing: -.055em; }
+.hero-rotate-development .text-rotate-content[data-word-index="2"] { color: #d8e7ef; }
+.hero-rotate-development .text-rotate-content[data-word-index="2"]::after { content: '▌'; margin-left: .035em; color: var(--blue); font: .68em/1 ui-monospace, monospace; }
+.hero-rotating-static { white-space: normal; color: var(--text); padding-inline: .1em; }
+.slide-two-actions { margin-top: 4px; }
+.hero-about .hero-resume-hover { background: #4c6678; color: #fff; }
+@media (max-width: 767px) {
+  #home .slide-two .hero-rotating-line { font-size: clamp(25px, 5.7vw, 42px) !important; }
+  #home .slide-two h2.hero-rotating-line { margin-bottom: 18px; }
+  .hero-rotating-group { gap: .2em; }
+  .hero-rotating-row .text-rotate { padding-inline: .12em; }
+  .hero-rotate-design[data-word-index="1"] { padding-right: .28em; }
+}
+@media (max-width: 540px) {
+  #home .slide-two h2 .hero-static-phrase { flex-basis: 100%; }
+}
+@media (max-height: 600px) and (min-width: 768px) {
+  #home .slide-two .hero-rotating-line { font-size: clamp(28px, 6.5vh, 44px); }
+  #home .slide-two h2.hero-rotating-line { margin-bottom: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-rotating-group { flex-shrink: 1; min-width: 0; }
+  .hero-rotating-static { font-size: .7em; }
+  .hero-rotating-row .text-rotate { transition: none; }
+}
+/* END OF FILE: PORTFOLIO-POLISH-R9 | RotatingText.css */
