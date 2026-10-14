@@ -1,0 +1,134 @@
+/* Text-only gbppimentel-dev identity with carousel-synced accent colors. */
+.navbar { flex-wrap: nowrap; column-gap: 16px; }
+.navbar .logo { min-width: 0; margin-right: 0; }
+.brand-link, .navbar .logo .brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  float: none;
+  color: var(--text);
+  text-decoration: none;
+}
+.navbar .logo .brand-link { min-height: 44px; }
+.brand-mark, .navbar .logo .brand-mark, .menu-brand-mark { display: none; }
+.brand-wordmark {
+  font: 600 15px/1.2 'Poppins', sans-serif;
+  letter-spacing: -.055em;
+  white-space: nowrap;
+}
+.brand-dev, .menu-brand-name > span {
+  color: var(--brand-accent, var(--amber));
+  transition: color .35s ease;
+}
+.brand-link:hover { color: var(--text); text-decoration: none; }
+.header h1.brand-heading {
+  font-size: clamp(54px, 7.4vw, 120px);
+  line-height: 1.04;
+  text-transform: none;
+  letter-spacing: -.055em;
+  margin-bottom: 14px;
+}
+.brand-handle { white-space: nowrap; }
+.hero-byline {
+  font: 400 13px/1.7 'Poppins', sans-serif;
+  color: #c9cad2;
+  letter-spacing: .025em;
+  margin: 0 0 28px;
+}
+.menu-intro > .menu-brand-name {
+  display: block;
+  font: 400 clamp(28px, 3.4vw, 54px)/1.15 var(--display);
+  letter-spacing: -.045em;
+  -webkit-text-stroke: 0;
+  color: var(--text);
+}
+.menu-brand-name > span { display: block; }
+.footer-brand { display: flex; flex-direction: column; gap: 10px; }
+.footer-brand .brand-wordmark { font-size: 15px; }
+.sub-footer .footer-brand small { font-size: 10px; color: var(--muted); }
+@media (max-width: 767px) {
+  .brand-wordmark { font-size: 13px; }
+  .header h1.brand-heading { font-size: clamp(39px, 10.5vw, 72px); margin-bottom: 14px; }
+  .hero-byline { font-size: 11px; margin-bottom: 24px; }
+}
+@media (max-width: 360px) {
+  .brand-wordmark { font-size: 12px; }
+  .navbar { column-gap: 10px; }
+  .header h1.brand-heading { font-size: 38px; }
+}
+
+/* Real text labels: one visible face, with the second clipped until rollover. */
+.header .swiper-container button.hero-control:is(.hero-prev, .hero-next) {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  outline: none;
+  color: var(--text, #f2efe8);
+  -webkit-tap-highlight-color: transparent;
+}
+.header .swiper-container button.hero-control:is(.hero-prev, .hero-next):focus-visible {
+  outline: 2px solid var(--brand-accent, var(--amber, #d8b97c));
+  outline-offset: 4px;
+}
+/* The controls use text, so suppress any theme or Swiper arrow pseudo-elements. */
+.header .swiper-container button.hero-control:is(.hero-prev, .hero-next)::before,
+.header .swiper-container button.hero-control:is(.hero-prev, .hero-next)::after,
+.header .swiper-container button.hero-control:is(.hero-prev, .hero-next) span::before,
+.header .swiper-container button.hero-control:is(.hero-prev, .hero-next) span::after {
+  content: none;
+  display: none;
+}
+/* Reset legacy span rollover rules without changing the button placement. */
+.header .swiper-container button.hero-control:is(.hero-prev, .hero-next) span {
+  display: block;
+  position: static;
+  inset: auto;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  float: none;
+  overflow: visible;
+  font: inherit;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: inherit;
+  opacity: 1;
+  visibility: visible;
+  text-shadow: none;
+  transform: none;
+  transition: none;
+}
+.header .swiper-container button.hero-control:is(.hero-prev, .hero-next) .hero-control-window {
+  position: relative;
+  flex: 0 0 auto;
+  width: max-content;
+  height: 1.2em;
+  overflow: hidden;
+  pointer-events: none;
+}
+.header .swiper-container button.hero-control:is(.hero-prev, .hero-next) .hero-control-track {
+  transform: translateY(0);
+  transition: transform .3s cubic-bezier(.2, .7, .3, 1);
+}
+.header .swiper-container button.hero-control:is(.hero-prev, .hero-next) .hero-control-face {
+  height: 1.2em;
+}
+@media (hover: hover) and (pointer: fine) {
+  .header .swiper-container button.hero-control:is(.hero-prev, .hero-next):hover .hero-control-track {
+    transform: translateY(-50%);
+  }
+}
+.header .swiper-container button.hero-control:is(.hero-prev, .hero-next):focus-visible .hero-control-track {
+  transform: translateY(-50%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .header .swiper-container button.hero-control:is(.hero-prev, .hero-next) .hero-control-track {
+    transition: none;
+  }
+}
