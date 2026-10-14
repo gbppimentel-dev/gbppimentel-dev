@@ -1,4 +1,6 @@
-// CHANGE VERSION: CAROUSEL-R3 | 2026-10-14 | Complete Hero.jsx
+// CHANGE VERSION: HERO-TECH-R4 | 2026-10-14 | Complete Hero.jsx
+import { Children, cloneElement, isValidElement } from 'react';
+import TechText from './TechText';
 import { HERO_SLIDE_DELAY, useHeroPlayback } from '../utils/heroPlayback';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay, Parallax, A11y, Keyboard } from 'swiper/modules';
@@ -12,6 +14,15 @@ function CarouselControl({ direction, label }) {
     <span className="hero-carousel-window" aria-hidden="true"><span className="hero-carousel-track">
       <span className="hero-carousel-face">{label}</span><span className="hero-carousel-face">{label}</span>
     </span></span></button>;
+}
+function TerminalText({ children }) {
+  let index = 0;
+  const reveal = nodes => Children.map(nodes, node => {
+    if (typeof node === 'string' || typeof node === 'number') return Array.from(String(node), char => <span key={index} className="hero-terminal-char" style={{ '--char-index': index++ }}>{char}</span>);
+    return isValidElement(node) && node.props.children != null ? cloneElement(node, {}, reveal(node.props.children)) : node;
+  });
+  const content = reveal(children);
+  return <span className="hero-terminal-text" aria-hidden="true" style={{ '--terminal-duration': (index * 26 + 350) + 'ms' }}><span className="hero-terminal-prompt">›</span>{content}<span className="hero-terminal-caret" /></span>;
 }
 export default function Hero({ onActiveSlideChange }) {
   const { player, progressRef, reduced, paused } = useHeroPlayback();
@@ -35,14 +46,14 @@ export default function Hero({ onActiveSlideChange }) {
         <SwiperSlide><div className="slide-inner slide-one">
             <Background number={1} />
             <div className="container hero-copy">
-              <p className="hero-eyebrow" data-swiper-parallax="-100">development + design</p>
-              <h1 className="brand-heading" data-swiper-parallax="-300"><span className="brand-handle">gbppimentel</span><wbr /><span className="brand-dev">-dev</span></h1>
-              <p className="hero-byline" data-swiper-parallax="-150">by Glenn Bernard Pimentel</p>
-              <p className="hero-code" data-swiper-parallax="-200">
-                <span className="syntax-amber">System</span>.<span className="syntax-coral">out</span>.<span className="syntax-blue">println</span><span className="syntax-amber">{'("'}</span><wbr />
-                <span className="syntax-coral">software engineer, </span><span className="syntax-lilac">UI/UX</span><span className="syntax-amber">{'");'}</span>
+              <p className="hero-eyebrow" data-swiper-parallax="-100">DEVELOPMENT + DESIGN + ERP SOLUTIONS</p>
+              <h1 className="brand-heading" data-swiper-parallax="-300"><TechText text="gbppimentel-dev." suffix="-dev." /></h1>
+              <p className="hero-byline" data-swiper-parallax="-150">by <em>Glenn Bernard Pimentel</em></p>
+              <p className="hero-code hero-terminal" data-swiper-parallax="-200"><span className="hero-terminal-accessible">{'System.out.println("software engineer, UI/UX, business consultant");'}</span><TerminalText>
+                <span className="syntax-amber">System</span>.<span className="syntax-coral">out</span>.<span className="syntax-blue">println</span><span className="syntax-amber">{'('}</span><wbr />
+                <em className="hero-code-roles"><span className="syntax-amber">{'"'}</span><span className="syntax-coral">software engineer, </span><span className="syntax-lilac">UI/UX, </span><span className="hero-code-ending"><span className="syntax-blue">business consultant</span><span className="syntax-amber">{'"'}</span><span className="syntax-amber hero-code-close">{');'}</span></span></em></TerminalText>
               </p>
-              <a href={asset('Pimentel-Resume-IT.pdf')} target="_blank" rel="noopener noreferrer" className="btn-ghost"><span data-hover="OPEN MY PDF">VIEW RESUME</span></a>
+              <a href={asset('Pimentel-Resume-IT.pdf')} target="_blank" rel="noopener noreferrer" className="hero-resume" aria-label="View resume (PDF, opens in a new tab)"><span className="hero-resume-face hero-resume-rest" aria-hidden="true">VIEW RESUME</span><span className="hero-resume-face hero-resume-hover" aria-hidden="true">TAKE A LOOK</span></a>
             </div>
           </div></SwiperSlide>
         <SwiperSlide><div className="slide-inner slide-two">
@@ -76,4 +87,4 @@ export default function Hero({ onActiveSlideChange }) {
       <a href="#about" className="hero-scroll">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a>
     </header>;
 }
-// END OF FILE: CAROUSEL-R3 | Hero.jsx
+// END OF FILE: HERO-TECH-R4 | Hero.jsx

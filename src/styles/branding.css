@@ -1,4 +1,4 @@
-/* CHANGE VERSION: CAROUSEL-R3 | 2026-10-14 | Complete branding.css */
+/* CHANGE VERSION: CAROUSEL-R4 | 2026-10-14 | Complete branding.css */
 /* Text-only gbppimentel-dev identity with carousel-synced accent colors. */
 .navbar { flex-wrap: nowrap; column-gap: 16px; }
 .navbar .logo { min-width: 0; margin-right: 0; }
@@ -42,11 +42,16 @@
 .hero-carousel-window { flex: none; width: max-content; height: 1.3em; overflow: hidden; pointer-events: none; }
 .hero-carousel-track { height: 2.6em; transform: translateY(0); transition: transform .25s ease-in-out; }
 .hero-carousel-face { height: 1.3em; line-height: 1.3; }
-.hero-carousel-toggle svg { width: 17px; height: 20px; fill: currentColor; pointer-events: none; animation: hero-toggle-enter .2s ease-out; }
+/* Animation adapted from Uiverse.io by catraco; scoped to the carousel toggle. */
+.hero-carousel-toggle svg { width: 17px; height: 20px; fill: currentColor; pointer-events: none; transform-origin: center; animation: hero-toggle-fill .5s; }
 .hero-carousel-toggle .hero-toggle-play { display: none; margin-left: 2px; }
 .hero-carousel-toggle[data-paused="true"] .hero-toggle-play { display: block; }
 .hero-carousel-toggle[data-paused="true"] .hero-toggle-pause { display: none; }
-@keyframes hero-toggle-enter { from { opacity: 0; transform: scale(.65); } to { opacity: 1; transform: scale(1); } }
+@keyframes hero-toggle-fill {
+  0% { transform: rotate(-180deg) scale(0); opacity: 0; }
+  50% { transform: rotate(-10deg) scale(1.2); }
+  100% { transform: rotate(0) scale(1); opacity: 1; }
+}
 @media (hover: hover) and (pointer: fine) {
   .hero-carousel-control:hover .hero-carousel-track { transform: translateY(-1.3em); }
   .header .swiper-container .hero-carousel-toggle:hover { color: var(--brand-accent, var(--amber)); }
@@ -67,4 +72,4 @@
   .hero-carousel-track, .hero-slide-timer-fill { transition: none; }
   .hero-carousel-toggle svg { animation: none; }
 }
-/* END OF FILE: CAROUSEL-R3 | branding.css */
+/* END OF FILE: CAROUSEL-R4 | branding.css */

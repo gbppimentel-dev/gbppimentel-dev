@@ -1,0 +1,66 @@
+/* CHANGE VERSION: HERO-TECH-R4 | 2026-10-14 | Complete TechText.css */
+/* React Bits TechText, fitted to the existing portfolio heading. */
+/* Reserve one heading line before fonts/canvas load; no layout shift during fitting. */
+.header .brand-heading .tech-text { position: relative; display: block; width: 100%; height: 1.04em; touch-action: pan-y; overflow-anchor: none; }
+.tech-text-fallback { display: block; font-size: var(--tech-text-size, 1em); line-height: 1.04; }
+.tech-text-accent { position: absolute; width: 0; height: 0; overflow: hidden; color: var(--brand-accent, var(--amber)); }
+.tech-text-canvas { position: absolute; display: block; top: -36px; left: -36px; width: calc(100% + 72px); height: calc(100% + 72px); pointer-events: none; opacity: 0; letter-spacing: 0; word-spacing: 0; font-style: normal; font-variant: normal; }
+.tech-text[data-tech-ready="true"] { user-select: none; }
+.tech-text[data-tech-ready="true"] .tech-text-fallback { opacity: 0; white-space: nowrap; }
+.tech-text[data-tech-ready="true"] .tech-text-canvas { opacity: 1; }
+/* Track the live viewport and keep the slide and bottom timer on the same edge. */
+#home.header { display: block; height: 100vh; height: 100dvh; min-height: 0; overflow-anchor: none; }
+#home.header > .swiper-container { width: 100%; height: 100%; min-height: 0; }
+#home .hero-code { font-size: clamp(14px, 1.65vw, 26px); line-height: 1.55; max-width: none; white-space: nowrap; overflow-wrap: normal; }
+#home .hero-code-roles { font-family: 'Poppins', sans-serif; font-weight: 700; font-style: italic; }
+#home .hero-code-roles > span, #home .hero-code-ending { white-space: nowrap; }
+#home .hero-code-close { font-family: var(--display); font-style: normal; font-weight: 400; }
+#home .hero-byline em { font-style: italic; font-weight: 400; color: var(--ink); background: var(--amber); padding: .16em .5em; border-radius: 2px; white-space: nowrap; }
+/* A reserved text layout keeps the terminal reveal from shifting the hero. */
+#home .hero-terminal { position: relative; width: max-content; max-width: 100%; box-sizing: border-box; padding: 12px 16px 12px 36px; border: 1px solid rgb(147 174 198 / .25); border-left: 2px solid var(--blue); border-radius: 6px; background: rgb(20 21 27 / .62); }
+.hero-terminal-text { position: relative; display: block; }
+.hero-terminal-accessible { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; user-select: none; }
+.hero-terminal-prompt { position: absolute; top: 0; left: -23px; font-family: ui-monospace, monospace; font-style: normal; color: var(--blue); }
+.hero-terminal-char { opacity: 0; }
+.swiper-slide-active .hero-terminal-char { animation: hero-terminal-type 1ms step-end calc(350ms + var(--char-index) * 26ms) both; }
+.hero-terminal-caret { display: inline-block; width: .38em; height: .9em; margin-left: .25em; vertical-align: -.08em; background: var(--blue); opacity: 0; }
+.swiper-slide-active .hero-terminal-caret { animation: hero-terminal-blink 900ms step-end var(--terminal-duration) 6 forwards; }
+@keyframes hero-terminal-type { from { opacity: 0; } to { opacity: 1; } }
+@keyframes hero-terminal-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+/* Adapted from Uiverse.io by gharsh11032000: clipped sliding button faces. */
+#home .hero-resume { position: relative; display: inline-flex; width: 188px; height: 56px; padding: 0; border: 1px solid rgb(242 239 232 / .16); border-radius: 10px; background: transparent; color: var(--text); font: 600 12px/1.2 'Poppins', sans-serif; letter-spacing: .04em; text-transform: uppercase; text-decoration: none; overflow: hidden; isolation: isolate; box-shadow: 0 10px 20px rgb(0 0 0 / .2); transition: transform .3s cubic-bezier(.23, 1, .32, 1); -webkit-tap-highlight-color: transparent; }
+.hero-resume-face { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; transition: transform .6s cubic-bezier(.23, 1, .32, 1); }
+.hero-resume-rest { background: var(--panel); transform: translateY(0); }
+.hero-resume-hover { z-index: 1; background: linear-gradient(135deg, var(--amber), var(--coral)); color: var(--ink); transform: translateY(90%); }
+#home .hero-resume:focus-visible { outline: 2px solid var(--blue); outline-offset: 5px; }
+.hero-resume:focus-visible .hero-resume-hover { transform: translateY(0); }
+.hero-resume:focus-visible .hero-resume-rest { transform: translateY(-100%); }
+#home .hero-resume:active { transform: scale(.95); }
+@media (hover: hover) and (pointer: fine) {
+  .hero-resume:hover .hero-resume-hover { transform: translateY(0); }
+  .hero-resume:hover .hero-resume-rest { transform: translateY(-100%); }
+}
+@media (max-width: 767px) {
+  .tech-text-fallback { font-size: min(var(--tech-text-size, 1em), 9.6vw); white-space: nowrap; }
+  #home .hero-code { font-size: clamp(13px, 3.5vw, 17px); white-space: normal; }
+  #home .hero-resume { height: 52px; }
+}
+@media (max-height: 600px) and (min-width: 768px) {
+  #home .slide-inner { padding-top: 84px; padding-bottom: 92px; }
+  #home .hero-eyebrow { margin-bottom: 12px; }
+  #home h1.brand-heading { font-size: clamp(32px, 8vh, 48px); margin-bottom: 10px; }
+  #home .hero-byline { margin-bottom: 14px; }
+  #home .hero-code { margin-bottom: 18px; }
+  #home .btn-ghost, #home .hero-resume { height: 44px; line-height: 40px; }
+  #home .social-media { bottom: 20px; }
+  #home .hero-scroll { bottom: 22px; }
+  #home .swiper-pagination-fraction { bottom: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tech-text[data-tech-ready="true"] .tech-text-fallback { opacity: 1; }
+  .tech-text .tech-text-canvas { display: none; }
+  .swiper-slide-active .hero-terminal-char, .hero-terminal-char { opacity: 1; animation: none; }
+  .swiper-slide-active .hero-terminal-caret { opacity: .7; animation: none; }
+  #home .hero-resume, .hero-resume-face { transition: none; }
+}
+/* END OF FILE: HERO-TECH-R4 | TechText.css */
