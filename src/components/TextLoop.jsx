@@ -1,4 +1,4 @@
-// CHANGE VERSION: ABOUT-STUDIO-R4 | Seamless words separated by matching diamonds
+// CHANGE VERSION: TEXT-LOOP-WAVES-R2 | Slim color edge, drifting curves and quiet graphic details
 import { useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import '../styles/TextLoop.css';
@@ -112,6 +112,20 @@ export default function TextLoop({
     '--text-loop-separator-second': separatorColors[1] ?? separatorColors[0],
     ...style,
   }}>
+    {ribbon && <svg className="text-loop-waves" viewBox="0 0 1440 88" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      {/* Keep the base still so the slim lower edge always matches the strap. */}
+      <rect className="text-loop-wave-base" width="1440" height="88" />
+      <g className="text-loop-wave-layers">
+        <path className="text-loop-wave-shade text-loop-wave-shade--middle" d="M-48 0H1488V68C1280 79 1190 54 1000 66S740 80 540 68S160 56 -48 72Z" />
+        <path className="text-loop-wave-shade text-loop-wave-shade--upper" d="M-48 0H1488V28C1300 7 1200 56 1000 40S690 11 500 32S130 57 -48 24Z" />
+      </g>
+      {/* Edge details stay clear of the central lettering and the strap-color seam. */}
+      <g className="text-loop-wave-details">
+        <path className="text-loop-wave-contour" d="M-48 10C160 28 320 2 530 10S950 24 1150 8S1390 6 1488 12M-48 75C200 69 400 78 640 74S1080 71 1488 76" />
+        <g className="text-loop-wave-orbits"><ellipse cx="1260" cy="-8" rx="96" ry="27" /><ellipse cx="1260" cy="-8" rx="73" ry="18" /></g>
+        <g className="text-loop-wave-dots">{[72, 84, 96, 108, 120, 132].flatMap(x => [8, 17].map(y => <circle key={`${x}-${y}`} cx={x} cy={y} r="1.3" />))}</g>
+      </g>
+    </svg>}
     <span className="text-loop-measure" aria-hidden="true"><span ref={unitRef} className="text-loop-unit">
       {renderWords(0)}
     </span></span>
@@ -122,4 +136,4 @@ export default function TextLoop({
     </div>
   </div>;
 }
-// END OF FILE: ABOUT-STUDIO-R4 | TextLoop.jsx
+// END OF FILE: TEXT-LOOP-WAVES-R2 | TextLoop.jsx

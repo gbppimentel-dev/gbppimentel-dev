@@ -1,4 +1,4 @@
-/* CHANGE VERSION: ABOUT-BANNER-R2 | Thick full-width ribbon and measured text groups */
+/* CHANGE VERSION: TEXT-LOOP-WAVES-R2 | Balanced curves and subtle background linework */
 .text-loop {
   position: relative;
   display: flex;
@@ -6,6 +6,7 @@
   width: 100%;
   height: var(--text-loop-height, 88px);
   overflow: hidden;
+  isolation: isolate;
   background: var(--text-loop-background, var(--brand-accent, var(--amber)));
   color: var(--text-loop-color, var(--ink));
   font: var(--text-loop-weight, 800) var(--text-loop-size, 36px)/1.1 'Poppins', sans-serif;
@@ -14,8 +15,43 @@
   user-select: none;
   transition: background-color .35s ease;
 }
+.text-loop-waves {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+/* The base changes with the strap immediately. Leave the final 8/88 untinted;
+   the lower curve now sits near the edge instead of forming a thick solid band. */
+.text-loop-wave-base { fill: var(--text-loop-background, var(--brand-accent, var(--amber))); }
+.text-loop-wave-shade { fill: var(--ink, #14151b); }
+.text-loop-wave-shade--middle { opacity: .12; }
+.text-loop-wave-shade--upper { opacity: .10; }
+.text-loop-wave-layers {
+  transform-box: view-box;
+  transform-origin: center;
+  animation: text-loop-wave-drift 18s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.text-loop-wave-contour, .text-loop-wave-orbits {
+  fill: none;
+  stroke: var(--ink, #14151b);
+  stroke-width: .8;
+  stroke-linecap: round;
+  opacity: .10;
+}
+.text-loop-wave-contour, .text-loop-wave-orbits ellipse { vector-effect: non-scaling-stroke; }
+.text-loop-wave-orbits { opacity: .08; }
+.text-loop-wave-dots { fill: var(--ink, #14151b); opacity: .13; }
+@keyframes text-loop-wave-drift {
+  from { transform: translateX(-12px); }
+  to { transform: translateX(12px); }
+}
 .text-loop-track, .text-loop-group { display: flex; align-items: center; flex: none; width: max-content; }
-.text-loop-track { will-change: transform; }
+.text-loop-track { position: relative; z-index: 1; will-change: transform; }
 .text-loop-unit { display: inline-flex; align-items: center; flex: none; gap: .65em; padding: 0 .4em; white-space: nowrap; }
 .text-loop-label { display: block; flex: none; }
 .text-loop-separator { display: grid; place-items: center; flex: 0 0 1em; width: 1em; height: 1.1em; font-size: 1.13em; line-height: 1; letter-spacing: 0; }
@@ -27,7 +63,8 @@
   .text-loop { height: min(var(--text-loop-height, 88px), 72px); font-size: min(var(--text-loop-size, 36px), 28px); }
 }
 @media (prefers-reduced-motion: reduce) {
+  .text-loop-wave-layers { animation: none; will-change: auto; }
   .text-loop-track { will-change: auto; }
   .text-loop, .text-loop-separator { transition: none; }
 }
-/* END OF FILE: ABOUT-BANNER-R2 | TextLoop.css */
+/* END OF FILE: TEXT-LOOP-WAVES-R2 | TextLoop.css */
