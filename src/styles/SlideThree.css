@@ -1,69 +1,280 @@
-/* CHANGE VERSION: PORTFOLIO-POLISH-R10 | 2026-10-14 | Complete SlideThree.css */
-/* Center slide three around a compact code-like summary and a blue project action. */
+/* CHANGE VERSION: PORTFOLIO-POLISH-R17 | 2026-10-15 | Complete SlideThree.css */
+/* Hero 2 word fit, shared CTA motion, and hero 3 styling. */
+
+/* Optical correction for the second rotating design word: "game". */
+.hero-rotate-design[data-word-index="1"] {
+  padding-left: .16em !important;
+  padding-right: .16em !important;
+}
+
+/* Shared icon and label pop on all three hero buttons. */
+@keyframes hero-cta-icon-pop {
+  0% { opacity: .35; transform: translateY(-.5px) scale(.62) rotate(-24deg); }
+  68% { opacity: 1; transform: translateY(-.5px) scale(1.16) rotate(7deg); }
+  100% { opacity: 1; transform: translateY(-.5px) scale(1) rotate(0); }
+}
+@keyframes hero-cta-label-pop {
+  0% { opacity: .45; transform: translateY(6px); }
+  72% { opacity: 1; transform: translateY(-2px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.hero-resume:hover .hero-resume-hover .hero-resume-icon,
+.hero-resume:focus-visible .hero-resume-hover .hero-resume-icon {
+  animation: hero-cta-icon-pop .48s cubic-bezier(.2, .8, .2, 1) both;
+}
+.hero-resume:hover .hero-resume-hover .hero-resume-label,
+.hero-resume:focus-visible .hero-resume-hover .hero-resume-label {
+  animation: hero-cta-label-pop .42s .06s cubic-bezier(.2, .8, .2, 1) both;
+}
+.hero-resume:hover .hero-resume-rest .hero-resume-icon,
+.hero-resume:focus-visible .hero-resume-rest .hero-resume-icon {
+  animation: hero-cta-icon-pop .4s cubic-bezier(.2, .8, .2, 1) reverse both;
+}
+.hero-resume:hover .hero-resume-rest .hero-resume-label,
+.hero-resume:focus-visible .hero-resume-rest .hero-resume-label {
+  animation: hero-cta-label-pop .38s cubic-bezier(.2, .8, .2, 1) reverse both;
+}
+
+/* Slide 3 keeps the left-aligned composition and brace treatment from legacy. */
 .slide-three .hero-copy-three {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-width: 1240px;
-  margin-inline: auto;
-  text-align: center;
+  display: block;
+  width: 100%;
+  max-width: 1350px;
+  margin: 0;
+  text-align: left;
 }
 .slide-three .hero-copy-three .hero-eyebrow {
-  max-width: 44rem;
-  margin: 0 0 clamp(20px, 3.2vh, 34px);
-  color: var(--blue);
+  max-width: none;
+  margin: 0 0 clamp(14px, 2.4vh, 26px);
+  color: var(--text);
 }
 .hero-three-code {
   position: relative;
   width: max-content;
   max-width: 100%;
-  margin: 0 auto clamp(22px, 3.4vh, 36px);
-  padding: .12em .72em;
+  margin: 0 0 clamp(28px, 4vh, 42px);
+  padding: 0 clamp(38px, 5.5vw, 78px);
   color: var(--text);
   text-align: left;
-  text-shadow: 0 0 18px rgb(147 174 198 / .12);
 }
-.hero-three-code::before,
-.hero-three-code::after {
+.hero-three-brace {
   position: absolute;
-  color: var(--blue);
-  font: 400 1.05em/1 'Poppins', sans-serif;
-  text-shadow: 0 0 14px rgb(147 174 198 / .25);
+  z-index: 1;
+  color: var(--amber);
+  font: 400 clamp(64px, 8.5vw, 118px)/.86 var(--display);
   pointer-events: none;
 }
-.hero-three-code::before { content: '{'; top: 0; left: 0; }
-.hero-three-code::after { content: '}'; right: 0; bottom: 0; }
+.hero-three-brace-open { top: -.12em; left: 0; }
+.hero-three-brace-close { right: 0; bottom: -.16em; }
 .hero-three-code-text {
   display: block;
   max-width: 100%;
   margin: 0;
   color: inherit;
-  font: clamp(22px, 3.2vw, 44px)/1.5 var(--display);
-  letter-spacing: -.025em;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+  font: inherit;
+  white-space: normal;
 }
-.hero-three-decrypted { display: block; white-space: pre-wrap; }
+.hero-three-line { display: block; white-space: nowrap; }
+.hero-three-line-primary {
+  color: var(--text);
+  font: 700 clamp(44px, 7vw, 102px)/1.02 var(--display);
+  letter-spacing: -.045em;
+}
+.hero-three-think-word {
+  color: var(--text);
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: normal;
+}
+.hero-three-plus {
+  color: var(--blue);
+  font: 400 .76em/1 var(--display);
+  vertical-align: .06em;
+}
+.hero-three-build-word {
+  display: inline-block;
+  color: var(--amber);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .82em;
+  font-weight: 600;
+  letter-spacing: -.065em;
+  filter: drop-shadow(-5px 5px 0 #000);
+  text-shadow: none;
+  vertical-align: .025em;
+}
+.hero-three-line-accent {
+  display: block;
+  margin-top: .12em;
+  color: var(--blue);
+  font: 500 clamp(32px, 5.4vw, 76px)/1.08 'Poppins', sans-serif;
+  letter-spacing: -.035em;
+  text-transform: none;
+}
+.hero-three-erp {
+  display: inline-block;
+  margin-right: .12em;
+  padding: .04em .18em .08em;
+  border: 0;
+  border-radius: .2em;
+  background: var(--amber);
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: .86em;
+  font-weight: 800;
+  font-style: normal;
+  letter-spacing: .055em;
+  line-height: 1;
+  vertical-align: .08em;
+  box-shadow: none;
+}
+.hero-three-connected {
+  position: relative;
+  display: inline-block;
+  color: var(--blue);
+  font-weight: 500;
+  font-style: italic;
+  text-decoration: none;
+}
+.hero-three-connected::after {
+  position: absolute;
+  right: 0;
+  bottom: -.08em;
+  left: 0;
+  height: max(5px, .14em);
+  background: linear-gradient(
+    to bottom,
+    var(--amber) 0 30%,
+    transparent 30% 70%,
+    var(--amber) 70% 100%
+  );
+  content: '';
+  pointer-events: none;
+}
+.hero-three-decrypted { display: block !important; white-space: nowrap !important; }
+.hero-three-decrypted-inline { display: inline-block !important; }
 .hero-decrypted-char { color: var(--text); }
-.hero-decrypted-encrypted { color: var(--blue); text-shadow: 0 0 10px rgb(147 174 198 / .6); }
-.hero-three-actions { display: flex; justify-content: center; width: 100%; margin-top: 0; }
-.hero-three-actions .hero-project-cta { margin-inline: auto; }
-.hero-three-actions .hero-project-cta .hero-resume-rest { background: var(--panel); color: var(--text); }
-.hero-three-actions .hero-project-cta .hero-resume-hover { background: var(--blue); color: var(--ink); }
+.hero-three-build-word .hero-decrypted-char { color: var(--amber); }
+.hero-three-erp .hero-decrypted-char,
+.hero-three-erp .hero-decrypted-encrypted { color: var(--ink); }
+.hero-three-connected .hero-decrypted-char { color: var(--blue); }
+.hero-decrypted-encrypted {
+  color: var(--decrypt-color, var(--amber));
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .82em;
+  font-variant-ligatures: none;
+  letter-spacing: -.025em;
+  text-shadow: none;
+  transition: color 90ms steps(2, end);
+}
+.hero-three-byline {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  max-width: 100%;
+  margin: -12px 0 28px;
+  padding: 10px 18px 10px 12px;
+  border: 1px solid rgb(147 174 198 / .62);
+  border-left: 3px solid var(--amber);
+  background: rgb(8 13 20 / .82);
+  box-shadow: 4px 4px 0 #000;
+  color: var(--text);
+  font: 500 clamp(17px, 1.45vw, 21px)/1.4 'Poppins', sans-serif;
+  letter-spacing: .005em;
+}
+.hero-three-byline-mark {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
+  padding-right: 12px;
+  border-right: 1px solid rgb(147 174 198 / .48);
+  color: var(--amber);
+  font: 700 .82em/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: -.08em;
+}
+.hero-three-byline::after {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 14px;
+  height: 14px;
+  border-top: 2px solid var(--blue);
+  border-right: 2px solid var(--blue);
+  content: '';
+  pointer-events: none;
+}
+.hero-three-byline-route {
+  display: inline-block;
+  margin: 0 .26em;
+  color: var(--blue);
+  font-size: 1.3em;
+  line-height: 0;
+}
+.hero-three-byline-copy { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 0 .28em; }
+.hero-three-byline-word { display: inline-block; }
+
+.hero-three-actions {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  margin-top: 0;
+}
+.hero-three-actions .hero-project-cta {
+  margin: 0;
+  border-color: rgb(216 185 124 / .5);
+}
+.hero-three-actions .hero-project-cta .hero-resume-rest {
+  background: var(--panel);
+  color: var(--text);
+}
+.hero-three-actions .hero-project-cta .hero-resume-hover {
+  background: var(--amber);
+  color: var(--ink);
+}
 .hero-three-actions .hero-project-cta .hero-resume-icon { stroke-width: 1.8; }
+#home .hero-three-actions .hero-project-cta:focus-visible { outline-color: var(--amber); }
+
 @media (max-width: 767px) {
-  .slide-three .hero-copy-three .hero-eyebrow { max-width: 28rem; margin-bottom: 18px; }
-  .hero-three-code { margin-bottom: 22px; padding-inline: .65em; }
-  .hero-three-code-text { font-size: clamp(15px, 4.1vw, 22px); line-height: 1.65; letter-spacing: -.02em; }
+  .slide-three .hero-copy-three .hero-eyebrow { margin-bottom: 18px; }
+  .hero-three-code { margin-bottom: 22px; padding: 0 clamp(28px, 7vw, 44px); }
+  .hero-three-brace { font-size: clamp(48px, 12vw, 78px); }
+  .hero-three-line-primary {
+    font-size: clamp(31px, 7.8vw, 60px);
+    line-height: 1.08;
+    letter-spacing: -.04em;
+  }
+  .hero-three-build-word { font-size: .78em; filter: drop-shadow(-3px 3px 0 #000); }
+  .hero-three-line-accent {
+    font-size: clamp(22px, 5.6vw, 38px);
+    line-height: 1.2;
+  }
+  .hero-three-byline {
+    gap: 9px;
+    margin: -6px 0 22px;
+    padding: 8px 12px 8px 9px;
+    font-size: clamp(16px, 4.1vw, 18px);
+  }
+  .hero-three-byline-mark { padding-right: 9px; }
 }
 @media (max-height: 640px) and (min-width: 768px) {
-  .slide-three .hero-copy-three .hero-eyebrow { margin-bottom: 14px; }
-  .hero-three-code { margin-bottom: 16px; }
-  .hero-three-code-text { font-size: clamp(18px, 4.5vh, 30px); line-height: 1.4; }
+  .slide-three .hero-copy-three .hero-eyebrow { margin-bottom: 12px; }
+  .hero-three-code { margin-bottom: 18px; }
+  .hero-three-line-primary { font-size: clamp(38px, 6.4vh, 74px); }
+  .hero-three-line-accent { font-size: clamp(28px, 4.8vh, 54px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-three-code, .hero-three-actions .hero-project-cta { text-shadow: none; }
-  .hero-decrypted-encrypted { color: var(--text); text-shadow: none; }
+  .hero-decrypted-encrypted { color: var(--text); text-shadow: none; transition: none; }
+  .hero-resume:hover .hero-resume-hover .hero-resume-icon,
+  .hero-resume:focus-visible .hero-resume-hover .hero-resume-icon,
+  .hero-resume:hover .hero-resume-hover .hero-resume-label,
+  .hero-resume:focus-visible .hero-resume-hover .hero-resume-label,
+  .hero-resume:hover .hero-resume-rest .hero-resume-icon,
+  .hero-resume:focus-visible .hero-resume-rest .hero-resume-icon,
+  .hero-resume:hover .hero-resume-rest .hero-resume-label,
+  .hero-resume:focus-visible .hero-resume-rest .hero-resume-label {
+    animation: none;
+  }
 }
-/* END OF FILE: PORTFOLIO-POLISH-R10 | SlideThree.css */
+/* END OF FILE: PORTFOLIO-POLISH-R17 | SlideThree.css */

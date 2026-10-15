@@ -5,7 +5,7 @@ import Brand from './Brand';
 import SocialLinks from './SocialLinks';
 import MorphNumber from './MorphNumber';
 import '../styles/Navigation.css';
-const links = [['home', 'HOME'], ['about', 'ABOUT ME'], ['projects', 'PROJECTS'], ['awards', 'AWARDS'], ['contact', 'CONTACT']];
+const links = [['home', 'HOME'], ['about', 'ABOUT ME'], ['contact', 'CONTACT'], ['projects', 'PROJECTS'], ['awards', 'AWARDS']];
 export default function Navigation() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -26,7 +26,8 @@ export default function Navigation() {
     };
     const scroll = () => { if (!frame) frame = requestAnimationFrame(paint); };
     paint(); window.addEventListener('scroll', scroll, { passive: true }); window.addEventListener('resize', scroll);
-    return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', scroll); window.removeEventListener('resize', scroll); };
+    window.addEventListener('hashchange', scroll); window.addEventListener('popstate', scroll);
+    return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', scroll); window.removeEventListener('resize', scroll); window.removeEventListener('hashchange', scroll); window.removeEventListener('popstate', scroll); };
   }, []);
   useEffect(() => {
     // Nonmodal panel: the page stays scrollable and available to the keyboard.

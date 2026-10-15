@@ -1,0 +1,43 @@
+<!-- CHANGE VERSION: ABOUT-PROFILE-R1 | ID card back artwork -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1440" viewBox="0 0 1024 1440" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="20" y1="0" x2="1024" y2="1440" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22252E"/>
+      <stop offset="1" stop-color="#15171D"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="90" y1="120" x2="930" y2="1300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E4C98F"/>
+      <stop offset=".53" stop-color="#D79998"/>
+      <stop offset="1" stop-color="#93AEC6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1440" fill="url(#bg)"/>
+  <rect x="36" y="36" width="952" height="1368" rx="38" stroke="url(#accent)" stroke-opacity=".68" stroke-width="4"/>
+  <rect x="72" y="76" width="880" height="244" rx="28" fill="#1C1F27" stroke="#F2EFE8" stroke-opacity=".1" stroke-width="2"/>
+  <text x="112" y="158" fill="#D8B97C" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="7">PORTFOLIO / PROFILE</text>
+  <text x="112" y="236" fill="#F2EFE8" font-family="Arial, sans-serif" font-size="37" font-weight="700" letter-spacing="1">A short professional intro</text>
+  <text x="112" y="285" fill="#B9BAC4" font-family="Arial, sans-serif" font-size="21" font-weight="500">Add one sentence about your approach or focus.</text>
+
+  <text x="88" y="409" fill="#D8B97C" font-family="Arial, sans-serif" font-size="21" font-weight="700" letter-spacing="6">CONTACT DETAILS</text>
+  <path d="M88 451H936" stroke="#F2EFE8" stroke-opacity=".14" stroke-width="2"/>
+  <text x="88" y="520" fill="#8F929D" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="5">EMAIL</text>
+  <text x="88" y="564" fill="#F2EFE8" font-family="Arial, sans-serif" font-size="27" font-weight="500">Add your preferred email</text>
+  <path d="M88 604H936" stroke="#F2EFE8" stroke-opacity=".1" stroke-width="2"/>
+
+  <text x="88" y="683" fill="#8F929D" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="5">LINKEDIN</text>
+  <text x="88" y="727" fill="#F2EFE8" font-family="Arial, sans-serif" font-size="27" font-weight="500">Add your LinkedIn profile URL</text>
+  <path d="M88 767H936" stroke="#F2EFE8" stroke-opacity=".1" stroke-width="2"/>
+
+  <text x="88" y="846" fill="#8F929D" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="5">GITHUB</text>
+  <text x="88" y="890" fill="#F2EFE8" font-family="Arial, sans-serif" font-size="27" font-weight="500">Add your GitHub profile URL</text>
+  <path d="M88 930H936" stroke="#F2EFE8" stroke-opacity=".1" stroke-width="2"/>
+
+  <rect x="88" y="1003" width="848" height="261" rx="28" fill="#1C1F27" stroke="#F2EFE8" stroke-opacity=".1" stroke-width="2"/>
+  <text x="128" y="1080" fill="#D8B97C" font-family="Arial, sans-serif" font-size="21" font-weight="700" letter-spacing="6">WHAT I DO</text>
+  <text x="128" y="1144" fill="#F2EFE8" font-family="Arial, sans-serif" font-size="31" font-weight="600">Development · Design · ERP</text>
+  <text x="128" y="1202" fill="#B9BAC4" font-family="Arial, sans-serif" font-size="21" font-weight="500">Replace these fields with your key services.</text>
+
+  <path d="M88 1308H936" stroke="url(#accent)" stroke-opacity=".52" stroke-width="3"/>
+  <text x="88" y="1364" fill="#9B9DA6" font-family="Arial, sans-serif" font-size="17" font-weight="600" letter-spacing="4">THANK YOU FOR CONNECTING</text>
+</svg>
+<!-- END OF FILE: ABOUT-PROFILE-R1 | profile-id-back.svg -->

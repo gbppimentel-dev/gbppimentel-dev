@@ -42,17 +42,23 @@ export default function CursorEffects() {
       y = innerHeight / 2,
       targetX = x,
       targetY = y,
-      frame;
+      frame = 0;
+    if (cursor.current) cursor.current.style.transform = `translate(${x}px, ${y}px)`;
     const move = (e) => {
       targetX = e.clientX;
       targetY = e.clientY;
+      if (!frame) frame = requestAnimationFrame(animate);
     };
     const animate = () => {
-      x += (targetX - x) * 0.1;
-      y += (targetY - y) * 0.1;
+      x += (targetX - x) * 0.22;
+      y += (targetY - y) * 0.22;
+      if (Math.abs(targetX - x) < 0.25 && Math.abs(targetY - y) < 0.25) {
+        x = targetX;
+        y = targetY;
+      }
       if (cursor.current)
         cursor.current.style.transform = `translate(${x}px, ${y}px)`;
-      frame = requestAnimationFrame(animate);
+      frame = x === targetX && y === targetY ? 0 : requestAnimationFrame(animate);
     };
     const timer = setInterval(() => {
       if (cursor.current)
@@ -60,7 +66,6 @@ export default function CursorEffects() {
           colors[Math.floor(Math.random() * colors.length)];
     }, 1000);
     window.addEventListener("pointermove", move, { passive: true });
-    animate();
     return () => {
       cancelAnimationFrame(frame);
       clearInterval(timer);
