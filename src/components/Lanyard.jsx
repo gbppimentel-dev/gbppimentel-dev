@@ -1,6 +1,7 @@
-/* CHANGE VERSION: ABOUT-ID-R1 | Interactive Lanyard ID */
+/* CHANGE VERSION: ADAPTIVE-COLORS-R1 | Shared live accent tint for the lanyard */
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { getAdaptiveAccent, subscribeAdaptiveAccent } from '../utils/adaptiveColors';
 
 import './Lanyard.css';
 
@@ -713,6 +714,7 @@ const Lanyard = ({
   strapLength = 0.5,
   strapImage,
   strapColor = '#111111',
+  adaptiveColor = false,
   strapWidth = 0.65,
   metal = 'silver',
   gravity = 1,
@@ -741,6 +743,7 @@ const Lanyard = ({
     strapLength,
     strapImage,
     strapColor,
+    adaptiveColor,
     strapWidth,
     metal,
     gravity,
@@ -879,6 +882,7 @@ const Lanyard = ({
     let hovering = false;
     let press = null;
     let imageToken = 0;
+    let strapPaint = null;
     const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 
     const paintFaces = () => {
@@ -903,7 +907,14 @@ const Lanyard = ({
 
     const repaintStrap = () => {
       const s = settingsRef.current;
-      tileRatio = paintStrap(strapCanvas, images.strap, parseColor(s.strapColor, [0.07, 0.07, 0.07]));
+      const adaptiveTint = s.adaptiveColor && !s.strapImage;
+      const image = adaptiveTint ? null : images.strap;
+      const color = adaptiveTint ? '#ffffff' : s.strapColor;
+      // Keep the woven texture neutral in adaptive mode. Theme frames only tint
+      // its material, so they never repaint the canvas or re-upload its texture.
+      if (strapPaint?.image === image && strapPaint?.color === color && strapPaint?.adaptiveTint === adaptiveTint) return;
+      tileRatio = paintStrap(strapCanvas, image, parseColor(color, [0.07, 0.07, 0.07]));
+      strapPaint = { image, color, adaptiveTint };
       weave.repeat.set(2, 2 * tileRatio);
       strapTexture.dispose();
       strapTexture.needsUpdate = true;
@@ -982,7 +993,10 @@ const Lanyard = ({
       }
       const faceKey = `${layoutKey}|${s.cardColor}|${s.imageFit}`;
       if (faceKey !== applied.faceKey) paintFaces();
-      if (s.strapColor !== applied.strapColor) repaintStrap();
+      const adaptiveTint = s.adaptiveColor && !s.strapImage;
+      if (adaptiveTint) bandMaterial.color.setStyle(getAdaptiveAccent() || s.strapColor);
+      else bandMaterial.color.set(0xffffff);
+      if (adaptiveTint !== applied.adaptiveTint || (!adaptiveTint && s.strapColor !== applied.strapColor)) repaintStrap();
 
       const finish = FINISHES[s.finish] || FINISHES.glossy;
       const card = parseColor(s.cardColor, [1, 1, 1]);
@@ -1010,7 +1024,7 @@ const Lanyard = ({
       }
       canvas.style.touchAction = s.interactive ? 'pan-y' : 'auto';
 
-      applied = { layoutKey, framingKey, imageKey, faceKey, strapColor: s.strapColor, strapScale };
+      applied = { layoutKey, framingKey, imageKey, faceKey, strapColor: s.strapColor, adaptiveTint, strapScale };
       start();
     };
 
@@ -1258,9 +1272,19 @@ const Lanyard = ({
 
     applyRef.current = apply;
     resize();
+    const unsubscribeAccent = subscribeAdaptiveAccent(color => {
+      const s = settingsRef.current;
+      if (!alive || !s.adaptiveColor || s.strapImage) return;
+      // setStyle interprets CSS RGB in sRGB, matching the banner's shared value.
+      bandMaterial.color.setStyle(color);
+      // A tint change should not wake or reset the physical simulation. An
+      // already-running physics frame renders it; a resting card needs one draw.
+      if (visible && !document.hidden && !raf) render();
+    });
 
     return () => {
       alive = false;
+      unsubscribeAccent();
       cancelAnimationFrame(raf);
       applyRef.current = null;
       resizeObserver.disconnect();
@@ -1286,4 +1310,4 @@ const Lanyard = ({
 export default Lanyard;
 
 
-/* END OF FILE: ABOUT-ID-R1 | Lanyard.jsx */
+/* END OF FILE: ADAPTIVE-COLORS-R1 | Lanyard.jsx */

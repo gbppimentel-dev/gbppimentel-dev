@@ -1,0 +1,578 @@
+/* CHANGE VERSION: HERO-PLAYGROUND-R4 | 2026-10-16 | Complete HeroPrint.css */
+/* The existing photographic heroes become ink-and-paper compositions, like the ID. */
+
+#home.header.hero-print {
+  --print-paper: #f2e9d6;
+  --print-ink: #20222a;
+  --print-shadow: #090c12;
+}
+
+/* Keep the original full-screen slides and all Swiper-owned transforms. */
+#home.header.hero-print .slide-inner {
+  padding-inline: clamp(42px, 7.6vw, 146px);
+}
+#home.header.hero-print .slide-inner::before {
+  background: linear-gradient(90deg, rgb(11 13 22 / .5), rgb(11 13 22 / .23) 64%, rgb(11 13 22 / .08));
+}
+#home.header.hero-print .hero-copy {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+}
+
+/* A little die-cut label rather than another floating line of tiny type. */
+#home.header.hero-print .hero-eyebrow {
+  position: relative;
+  display: table;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 clamp(23px, 3.6vh, 38px);
+  padding: 11px 18px 11px 37px;
+  border: 2px solid var(--print-ink);
+  border-radius: 10px 10px 10px 3px;
+  background: var(--print-paper);
+  box-shadow: 4px 5px 0 var(--print-shadow), 0 0 0 3px rgb(242 233 214 / .84);
+  color: var(--print-ink);
+  font: 800 clamp(9px, .8vw, 12px)/1.45 'Poppins', sans-serif;
+  letter-spacing: .105em;
+  text-transform: uppercase;
+}
+#home.header.hero-print .hero-eyebrow::before {
+  content: '✦';
+  position: absolute;
+  inset: 50% auto auto 12px;
+  translate: 0 -50%;
+  color: #8e6970;
+  font-size: 20px;
+  line-height: 1;
+}
+#home.header.hero-print .slide-two .hero-eyebrow { background: var(--blue); }
+#home.header.hero-print .slide-two .hero-eyebrow::before { color: var(--print-ink); }
+#home.header.hero-print .slide-three .hero-eyebrow { background: var(--amber); }
+#home.header.hero-print .slide-three .hero-eyebrow::before { color: var(--print-ink); }
+
+/* Slide 1: a dark name label with the same double keyline as the portrait. */
+#home.header.hero-print .hero-print-title-sheet {
+  position: relative;
+  width: min(100%, 1130px);
+  margin: 0 0 28px;
+  padding: clamp(20px, 2.1vw, 32px) clamp(20px, 2.4vw, 36px) 24px;
+  border: 2px solid var(--print-ink);
+  border-radius: 22px 22px 38px 16px;
+  outline: 3px solid var(--print-paper);
+  outline-offset: 2px;
+  background: linear-gradient(115deg, rgb(16 20 28 / .97), rgb(21 25 33 / .94));
+  box-shadow: 10px 11px 0 var(--print-shadow);
+}
+#home.header.hero-print .hero-print-title-sheet::before {
+  content: '';
+  position: absolute;
+  inset: -10px 35px auto auto;
+  width: 72px;
+  height: 18px;
+  border: 1px solid rgb(32 34 42 / .56);
+  background: var(--coral);
+  rotate: 3deg;
+  opacity: .94;
+  pointer-events: none;
+}
+#home.header.hero-print h1.brand-heading {
+  margin-bottom: 17px;
+  color: var(--print-paper);
+  font-size: clamp(48px, 6.9vw, 114px);
+}
+#home.header.hero-print .hero-byline { margin: 0; color: #c8cad1; }
+#home.header.hero-print .hero-byline em {
+  display: inline;
+  padding: .2em .55em;
+  border: 1px solid rgb(32 34 42 / .66);
+  border-radius: 5px;
+  background: rgb(216 185 124 / .86);
+  color: var(--print-ink);
+}
+#home.header.hero-print .hero-terminal {
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 27px;
+  padding: 16px 20px 16px 38px;
+  border: 1px solid rgb(147 174 198 / .7);
+  border-left: 5px solid var(--blue);
+  border-radius: 5px 16px 16px 5px;
+  background: rgb(14 20 29 / .94);
+  box-shadow: 5px 6px 0 var(--print-shadow);
+  font-size: clamp(13px, 1.5vw, 24px);
+}
+
+/* Slide 2: loose type specimens on the same charcoal, with a paper baseline. */
+#home.header.hero-print .hero-print-workbench {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  padding: 5px 0 0;
+}
+#home.header.hero-print .hero-print-workbench::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: -12px;
+  bottom: 83px;
+  left: -23px;
+  width: 55%;
+  border-left: 2px solid rgb(242 233 214 / .54);
+  border-bottom: 2px solid rgb(242 233 214 / .54);
+  border-radius: 0 0 0 24px;
+  background: linear-gradient(90deg, rgb(15 19 27 / .57), transparent);
+  pointer-events: none;
+}
+#home.header.hero-print .slide-two .hero-rotating-line {
+  position: relative;
+  z-index: 1;
+  color: var(--print-paper);
+  text-shadow: 3px 3px 0 rgb(7 9 14 / .7);
+}
+#home.header.hero-print .slide-two .hero-rotating-prefix { color: var(--coral); }
+#home.header.hero-print .slide-two .hero-rotating-row .text-rotate {
+  border-radius: .16em;
+  outline: 2px solid rgb(242 233 214 / .82);
+  outline-offset: 2px;
+  text-shadow: none;
+}
+#home.header.hero-print .slide-two .hero-rotate-design[data-word-index="1"] {
+  box-shadow: 0 0 16px rgb(215 153 152 / .28), inset 0 0 12px rgb(215 153 152 / .08);
+}
+#home.header.hero-print .slide-two .slide-two-actions { margin-top: 32px; }
+
+/* Slide 3: an inked code stamp. The balanced braces remain outside the text. */
+#home.header.hero-print .slide-three .hero-three-code {
+  width: fit-content;
+  padding-top: 16px;
+  padding-bottom: 18px;
+  border-block: 1px dashed rgb(242 233 214 / .38);
+  background: linear-gradient(90deg, transparent, rgb(15 19 27 / .65) 10%, rgb(15 19 27 / .65) 85%, transparent);
+}
+#home.header.hero-print .slide-three .hero-three-brace-open { top: .03em; }
+#home.header.hero-print .slide-three .hero-three-brace-close { bottom: .02em; }
+#home.header.hero-print .slide-three .hero-three-think-word,
+#home.header.hero-print .slide-three .hero-three-think-word .hero-decrypted-char { color: var(--print-paper); }
+#home.header.hero-print .slide-three .hero-three-byline {
+  margin-top: -7px;
+  margin-bottom: 27px;
+  padding: 12px 20px 12px 14px;
+  border: 2px solid var(--print-ink);
+  border-left: 2px solid var(--print-ink);
+  border-radius: 6px 15px 15px 15px;
+  outline: 2px solid var(--print-paper);
+  outline-offset: 1px;
+  background: var(--print-paper);
+  color: var(--print-ink);
+  box-shadow: 5px 6px 0 var(--print-shadow);
+  font-size: clamp(16px, 1.45vw, 21px);
+}
+#home.header.hero-print .slide-three .hero-three-byline-mark {
+  border-right-color: rgb(32 34 42 / .3);
+  color: #6e563b;
+}
+#home.header.hero-print .slide-three .hero-three-byline-route { color: #526e82; }
+#home.header.hero-print .slide-three .hero-three-byline::after { display: none; }
+
+/* Physical buttons keep their two sliding faces, icon pop and slide colors. */
+#home.header.hero-print .hero-resume {
+  border: 2px solid var(--print-ink);
+  border-radius: 10px 10px 14px 10px;
+  outline: 2px solid rgb(242 233 214 / .82);
+  outline-offset: 1px;
+  box-shadow: 5px 6px 0 var(--print-shadow);
+  font-weight: 800;
+  letter-spacing: .045em;
+  transition: transform .3s cubic-bezier(.23, 1, .32, 1), box-shadow .3s cubic-bezier(.23, 1, .32, 1);
+}
+#home.header.hero-print .hero-resume-rest { background: #232733; color: var(--print-paper); }
+#home.header.hero-print .hero-project-cta .hero-resume-rest { background: #232733; color: var(--print-paper); }
+#home.header.hero-print .hero-resume-hover { background: var(--coral); color: var(--print-ink); }
+#home.header.hero-print .hero-about .hero-resume-hover { background: #567589; color: #fff; }
+#home.header.hero-print .hero-project-cta .hero-resume-hover { background: var(--amber); color: var(--print-ink); }
+#home.header.hero-print .hero-resume:focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; }
+#home.header.hero-print .hero-resume:active { box-shadow: 1px 2px 0 var(--print-shadow); }
+@media (hover: hover) and (pointer: fine) {
+  #home.header.hero-print .hero-resume:hover { transform: translateY(-3px); box-shadow: 6px 9px 0 var(--print-shadow); }
+}
+
+/* Edition marks and halftone print panels sit outside the reading area. */
+#home.header.hero-print .hero-print-details {
+  position: absolute;
+  left: 0;
+  bottom: -52px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(360px, 70%);
+  color: rgb(242 233 214 / .65);
+  font: 500 9px/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+#home.header.hero-print .hero-print-detail-mark { color: var(--coral); font-size: 18px; }
+#home.header.hero-print .hero-print-detail-rule { flex: 1; min-width: 20px; height: 1px; background: rgb(242 233 214 / .3); }
+#home.header.hero-print .hero-print-art {
+  position: absolute;
+  z-index: 1;
+  right: clamp(75px, 6vw, 115px);
+  bottom: 15%;
+  width: clamp(190px, 20vw, 340px);
+  aspect-ratio: 320 / 350;
+  margin: 0;
+  color: var(--print-ink);
+  rotate: 8deg;
+  pointer-events: none;
+}
+#home.header.hero-print .hero-print-art-1 { bottom: 18%; rotate: 8deg; }
+#home.header.hero-print .hero-print-art-2 { bottom: 18%; rotate: -7deg; }
+#home.header.hero-print .hero-print-art-3 { bottom: 17%; rotate: 7deg; }
+#home.header.hero-print .hero-print-art-svg { display: block; width: 100%; height: 100%; overflow: visible; }
+#home.header.hero-print .hero-print-art-shadow { fill: var(--print-shadow); }
+#home.header.hero-print .hero-print-art-paper { fill: var(--print-paper); stroke: var(--print-paper); stroke-width: 7px; }
+#home.header.hero-print .hero-print-art-ink { fill: none; stroke: var(--print-ink); stroke-width: 1.4px; opacity: .8; }
+#home.header.hero-print .hero-print-art-blue { fill: var(--blue); opacity: .78; }
+#home.header.hero-print .hero-print-art-coral { fill: var(--coral); opacity: .72; }
+#home.header.hero-print .hero-print-art-dots { color: var(--print-ink); opacity: .29; }
+#home.header.hero-print .hero-print-art-contours { stroke: var(--print-ink); stroke-width: 1px; opacity: .27; }
+#home.header.hero-print .hero-print-art-white-stroke { fill: none; stroke: var(--print-paper); stroke-width: 15px; stroke-linejoin: round; }
+#home.header.hero-print .hero-print-art-star { fill: var(--amber); stroke: var(--print-ink); stroke-width: 2.6px; stroke-linejoin: round; }
+#home.header.hero-print .hero-print-art-flower { fill: var(--coral); stroke: var(--print-ink); stroke-width: 2.6px; stroke-linejoin: round; }
+#home.header.hero-print .hero-print-art-flower-center { fill: var(--amber); stroke: var(--print-ink); stroke-width: 2.6px; }
+#home.header.hero-print .hero-print-art-node { fill: var(--amber); stroke: var(--print-ink); stroke-width: 2.6px; }
+#home.header.hero-print .hero-print-art-node-blue { fill: var(--blue); }
+#home.header.hero-print .hero-print-art-node-coral { fill: var(--coral); }
+#home.header.hero-print .hero-print-art-glyph-line { fill: none; stroke: var(--print-ink); stroke-width: 2.6px; stroke-linecap: round; stroke-linejoin: round; }
+#home.header.hero-print .hero-print-art-label-paper { fill: var(--print-paper); stroke: var(--print-ink); stroke-width: 1px; }
+#home.header.hero-print .hero-print-art-label { fill: var(--print-ink); font: 800 14px 'Poppins', sans-serif; letter-spacing: 2px; }
+#home.header.hero-print .hero-print-art-orbit {
+  position: absolute;
+  z-index: -1;
+  inset: auto -16% -8% -18%;
+  width: 134%;
+  fill: none;
+  stroke: var(--print-paper);
+  stroke-width: 1.8px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .72;
+}
+
+/* Large labels can overlap the artwork; the opaque ink sheet stays above it. */
+@media (min-width: 1280px) {
+  #home.header.hero-print .hero-print-title-sheet { max-width: calc(100% - 135px); }
+  #home.header.hero-print .slide-two .hero-print-art { right: 60px; width: clamp(210px, 19vw, 320px); }
+}
+@media (max-width: 1279px) {
+  #home.header.hero-print .hero-print-art { display: none; }
+  #home.header.hero-print .hero-print-title-sheet { max-width: 100%; }
+}
+/* Long moving words keep an uninterrupted dark reading area on mid-size laptops. */
+@media (max-width: 1479px) {
+  #home.header.hero-print .slide-two .hero-print-art { display: none; }
+}
+@media (min-width: 768px) and (max-width: 1099px) {
+  #home.header.hero-print .hero-terminal { font-size: clamp(12px, 1.45vw, 16px); }
+}
+@media (max-width: 767px) {
+  #home.header.hero-print .slide-inner { padding: 106px 27px 181px; }
+  #home.header.hero-print .hero-eyebrow {
+    max-width: calc(100% - 2px);
+    margin-bottom: 24px;
+    padding: 9px 12px 9px 30px;
+    font-size: 8px;
+    letter-spacing: .075em;
+    line-height: 1.5;
+  }
+  #home.header.hero-print .hero-eyebrow::before { left: 9px; font-size: 16px; }
+  #home.header.hero-print .hero-print-title-sheet { margin-bottom: 23px; padding: 20px 15px 19px; border-radius: 16px 16px 24px 10px; outline-width: 2px; box-shadow: 6px 7px 0 var(--print-shadow); }
+  #home.header.hero-print .hero-print-title-sheet::before { right: 22px; width: 45px; height: 15px; }
+  #home.header.hero-print h1.brand-heading { font-size: clamp(31px, 8.7vw, 64px); margin-bottom: 13px; }
+  #home.header.hero-print .hero-byline { font-size: 10px; line-height: 1.8; }
+  #home.header.hero-print .hero-terminal { padding: 12px 12px 12px 31px; font-size: clamp(12px, 3vw, 17px); white-space: normal; margin-bottom: 24px; }
+  #home.header.hero-print .hero-print-workbench::before { left: -12px; bottom: 75px; border-bottom-left-radius: 15px; }
+  #home.header.hero-print .slide-two .slide-two-actions { margin-top: 24px; }
+  #home.header.hero-print .slide-three .hero-three-code { padding-top: 15px; padding-bottom: 17px; }
+  #home.header.hero-print .slide-three .hero-three-byline { max-width: 100%; padding: 9px 11px 9px 9px; gap: 9px; margin-bottom: 23px; font-size: clamp(13px, 3.35vw, 18px); }
+  #home.header.hero-print .hero-print-details { bottom: -39px; gap: 7px; width: min(295px, 88%); font-size: 7px; letter-spacing: .07em; }
+  #home.header.hero-print .hero-print-detail-mark { font-size: 14px; }
+}
+/* Compact height reduces ornament and spacing; the actual controls stay present. */
+@media (max-height: 740px) and (min-width: 768px) {
+  #home.header.hero-print .slide-inner { padding-top: 95px; padding-bottom: 118px; }
+  #home.header.hero-print .hero-eyebrow { margin-bottom: 20px; padding-block: 8px; }
+  #home.header.hero-print .hero-print-title-sheet { padding-block: 20px; margin-bottom: 21px; }
+  #home.header.hero-print h1.brand-heading { font-size: min(6.8vw, 12vh); margin-bottom: 12px; }
+  #home.header.hero-print .hero-terminal { padding-block: 11px; margin-bottom: 22px; }
+  #home.header.hero-print .slide-two .slide-two-actions { margin-top: 22px; }
+  #home.header.hero-print .hero-print-art { width: 210px; bottom: 18%; }
+  #home.header.hero-print .hero-print-details { bottom: -34px; }
+}
+@media (max-height: 600px) and (min-width: 768px) {
+  #home.header.hero-print .slide-inner { padding-top: 79px; padding-bottom: 83px; }
+  #home.header.hero-print .hero-print-title-sheet { padding: 13px 22px; margin-bottom: 18px; }
+  #home.header.hero-print .hero-eyebrow { margin-bottom: 14px; padding-block: 6px; font-size: 8px; }
+  #home.header.hero-print h1.brand-heading { font-size: min(5.8vw, 9vh); margin-bottom: 9px; }
+  #home.header.hero-print .hero-byline { font-size: 10px; }
+  #home.header.hero-print .hero-terminal { padding-block: 9px; font-size: 12px; margin-bottom: 17px; }
+  #home.header.hero-print .hero-resume { height: 43px; }
+  #home.header.hero-print .slide-two .slide-two-actions { margin-top: 18px; }
+  #home.header.hero-print .slide-three .hero-three-code { padding-block: 10px; margin-bottom: 17px; }
+  #home.header.hero-print .slide-three .hero-three-byline { margin-top: -1px; margin-bottom: 18px; padding-block: 8px; font-size: 15px; }
+  #home.header.hero-print .hero-print-details, #home.header.hero-print .hero-print-art { display: none; }
+}
+@media (max-width: 767px) and (max-height: 740px) {
+  #home.header.hero-print .slide-inner { padding-top: 94px; padding-bottom: 171px; }
+  #home.header.hero-print .hero-eyebrow { margin-bottom: 19px; padding-block: 7px; }
+  #home.header.hero-print .hero-print-title-sheet { padding-block: 15px; margin-bottom: 21px; }
+  #home.header.hero-print .hero-terminal { margin-bottom: 21px; padding-block: 10px; }
+  #home.header.hero-print .hero-resume { height: 46px; }
+  #home.header.hero-print .hero-print-details { display: none; }
+  #home.header.hero-print .slide-three .hero-three-code { padding-block: 12px; margin-bottom: 19px; }
+  #home.header.hero-print .slide-three .hero-three-byline { margin-bottom: 20px; padding-block: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #home.header.hero-print .hero-resume { transition: none; }
+}
+
+/* R2: a more expressive print playground, preserving the original effects. */
+#home.header.hero-print .slide-one { --print-tone: var(--coral); }
+#home.header.hero-print .slide-two { --print-tone: var(--blue); }
+#home.header.hero-print .slide-three { --print-tone: var(--amber); }
+#home.header.hero-print .slide-inner::before { background: linear-gradient(90deg, rgb(11 13 22 / .58), rgb(11 13 22 / .26) 64%, rgb(11 13 22 / .1)); }
+
+/* Only these inert decorations inherit pointer offsets; copy is never rotated. */
+#home.header.hero-print .hero-playground { --hero-play-x: 0; --hero-play-y: 0; position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; user-select: none; }
+/* The code sticker can cross the nameplate edge; background marks stay below it. */
+#home.header.hero-print .hero-playground-1 { z-index: auto; }
+#home.header.hero-print .hero-playground-1 > :not(.hero-print-art) { z-index: 1; }
+#home.header.hero-print .hero-playground-1 .hero-print-art { z-index: 3; }
+#home.header.hero-print .hero-play-halo {
+  position: absolute; top: 14%; right: -8%; width: clamp(310px, 43vw, 740px); aspect-ratio: 1;
+  border: 2px solid rgb(242 233 214 / .28); border-radius: 44% 56% 62% 38% / 37% 38% 62% 63%;
+  background: repeating-linear-gradient(-28deg, transparent 0 17px, rgb(242 233 214 / .06) 17px 18px), color-mix(in srgb, var(--print-tone) 13%, transparent);
+  transform: translate(calc(var(--hero-play-x) * 17px), calc(var(--hero-play-y) * 13px)) rotate(-14deg);
+}
+#home.header.hero-print .hero-playground-2 .hero-play-halo { border-radius: 26px 120px 30px 110px; rotate: 15deg; }
+#home.header.hero-print .hero-playground-3 .hero-play-halo { border-radius: 50%; border-style: dashed; background-color: rgb(216 185 124 / .08); }
+#home.header.hero-print .hero-play-dots {
+  position: absolute; inset: 12% 0 8% 46%;
+  background: radial-gradient(circle, var(--print-tone) 1.4px, transparent 1.7px) 0 0 / 13px 13px;
+  mask-image: radial-gradient(ellipse at 85% 52%, #000 10%, transparent 64%); opacity: .48;
+  transform: translate(calc(var(--hero-play-x) * -9px), calc(var(--hero-play-y) * -6px));
+}
+#home.header.hero-print .hero-play-registration { position: absolute; inset: 103px 22px 106px; width: calc(100% - 44px); height: calc(100% - 209px); fill: none; stroke: var(--print-paper); stroke-width: 1; opacity: .22; }
+#home.header.hero-print .hero-play-registration path { vector-effect: non-scaling-stroke; }
+#home.header.hero-print .hero-play-registration path + path { stroke: var(--print-tone); stroke-width: 1.8; }
+#home.header.hero-print .hero-play-orbit { position: absolute; right: -1%; bottom: 12%; width: min(50vw, 740px); fill: none; stroke: var(--print-paper); stroke-width: 1.4; stroke-linecap: round; opacity: .28; transform: translate(calc(var(--hero-play-x) * 11px), calc(var(--hero-play-y) * 9px)); }
+#home.header.hero-print .hero-eyebrow { margin-bottom: clamp(28px, 4vh, 42px); border-radius: 6px 6px 12px 3px; }
+#home.header.hero-print .slide-three .hero-eyebrow { color: var(--print-ink); }
+
+/* 01: pasted nameplate, torn tape and little skill patches. */
+#home.header.hero-print .hero-print-title-sheet { margin-bottom: 31px; padding-top: clamp(27px, 2.5vw, 38px); padding-bottom: 23px; border-radius: 16px 16px 34px 12px; background: linear-gradient(110deg, #151a24, #10151e); box-shadow: 9px 10px 0 var(--print-shadow), 14px 15px 0 var(--blue), 17px 18px 0 var(--print-shadow); }
+#home.header.hero-print .hero-print-title-sheet::before { top: -12px; width: 79px; height: 23px; background: repeating-linear-gradient(90deg, transparent 0 6px, rgb(32 34 42 / .1) 6px 7px), var(--coral); rotate: 7deg; }
+#home.header.hero-print .hero-print-sheet-tag { position: absolute; top: -17px; left: 23px; display: flex; align-items: center; gap: 8px; padding: 7px 13px; border: 2px solid var(--print-ink); border-radius: 5px; background: var(--coral); box-shadow: 3px 3px 0 var(--print-shadow); color: var(--print-ink); font: 800 9px/1 'Poppins', sans-serif; letter-spacing: .08em; rotate: -2deg; }
+#home.header.hero-print .hero-print-sheet-tag svg { width: 30px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; }
+#home.header.hero-print .hero-skill-patches { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-top: 20px; padding-top: 13px; border-top: 1px dashed rgb(242 233 214 / .27); }
+#home.header.hero-print .hero-skill-patches > span { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border: 1px solid var(--print-ink); border-radius: 6px; background: var(--blue); box-shadow: 2px 2px 0 #000; color: var(--print-ink); font: 600 10px/1.15 'Poppins', sans-serif; }
+#home.header.hero-print .hero-skill-patches > span:nth-child(2) { background: var(--coral); rotate: -3deg; }
+#home.header.hero-print .hero-skill-patches > span:nth-child(3) { background: var(--amber); rotate: 2deg; }
+#home.header.hero-print .hero-skill-patches b { font: 800 14px/1 ui-monospace, monospace; }
+#home.header.hero-print .hero-terminal { background: rgb(14 20 29 / .97); }
+
+/* 02: a creative tool window. Its word springs and glow remain untouched. */
+#home.header.hero-print .hero-print-workbench {
+  --workbench-radius: 20px 20px 36px 10px;
+  --workbench-outline: 3px;
+  --workbench-shadow: 10px 11px 0 var(--print-shadow), 14px 15px 0 var(--coral);
+  position: relative;
+  isolation: isolate;
+  padding: 22px 27px 28px;
+  border: 2px solid transparent;
+  border-radius: var(--workbench-radius);
+  outline: 0;
+  background: transparent;
+  box-shadow: none;
+}
+#home.header.hero-print .hero-workbench-backdrop {
+  position: absolute;
+  z-index: 0;
+  top: -2px;
+  left: -2px;
+  box-sizing: border-box;
+  border: 2px solid var(--print-ink);
+  border-radius: var(--workbench-radius);
+  outline: var(--workbench-outline) solid var(--print-paper);
+  outline-offset: 2px;
+  background: linear-gradient(125deg, rgb(19 24 33 / .98), rgb(15 22 30 / .95));
+  box-shadow: var(--workbench-shadow);
+  pointer-events: none;
+}
+#home.header.hero-print .hero-workbench-content { position: relative; z-index: 1; min-width: 0; }
+#home.header.hero-print .hero-print-workbench::before { display: none; }
+#home.header.hero-print .hero-print-workbench::after { display: none; }
+#home.header.hero-print .hero-workbench-backdrop::after { content: ''; position: absolute; right: 23px; bottom: -13px; width: 62px; height: 22px; border: 1px solid var(--print-ink); background: var(--amber); rotate: -7deg; pointer-events: none; }
+#home.header.hero-print .hero-workbench-top { display: flex; align-items: center; gap: 13px; margin-bottom: 21px; padding-bottom: 14px; border-bottom: 1px dashed rgb(242 233 214 / .3); color: var(--blue); font: 600 11px/1 ui-monospace, monospace; letter-spacing: .08em; }
+#home.header.hero-print .hero-workbench-dots { display: inline-flex; gap: 5px; }
+#home.header.hero-print .hero-workbench-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--coral); }
+#home.header.hero-print .hero-workbench-dots i:nth-child(2) { background: var(--amber); }
+#home.header.hero-print .hero-workbench-dots i:nth-child(3) { background: var(--blue); }
+#home.header.hero-print .hero-workbench-top svg { margin-left: auto; width: 56px; height: 25px; fill: none; stroke: var(--amber); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+#home.header.hero-print .slide-two .slide-two-actions { margin-top: 26px; }
+
+/* 03: punched stock and an offset stamp around the balanced code braces. */
+#home.header.hero-print .hero-three-frame { position: relative; display: block; inset: auto; box-sizing: border-box; width: fit-content; min-width: 0; max-width: 100%; margin: 0 0 28px; padding: 31px 20px 18px; border: 2px solid var(--print-paper); border-radius: 14px 14px 24px 7px; background: linear-gradient(115deg, rgb(18 23 31 / .98), rgb(15 20 28 / .95)); box-shadow: 8px 9px 0 var(--print-shadow), 12px 13px 0 var(--amber); }
+#home.header.hero-print .hero-three-frame::before { content: ''; position: absolute; top: 12px; left: 19px; width: 51px; height: 6px; background: radial-gradient(circle at 3px 3px, var(--print-paper) 2.5px, transparent 3px) 0 0 / 12px 6px; pointer-events: none; }
+#home.header.hero-print .hero-code-stamp { position: absolute; right: 23px; top: -17px; display: flex; align-items: center; gap: 15px; padding: 8px 11px; border: 2px solid var(--print-ink); border-radius: 6px; background: var(--amber); box-shadow: 3px 3px 0 var(--print-shadow); color: var(--print-ink); font: 800 9px/1 'Poppins', sans-serif; letter-spacing: .08em; rotate: 3deg; }
+#home.header.hero-print .hero-code-stamp-symbol { font-size: 15px; line-height: .8; }
+#home.header.hero-print .slide-three .hero-three-code { margin: 0; padding-top: 4px; padding-bottom: 9px; border: 0; background: none; }
+/* Each word keeps its resolved typography in normal flow. Only its animated
+   glyphs are overlaid, so decryption cannot resize either line or the frame. */
+#home.header.hero-print .hero-decrypt-word { display: inline-block; }
+#home.header.hero-print .hero-decrypt-slot { position: relative; display: inline-block; white-space: pre; }
+#home.header.hero-print .hero-decrypt-slot-sizer { display: block; visibility: hidden; white-space: pre; }
+#home.header.hero-print .hero-decrypt-slot-live { position: absolute; inset: 0; display: block !important; width: 100%; white-space: nowrap !important; }
+#home.header.hero-print .slide-three .hero-three-byline { margin-top: 0; }
+@media (hover: hover) and (pointer: fine) {
+  #home.header.hero-print .hero-resume:hover { transform: translateY(-3px) rotate(-1deg); }
+}
+
+/* Three native die-cut collages, visible on everyday laptops too. */
+#home.header.hero-print .hero-print-art { display: block; top: 14%; bottom: auto; right: clamp(52px, 5.6vw, 105px); width: clamp(180px, 21vw, 345px); transform: translate(calc(var(--hero-play-x) * -12px), calc(var(--hero-play-y) * -10px)); }
+#home.header.hero-print .hero-print-art-1 { top: 13%; right: 3.2%; width: clamp(165px, 18.5vw, 300px); rotate: 9deg; }
+#home.header.hero-print .slide-two .hero-print-art { display: block; top: 14%; right: 4.5%; width: clamp(180px, 21vw, 345px); rotate: -8deg; }
+#home.header.hero-print .hero-print-art-3 { top: auto; bottom: 20%; rotate: 8deg; }
+#home.header.hero-print .hero-collage-sheet { fill: var(--blue); stroke: var(--print-paper); stroke-width: 7; stroke-linejoin: round; }
+#home.header.hero-print .hero-collage-sheet-line { fill: none; stroke: var(--print-ink); stroke-width: 2; opacity: .44; }
+#home.header.hero-print .hero-collage-code { fill: none; stroke: var(--print-ink); stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; }
+#home.header.hero-print .hero-collage-caption-paper { fill: var(--print-paper); stroke: var(--print-ink); stroke-width: 2.5; }
+#home.header.hero-print .hero-collage-caption { fill: var(--print-ink); font: 400 23px 'Tilt Warp', sans-serif; letter-spacing: .3px; }
+#home.header.hero-print .hero-collage-tape { fill: var(--coral); stroke: var(--print-ink); stroke-width: 1.4; }
+#home.header.hero-print .hero-collage-swatch { stroke: var(--print-ink); stroke-width: 2.5; }
+#home.header.hero-print .hero-collage-swatch-blue { fill: var(--blue); }
+#home.header.hero-print .hero-collage-swatch-amber { fill: var(--amber); }
+#home.header.hero-print .hero-collage-swatch-paper { fill: var(--print-paper); }
+#home.header.hero-print .hero-collage-swatch-pin { fill: var(--print-ink); stroke: var(--print-paper); stroke-width: 3; }
+#home.header.hero-print .hero-collage-sparks { fill: none; stroke: var(--print-paper); stroke-width: 3; stroke-linecap: round; }
+#home.header.hero-print .hero-collage-ticket-shadow { fill: var(--print-shadow); }
+#home.header.hero-print .hero-collage-ticket { fill: var(--print-paper); stroke: var(--print-ink); stroke-width: 2.5; }
+#home.header.hero-print .hero-collage-ticket-perforation { fill: none; stroke: var(--print-ink); stroke-width: 1.5; stroke-dasharray: 5 5; }
+#home.header.hero-print .hero-collage-ticket-title { fill: var(--print-ink); font: 400 23px 'Tilt Warp', sans-serif; letter-spacing: .3px; }
+#home.header.hero-print .hero-collage-route-line { fill: none; stroke: var(--print-ink); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+#home.header.hero-print .hero-collage-burst,
+#home.header.hero-print .hero-collage-flower { transform-box: fill-box; transform-origin: center; }
+#home.header.hero-print .swiper-slide-active .hero-collage-burst { animation: hero-print-burst-in 1.05s .12s cubic-bezier(.2, .8, .2, 1) both; }
+#home.header.hero-print .swiper-slide-active .hero-collage-flower { animation: hero-print-flower-in 1.15s .18s cubic-bezier(.2, .8, .2, 1) both; }
+#home.header.hero-print .swiper-slide-active .hero-collage-route { animation: hero-print-route-in .9s .2s ease-out both; }
+@keyframes hero-print-burst-in {
+  0% { transform: rotate(-24deg) scale(.7); opacity: 0; }
+  65% { transform: rotate(5deg) scale(1.04); opacity: 1; }
+  100% { transform: rotate(0) scale(1); opacity: 1; }
+}
+@keyframes hero-print-flower-in {
+  0% { transform: rotate(30deg) scale(.75); opacity: 0; }
+  65% { transform: rotate(-7deg) scale(1.03); opacity: 1; }
+  100% { transform: rotate(0) scale(1); opacity: 1; }
+}
+@keyframes hero-print-route-in { from { opacity: 0; } to { opacity: 1; } }
+#home.header.hero-print .hero-print-detail-mark { color: var(--print-tone); }
+
+@media (min-width: 1100px) {
+  #home.header.hero-print .hero-print-title-sheet { max-width: calc(100% - 140px); }
+  #home.header.hero-print .hero-print-workbench { max-width: calc(100% - 80px); }
+}
+@media (min-width: 768px) and (max-width: 1099px) {
+  #home.header.hero-print .hero-print-art,
+  #home.header.hero-print .slide-two .hero-print-art { width: 175px; top: 12%; right: 45px; }
+  #home.header.hero-print .hero-print-art-3 { top: auto; bottom: 18%; }
+  #home.header.hero-print .hero-print-workbench { padding-inline: 23px; }
+}
+@media (max-width: 767px) {
+  #home.header.hero-print .hero-eyebrow { margin-bottom: 28px; }
+  #home.header.hero-print .hero-print-title-sheet { margin-bottom: 25px; padding: 25px 15px 17px; border-radius: 14px 14px 24px 10px; box-shadow: 5px 6px 0 var(--print-shadow), 9px 10px 0 var(--blue), 11px 12px 0 var(--print-shadow); }
+  #home.header.hero-print .hero-print-title-sheet::before { right: 19px; width: 40px; height: 16px; top: -9px; }
+  #home.header.hero-print .hero-print-sheet-tag { top: -14px; left: 13px; padding: 6px 8px; gap: 5px; font-size: 7px; }
+  #home.header.hero-print .hero-print-sheet-tag svg { width: 24px; height: 12px; }
+  #home.header.hero-print .hero-skill-patches { margin-top: 13px; padding-top: 10px; gap: 6px; }
+  #home.header.hero-print .hero-skill-patches > span { padding: 4px 7px; font-size: 8px; gap: 4px; }
+  #home.header.hero-print .hero-skill-patches b { font-size: 11px; }
+  #home.header.hero-print .hero-print-workbench { --workbench-radius: 14px 14px 26px 8px; --workbench-outline: 2px; --workbench-shadow: 6px 7px 0 var(--print-shadow), 9px 10px 0 var(--coral); padding: 16px 14px 23px; }
+  #home.header.hero-print .hero-workbench-top { margin-bottom: 18px; padding-bottom: 11px; gap: 10px; font-size: 9px; }
+  #home.header.hero-print .hero-workbench-dots { gap: 4px; }
+  #home.header.hero-print .hero-workbench-dots i { width: 6px; height: 6px; }
+  #home.header.hero-print .hero-workbench-top svg { width: 42px; height: 20px; }
+  #home.header.hero-print .slide-two .slide-two-actions { margin-top: 22px; }
+  #home.header.hero-print .hero-three-frame { padding: 26px 9px 15px; margin-bottom: 24px; border-radius: 12px 12px 21px 6px; box-shadow: 5px 6px 0 var(--print-shadow), 8px 9px 0 var(--amber); }
+  #home.header.hero-print .hero-three-frame::before { top: 10px; left: 15px; }
+  #home.header.hero-print .hero-code-stamp { top: -15px; right: 13px; font-size: 7px; gap: 9px; padding: 7px 9px; }
+  #home.header.hero-print .hero-code-stamp-symbol { font-size: 12px; }
+  #home.header.hero-print .slide-three .hero-three-code { padding-block: 4px 8px; padding-inline: clamp(23px, 5.5vw, 40px); }
+  #home.header.hero-print .hero-play-registration { inset: 83px 7px 159px; width: calc(100% - 14px); height: calc(100% - 242px); }
+  #home.header.hero-print .hero-play-halo { top: 15%; right: -42%; width: 330px; }
+  #home.header.hero-print .hero-play-orbit { width: 85%; right: -20%; bottom: 22%; opacity: .17; }
+  #home.header.hero-print .hero-print-art,
+  #home.header.hero-print .slide-two .hero-print-art { width: 110px; top: 89px; right: 12px; }
+  #home.header.hero-print .hero-print-art-3 { top: auto; bottom: 22%; right: 17px; width: 100px; }
+  #home.header.hero-print .hero-playground-1 .hero-print-art { top: auto; bottom: 190px; right: 16px; width: 90px; }
+  #home.header.hero-print .hero-print-art-orbit { display: none; }
+}
+/* Reduce ornament first; all real text, actions and controls stay present. */
+@media (max-height: 740px) and (min-width: 768px) {
+  #home.header.hero-print .hero-eyebrow { margin-bottom: 25px; }
+  #home.header.hero-print .hero-print-title-sheet { padding-top: 25px; padding-bottom: 17px; margin-bottom: 24px; }
+  #home.header.hero-print h1.brand-heading { font-size: min(6.8vw, 11vh); }
+  #home.header.hero-print .hero-skill-patches { margin-top: 13px; padding-top: 10px; }
+  #home.header.hero-print .hero-print-workbench { padding-block: 16px 23px; }
+  #home.header.hero-print .hero-workbench-top { margin-bottom: 16px; padding-bottom: 10px; }
+  #home.header.hero-print .slide-two .slide-two-actions { margin-top: 22px; }
+  #home.header.hero-print .hero-print-art,
+  #home.header.hero-print .slide-two .hero-print-art { width: 185px; top: 16%; }
+  #home.header.hero-print .hero-print-art-3 { top: auto; bottom: 19%; }
+  #home.header.hero-print .hero-three-frame { padding-top: 25px; padding-bottom: 14px; margin-bottom: 24px; }
+}
+@media (max-height: 600px) and (min-width: 768px) {
+  #home.header.hero-print .hero-print-title-sheet { padding: 19px 22px 13px; margin-bottom: 21px; }
+  #home.header.hero-print .hero-eyebrow { margin-bottom: 21px; }
+  #home.header.hero-print h1.brand-heading { font-size: min(5.8vw, 9vh); }
+  #home.header.hero-print .hero-skill-patches { display: none; }
+  #home.header.hero-print .hero-print-workbench { padding-block: 11px 16px; }
+  #home.header.hero-print .hero-workbench-top { padding-bottom: 7px; margin-bottom: 10px; }
+  #home.header.hero-print .slide-two .slide-two-actions { margin-top: 16px; }
+  #home.header.hero-print .hero-three-frame { padding-top: 22px; padding-bottom: 9px; margin-bottom: 20px; }
+  #home.header.hero-print .slide-three .hero-three-code { padding-block: 0 5px; margin: 0; }
+  #home.header.hero-print .slide-three .hero-three-byline { margin-top: 0; }
+  #home.header.hero-print .hero-print-art,
+  #home.header.hero-print .slide-two .hero-print-art { display: block; width: 135px; top: 17%; right: 42px; }
+  #home.header.hero-print .hero-print-art-3 { top: auto; bottom: 20%; }
+}
+@media (max-width: 767px) and (max-height: 740px) {
+  #home.header.hero-print .hero-eyebrow { margin-bottom: 24px; }
+  #home.header.hero-print .hero-print-title-sheet { padding-top: 23px; padding-bottom: 14px; margin-bottom: 24px; }
+  #home.header.hero-print .hero-skill-patches { display: none; }
+  #home.header.hero-print .hero-three-frame { padding-top: 23px; padding-bottom: 12px; margin-bottom: 21px; }
+  #home.header.hero-print .hero-print-art,
+  #home.header.hero-print .slide-two .hero-print-art { width: 90px; top: 85px; right: 11px; }
+  #home.header.hero-print .hero-print-art-3 { top: auto; bottom: 23%; }
+  #home.header.hero-print .hero-playground-1 .hero-print-art { display: none; }
+}
+@media (max-width: 767px) and (max-height: 640px) {
+  #home.header.hero-print .hero-eyebrow { margin-bottom: 20px; padding-block: 6px; }
+  #home.header.hero-print .hero-print-title-sheet { padding-top: 20px; padding-bottom: 12px; margin-bottom: 20px; }
+  #home.header.hero-print h1.brand-heading { margin-bottom: 10px; }
+  #home.header.hero-print .hero-byline { font-size: 9.5px; }
+  #home.header.hero-print .hero-terminal { padding: 8px 11px 8px 28px; margin-bottom: 17px; font-size: clamp(11px, 3vw, 15px); }
+  #home.header.hero-print .hero-print-workbench { padding: 12px 11px 16px; }
+  #home.header.hero-print .hero-workbench-top { padding-bottom: 8px; margin-bottom: 12px; }
+  #home.header.hero-print .slide-two .slide-two-actions { margin-top: 17px; }
+  #home.header.hero-print .hero-three-frame { padding: 20px 7px 9px; margin-bottom: 19px; }
+  #home.header.hero-print .slide-three .hero-three-byline { padding-block: 7px; margin-bottom: 18px; font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #home.header.hero-print .swiper-slide-active .hero-collage-burst,
+  #home.header.hero-print .swiper-slide-active .hero-collage-flower,
+  #home.header.hero-print .swiper-slide-active .hero-collage-route { animation: none; }
+}
+
+/* END OF FILE: HERO-PLAYGROUND-R4 | HeroPrint.css */

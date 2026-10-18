@@ -1,11 +1,17 @@
-// CHANGE VERSION: PORTFOLIO-POLISH-R3 | 2026-10-14 | Complete CursorEffects.jsx
+// CHANGE VERSION: ADAPTIVE-COLORS-R1 | Smooth scrollbar and cursor palette changes
 import { useEffect, useRef } from "react";
 import '../styles/ScrollEffects.css';
+import { createColorTransition } from '../utils/adaptiveColors';
 const colors = ["#D8B97C", "#C98974", "#D79998", "#93AEC6", "#AAA0CB"];
 export default function CursorEffects() {
   const cursor = useRef(null);
   useEffect(() => {
     const root = document.documentElement;
+    const scrollbarTransition = createColorTransition({
+      initial: root.style.getPropertyValue('--scrollbar-color') || colors[0],
+      duration: 800,
+      onUpdate: color => root.style.setProperty('--scrollbar-color', color),
+    });
     let frame = 0;
     const paint = () => {
       frame = 0;
@@ -16,7 +22,7 @@ export default function CursorEffects() {
       const index = Math.min(colors.length - 1, Math.floor((max > 0 ? position / max : 0) * colors.length));
       // Round over the first/last 40px; tolerate fractional scroll at the ends.
       const radius = distance => `${Math.min(10, Math.max(0, distance - 1) / 4)}px`;
-      root.style.setProperty('--scrollbar-color', colors[index]);
+      scrollbarTransition.to(colors[index]);
       root.style.setProperty('--scrollbar-top-radius', radius(position));
       root.style.setProperty('--scrollbar-bottom-radius', radius(max - position));
     };
@@ -27,7 +33,7 @@ export default function CursorEffects() {
     const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(scroll);
     observer?.observe(document.body);
     return () => {
-      cancelAnimationFrame(frame); observer?.disconnect();
+      cancelAnimationFrame(frame); observer?.disconnect(); scrollbarTransition.destroy();
       window.removeEventListener('scroll', scroll); window.removeEventListener('resize', scroll);
     };
   }, []);
@@ -60,15 +66,16 @@ export default function CursorEffects() {
         cursor.current.style.transform = `translate(${x}px, ${y}px)`;
       frame = x === targetX && y === targetY ? 0 : requestAnimationFrame(animate);
     };
-    const timer = setInterval(() => {
-      if (cursor.current)
-        cursor.current.style.backgroundColor =
-          colors[Math.floor(Math.random() * colors.length)];
-    }, 1000);
+    const cursorTransition = createColorTransition({
+      initial: colors[0], duration: 800,
+      onUpdate: color => { if (cursor.current) cursor.current.style.backgroundColor = color; },
+    });
+    const timer = setInterval(() => cursorTransition.to(colors[Math.floor(Math.random() * colors.length)]), 1000);
     window.addEventListener("pointermove", move, { passive: true });
     return () => {
       cancelAnimationFrame(frame);
       clearInterval(timer);
+      cursorTransition.destroy();
       window.removeEventListener("pointermove", move);
     };
   }, []);
@@ -78,4 +85,4 @@ export default function CursorEffects() {
     </div>
   );
 }
-// END OF FILE: PORTFOLIO-POLISH-R3 | CursorEffects.jsx
+// END OF FILE: ADAPTIVE-COLORS-R1 | CursorEffects.jsx

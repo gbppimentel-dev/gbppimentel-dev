@@ -1,4 +1,4 @@
-/* CHANGE VERSION: CONTACT-STUDIO-R1 | Contact studio, shared ribbon and native scroll cap */
+/* CHANGE VERSION: TEXT-LOOP-COMPACT-R1 | Contact grid follows the thinner ribbon */
 .contact-scroll-stage {
   position: relative;
   z-index: 2;
@@ -6,7 +6,7 @@
 }
 .contact-scroll-hold { height: 0; pointer-events: none; }
 .footer.contact-section.contact-studio {
-  --contact-divider-height: 88px;
+  --contact-divider-height: 64px;
   --contact-gutter: clamp(24px, 4.4vw, 72px);
   --contact-accent: var(--brand-accent, var(--amber));
   box-sizing: border-box;
@@ -269,8 +269,9 @@
   #contact.contact-studio { scroll-margin-top: calc(var(--contact-cap-top) - 94px); }
 }
 @media (min-width: 1000px) and (max-height: 780px) {
-  .footer.contact-studio { --contact-divider-height: 72px; --contact-gutter: clamp(30px, 4vw, 58px); }
-  .contact-studio .text-loop { height: 72px; font-size: 29px; }
+  .footer.contact-studio { --contact-gutter: clamp(30px, 4vw, 58px); }
+  .footer.contact-section.contact-studio { --contact-divider-height: 56px; }
+  .contact-studio .text-loop { height: 56px; font-size: 24px; }
   .contact-studio__body { gap: clamp(28px, 4vw, 60px); padding-block: 17px; }
   .footer.contact-studio h2.contact-studio__title { font-size: clamp(47px, 5.6vw, 72px); margin-block: 15px; }
   .footer.contact-studio p.contact-studio__lead { font-size: 12px; line-height: 1.75; margin-bottom: 14px; }
@@ -316,8 +317,8 @@
   .contact-studio.contact-section > .sub-footer { padding-block: 17px; }
 }
 @media (max-width: 767px) {
-  .footer.contact-studio { --contact-divider-height: 72px; }
-  .contact-studio .text-loop { height: 72px; font-size: 28px; }
+  .footer.contact-section.contact-studio { --contact-divider-height: 52px; }
+  .contact-studio .text-loop { height: 52px; font-size: 22px; }
 }
 @media (max-width: 520px) {
   .footer.contact-studio { --contact-gutter: 20px; }
@@ -364,4 +365,4 @@
   .contact-brief__preview-actions > a,
   .contact-studio .sub-footer .container ul li a { transition: none; }
 }
-/* END OF FILE: CONTACT-STUDIO-R1 | contact-studio.css */
+/* END OF FILE: TEXT-LOOP-COMPACT-R1 | contact-studio.css */

@@ -1,4 +1,4 @@
-/* CHANGE VERSION: CONTACT-STUDIO-R1 | Shared About and Contact banner anchor limits */
+/* CHANGE VERSION: ADAPTIVE-COLORS-R1 | Synchronized palette fades across the existing site */
 import { useEffect, useRef, useState } from "react";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
@@ -8,8 +8,9 @@ import CursorEffects from "./components/CursorEffects";
 import Projects from "./components/Projects";
 import Awards from "./components/Awards";
 import PageLoader from "./components/PageLoader";
+import { createColorTransition, publishAdaptiveAccent } from './utils/adaptiveColors';
 
-const slideBrandColors = ['var(--amber)', 'var(--coral)', 'var(--blue)'];
+const slideBrandColors = ['--amber', '--coral', '--blue'];
 const slideStrapColors = ['#d8b97c', '#d79998', '#93aec6'];
 const readTarget = () => window.location.hash.slice(1) || "home";
 const readPage = () => {
@@ -24,6 +25,7 @@ export default function App() {
   const [loaderVisible, setLoaderVisible] = useState(true);
   const pageRef = useRef(page);
   const transitionTimer = useRef(0);
+  const accentTransition = useRef(null);
 
   useEffect(() => {
     let minimumElapsed = false;
@@ -53,8 +55,22 @@ export default function App() {
 
   useEffect(() => {
     const root = document.documentElement;
-    root.style.setProperty('--brand-accent', slideBrandColors[activeSlide] ?? slideBrandColors[0]);
-    return () => root.style.removeProperty('--brand-accent');
+    const previousColor = root.style.getPropertyValue('--brand-accent');
+    const styles = getComputedStyle(root);
+    const initial = styles.getPropertyValue('--brand-accent').trim() || styles.getPropertyValue('--amber').trim() || slideStrapColors[0];
+    accentTransition.current = createColorTransition({ initial, onUpdate: publishAdaptiveAccent });
+    return () => {
+      accentTransition.current?.destroy();
+      accentTransition.current = null;
+      if (previousColor) root.style.setProperty('--brand-accent', previousColor);
+      else root.style.removeProperty('--brand-accent');
+    };
+  }, []);
+
+  useEffect(() => {
+    const index = activeSlide >= 0 && activeSlide < slideBrandColors.length ? activeSlide : 0;
+    const target = getComputedStyle(document.documentElement).getPropertyValue(slideBrandColors[index]).trim() || slideStrapColors[index];
+    accentTransition.current?.to(target);
   }, [activeSlide]);
 
   useEffect(() => {
@@ -175,4 +191,4 @@ export default function App() {
   );
 }
 
-/* END OF FILE: CONTACT-STUDIO-R1 | App.jsx */
+/* END OF FILE: ADAPTIVE-COLORS-R1 | App.jsx */

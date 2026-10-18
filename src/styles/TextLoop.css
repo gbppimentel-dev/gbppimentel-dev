@@ -1,16 +1,16 @@
-/* CHANGE VERSION: TEXT-LOOP-WAVES-R2 | Balanced curves and subtle background linework */
+/* CHANGE VERSION: TEXT-LOOP-COMPACT-R1 | Thinner ribbon and tighter type spacing */
 .text-loop {
   position: relative;
   display: flex;
   align-items: center;
   width: 100%;
-  height: var(--text-loop-height, 88px);
+  height: min(var(--text-loop-height, 88px), 64px);
   overflow: hidden;
   isolation: isolate;
   background: var(--text-loop-background, var(--brand-accent, var(--amber)));
   color: var(--text-loop-color, var(--ink));
-  font: var(--text-loop-weight, 800) var(--text-loop-size, 36px)/1.1 'Poppins', sans-serif;
-  letter-spacing: var(--text-loop-tracking, 1.8px);
+  font: var(--text-loop-weight, 800) min(var(--text-loop-size, 36px), 28px)/1.1 'Poppins', sans-serif;
+  letter-spacing: min(var(--text-loop-tracking, 1.8px), .7px);
   touch-action: pan-y;
   user-select: none;
   transition: background-color .35s ease;
@@ -52,19 +52,19 @@
 }
 .text-loop-track, .text-loop-group { display: flex; align-items: center; flex: none; width: max-content; }
 .text-loop-track { position: relative; z-index: 1; will-change: transform; }
-.text-loop-unit { display: inline-flex; align-items: center; flex: none; gap: .65em; padding: 0 .4em; white-space: nowrap; }
+.text-loop-unit { display: inline-flex; align-items: center; flex: none; gap: .4em; padding: 0 .2em; white-space: nowrap; }
 .text-loop-label { display: block; flex: none; }
-.text-loop-separator { display: grid; place-items: center; flex: 0 0 1em; width: 1em; height: 1.1em; font-size: 1.13em; line-height: 1; letter-spacing: 0; }
+.text-loop-separator { display: grid; place-items: center; flex: 0 0 .85em; width: .85em; height: 1.1em; font-size: 1.02em; line-height: 1; letter-spacing: 0; }
 .text-loop-separator--0 { color: var(--text-loop-separator-first, var(--coral)); }
 .text-loop-separator--1 { color: var(--text-loop-separator-second, var(--blue)); }
 .text-loop-separator { transition: color .35s ease; }
 .text-loop-measure { position: absolute; left: 0; top: 0; visibility: hidden; pointer-events: none; }
 @media (max-width: 767px) {
-  .text-loop { height: min(var(--text-loop-height, 88px), 72px); font-size: min(var(--text-loop-size, 36px), 28px); }
+  .text-loop { height: min(var(--text-loop-height, 88px), 52px); font-size: min(var(--text-loop-size, 36px), 22px); letter-spacing: min(var(--text-loop-tracking, 1.8px), .5px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .text-loop-wave-layers { animation: none; will-change: auto; }
   .text-loop-track { will-change: auto; }
   .text-loop, .text-loop-separator { transition: none; }
 }
-/* END OF FILE: TEXT-LOOP-WAVES-R2 | TextLoop.css */
+/* END OF FILE: TEXT-LOOP-COMPACT-R1 | TextLoop.css */
