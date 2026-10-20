@@ -1,4 +1,4 @@
-// CHANGE VERSION: NETSUITE-PROJECTS-R1 | 2026-10-20 | Complete LogoLoop.jsx
+// CHANGE VERSION: PORTFOLIO-SELF-CASE-STUDY-R4 | Hover-only previews and portfolio case study
 // Adapted from the supplied React Bits LogoLoop component.
 'use client';
 
@@ -661,6 +661,11 @@ const createEngine = (root, track, config, setLayout) => {
   };
 
   const onDown = e => {
+    // A preview is a hover/focus affordance, never a click-to-pin control.
+    if (config.current.previewOnly && e.button === 0) {
+      e.preventDefault();
+      if (root.contains(document.activeElement)) document.activeElement.blur();
+    }
     if (e.isPrimary === false || e.button !== 0 || st.drag || st.reduced) return;
     st.pressedAt = performance.now();
     if (!config.current.draggable || !st.geo || st.period <= 0) return;
@@ -970,6 +975,10 @@ export const LogoLoop = memo(
     scrollBoost = 0,
     intro = true,
     renderItem,
+    onItemPreview,
+    previewOnly = false,
+    activeItemId,
+    previewId,
     ariaLabel = 'Partner logos',
     className,
     style
@@ -1003,6 +1012,7 @@ export const LogoLoop = memo(
       intro,
       scaleOnHover,
       labels,
+      previewOnly,
       links: items.some(item => item.href)
     };
 
@@ -1085,6 +1095,8 @@ export const LogoLoop = memo(
                     key={key}
                     role="listitem"
                     data-color={item.hoverColor ? '' : undefined}
+                    data-preview-active={onItemPreview && activeItemId === item.id ? 'true' : undefined}
+                    onPointerEnter={onItemPreview && item.description ? event => { if (event.pointerType !== 'touch') onItemPreview(item); } : undefined}
                     style={item.hoverColor ? { '--logoloop-item-color': item.hoverColor } : undefined}
                   >
                     {item.href ? (
@@ -1099,6 +1111,14 @@ export const LogoLoop = memo(
                       >
                         {inner}
                       </a>
+                    ) : onItemPreview && item.description ? (
+                      <span className="logoloop__content" role="img"
+                        aria-label={'About ' + (name || 'this technology')}
+                        aria-describedby={activeItemId === item.id ? previewId : undefined}
+                        tabIndex={isPrimary ? 0 : -1}
+                        onFocus={() => onItemPreview(item)}>
+                        {inner}
+                      </span>
                     ) : (
                       <div className="logoloop__content" role="img" aria-label={name || 'Technology logo'} tabIndex={isPrimary && labels === 'hover' ? 0 : undefined}>{inner}</div>
                     )}
@@ -1113,7 +1133,7 @@ export const LogoLoop = memo(
             </ul>
           );
         }),
-      [copies, primary, items, renderItem, labels]
+      [copies, primary, items, renderItem, labels, onItemPreview, activeItemId, previewId]
     );
 
     const mask = fadeOut ? fadeMask(fadeOutWidth, vertical) : undefined;
@@ -1169,4 +1189,4 @@ LogoLoop.displayName = 'LogoLoop';
 
 export default LogoLoop;
 
-// END OF FILE: NETSUITE-PROJECTS-R1 | LogoLoop.jsx
+// END OF FILE: PORTFOLIO-SELF-CASE-STUDY-R4

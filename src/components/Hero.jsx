@@ -1,4 +1,4 @@
-// CHANGE VERSION: DESKTOP-POLISH-R1 | 2026-10-20 | Complete Hero.jsx
+// CHANGE VERSION: PORTFOLIO-HERO-PROJECTS-R3 | 2026-10-20 | Complete Hero.jsx
 import { useEffect, useRef, useState } from 'react';
 import MorphNumber from './MorphNumber';
 import SocialLinks from './SocialLinks';
@@ -180,7 +180,6 @@ export default function Hero({ onActiveSlideChange }) {
               <div className="hero-print-title-body">
               <h1 className="brand-heading" data-swiper-parallax="-300"><TechText text="gbppimentel-dev." suffix="-dev." /></h1>
               <p className="hero-byline" data-swiper-parallax="-150">by <em>Glenn Bernard Pimentel</em></p>
-              <div className="hero-skill-patches" aria-hidden="true"><span><b>{'{ }'}</b> develop</span><span><b>✳</b> design</span><span><b>↗</b> connect</span></div>
               </div>
               </div>
               <p className="hero-code hero-terminal" data-swiper-parallax="-200"><span className="hero-terminal-accessible">{'System.out.println("software engineer, UI/UX, business consultant" );'}</span><TerminalText reduced={reduced}>
@@ -232,7 +231,7 @@ export default function Hero({ onActiveSlideChange }) {
               </div>
               </div>
               <PrintDetails number={3} />
-              <BlurText key={slideThreeVisit} active={slide === 2} text="ERP workflows. Practical solutions." className="hero-three-byline" />
+              <BlurText key={slideThreeVisit} active={slide === 2} text="NetSuite Workflows & Practical Solutions" className="hero-three-byline" />
               <div className="hero-three-actions" data-swiper-parallax="-100">
                 <a href="#projects" className="hero-resume hero-project-cta" aria-label="Explore projects">
                   <span className="hero-resume-face hero-resume-rest" aria-hidden="true">
@@ -260,4 +259,4 @@ export default function Hero({ onActiveSlideChange }) {
       {!reduced && <div className="hero-slide-timer" aria-hidden="true"><span ref={progressRef} className="hero-slide-timer-fill" /></div>}
     </header>;
 }
-// END OF FILE: DESKTOP-POLISH-R1 | Hero.jsx
+// END OF FILE: PORTFOLIO-HERO-PROJECTS-R3 | Hero.jsx

@@ -1,6 +1,11 @@
+# CHANGE VERSION: HEARTS-CLOUDFLARE-R5 | Preserve private local migration exports
 node_modules/
 dist/
 .env
 .env.*
 !.env.example
 *.local
+heart-exports/
+cloudflare/hearts/.migration/
+cloudflare/hearts/.wrangler/
+# END OF FILE: HEARTS-CLOUDFLARE-R5

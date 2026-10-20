@@ -1,4 +1,4 @@
-// CHANGE VERSION: HEARTS-PAGES-R1 | 2026-10-20 | Anonymous shared portfolio hearts
+// CHANGE VERSION: HEARTS-CLOUDFLARE-R5 | Portable anonymous hearts with a safe staged cutover
 const VISITOR_KEY = 'gbppimentel-dev:heart-visitor:v1';
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const REQUEST_TIMEOUT = 8000;
@@ -40,25 +40,37 @@ const legacyAnonKey = key => {
   } catch { return false; }
 };
 
-function validateConfig(url, key) {
-  url = String(url ?? '').trim().replace(/\/+$/, '');
-  key = String(key ?? '').trim();
-  if (!url || !key) return { configured: false, url, key: '', reason: 'Heart storage is not configured yet.' };
+function validateConfig(config = {}) {
+  const provider = config.provider || 'supabase';
+  let url = String(config.url ?? '').trim().replace(/\/+$/, '');
+  const key = provider === 'cloudflare' ? '' : String(config.key ?? '').trim();
+  if (!['cloudflare', 'supabase'].includes(provider)) {
+    return { configured: false, provider, url: '', key: '', reason: 'Check the heart storage provider.' };
+  }
+  if (!url || (provider === 'supabase' && !key)) {
+    return { configured: false, provider, url, key: '', reason: 'Heart storage is not configured yet.' };
+  }
   try {
     const parsed = new URL(url);
     const local = ['localhost', '127.0.0.1', '[::1]'].includes(parsed.hostname);
     if (parsed.username || parsed.password || parsed.search || parsed.hash || parsed.pathname !== '/' || (parsed.protocol !== 'https:' && !(local && parsed.protocol === 'http:'))) throw new Error();
-  } catch { return { configured: false, url: '', key: '', reason: 'Check the Supabase project URL.' }; }
-  if (!key.startsWith('sb_publishable_') && !legacyAnonKey(key)) {
-    return { configured: false, url, key: '', reason: 'Use a Supabase publishable key or legacy anon key, never a secret or service-role key.' };
+    url = parsed.origin;
+  } catch {
+    return { configured: false, provider, url: '', key: '', reason: provider === 'cloudflare' ? 'Check the heart API URL.' : 'Check the Supabase project URL.' };
   }
-  return { configured: true, url, key };
+  if (provider === 'supabase' && !key.startsWith('sb_publishable_') && !legacyAnonKey(key)) {
+    return { configured: false, provider, url, key: '', reason: 'Use a Supabase publishable key or legacy anon key, never a secret or service-role key.' };
+  }
+  return { configured: true, provider, url, key };
 }
 
-/** Only public browser credentials belong in these Vite variables. */
-export function getPortfolioHeartsConfig() {
-  const env = import.meta.env ?? {};
-  return validateConfig(env.VITE_SUPABASE_URL, env.VITE_SUPABASE_PUBLISHABLE_KEY || env.VITE_SUPABASE_ANON_KEY);
+/** The public Worker URL opts into Cloudflare; blank keeps the existing service. */
+export function getPortfolioHeartsConfig(env = import.meta.env ?? {}) {
+  if (String(env.VITE_HEARTS_API_URL ?? '').trim()) {
+    return validateConfig({ provider: 'cloudflare', url: env.VITE_HEARTS_API_URL });
+  }
+  // Keep the old project working until the new counter has been imported and tested.
+  return validateConfig({ provider: 'supabase', url: env.VITE_SUPABASE_URL, key: env.VITE_SUPABASE_PUBLISHABLE_KEY || env.VITE_SUPABASE_ANON_KEY });
 }
 
 const parseState = value => {
@@ -72,11 +84,11 @@ const parseState = value => {
 
 /** Small REST client; dependency-free and injectable for focused verification. */
 export function createPortfolioHeartsClient(config = getPortfolioHeartsConfig(), options = {}) {
-  const checked = validateConfig(config.url, config.key);
+  const checked = validateConfig(config);
   const fetchImpl = options.fetchImpl ?? ((...args) => globalThis.fetch(...args));
   const visitorId = () => getHeartVisitorId(options.storage === undefined ? browserStorage() : options.storage);
 
-  const request = async (name, args, { signal } = {}) => {
+  const request = async (liked, { signal } = {}) => {
     if (!checked.configured) throw new Error(checked.reason);
     const controller = new AbortController();
     const onAbort = () => controller.abort(signal?.reason);
@@ -84,12 +96,29 @@ export function createPortfolioHeartsClient(config = getPortfolioHeartsConfig(),
     signal?.addEventListener('abort', onAbort, { once: true });
     let timedOut = false;
     const timeout = setTimeout(() => { timedOut = true; controller.abort(); }, REQUEST_TIMEOUT);
-    const headers = { apikey: checked.key, 'Content-Type': 'application/json', Accept: 'application/json' };
-    // New publishable keys are not JWTs: send them only in the apikey header.
-    if (legacyAnonKey(checked.key)) headers.Authorization = `Bearer ${checked.key}`;
     try {
-      const response = await fetchImpl(`${checked.url}/rest/v1/rpc/${name}`, {
-        method: 'POST', headers, body: JSON.stringify(args), signal: controller.signal, cache: 'no-store', credentials: 'omit',
+      const id = visitorId();
+      const reading = liked === undefined;
+      let endpoint;
+      let method;
+      let body;
+      const headers = { Accept: 'application/json' };
+      if (checked.provider === 'cloudflare') {
+        endpoint = `${checked.url}/api/hearts${reading ? `?visitor_id=${encodeURIComponent(id)}` : ''}`;
+        method = reading ? 'GET' : 'PUT';
+        if (!reading) body = JSON.stringify({ visitor_id: id, liked });
+      } else {
+        endpoint = `${checked.url}/rest/v1/rpc/${reading ? 'portfolio_heart_state' : 'set_portfolio_heart'}`;
+        method = 'POST';
+        body = JSON.stringify(reading ? { p_visitor_id: id } : { p_visitor_id: id, p_liked: liked });
+        headers.apikey = checked.key;
+        // Publishable keys are not JWTs and must never be sent as bearer tokens.
+        if (legacyAnonKey(checked.key)) headers.Authorization = `Bearer ${checked.key}`;
+      }
+      if (body !== undefined) headers['Content-Type'] = 'application/json';
+      const response = await fetchImpl(endpoint, {
+        method, headers, ...(body !== undefined ? { body } : {}), signal: controller.signal,
+        cache: 'no-store', credentials: 'omit',
       });
       if (!response.ok) throw new Error('Heart storage is unavailable right now. Please try again.');
       return parseState(await response.json());
@@ -106,13 +135,14 @@ export function createPortfolioHeartsClient(config = getPortfolioHeartsConfig(),
 
   return {
     configured: checked.configured,
-    read: options => request('portfolio_heart_state', { p_visitor_id: visitorId() }, options),
+    provider: checked.provider,
+    read: options => request(undefined, options),
     set: (liked, options) => typeof liked !== 'boolean'
       ? Promise.reject(new TypeError('Heart state must be true or false.'))
-      : request('set_portfolio_heart', { p_visitor_id: visitorId(), p_liked: liked }, options),
+      : request(liked, options),
   };
 }
 
 export const getPortfolioHeartState = options => createPortfolioHeartsClient().read(options);
 export const setPortfolioHeart = (liked, options) => createPortfolioHeartsClient().set(liked, options);
-// END OF FILE: HEARTS-PAGES-R1 | portfolioHearts.js
+// END OF FILE: HEARTS-CLOUDFLARE-R5 | portfolioHearts.js

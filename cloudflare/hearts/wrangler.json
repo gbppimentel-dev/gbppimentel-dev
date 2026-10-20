@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gbppimentel-portfolio-hearts",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-20",
+  "workers_dev": true,
+  "send_metrics": false,
+  "preview_urls": false,
+  "vars": {
+    "ALLOWED_ORIGINS": "https://gbppimentel-dev.github.io",
+    "ALLOW_LOCALHOST": "true"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "gbppimentel-portfolio-hearts",
+      "database_id": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "ratelimits": [
+    {
+      "name": "HEART_WRITE_LIMITER",
+      "namespace_id": "731204",
+      "simple": { "limit": 30, "period": 60 }
+    }
+  ],
+  "observability": { "enabled": false }
+}

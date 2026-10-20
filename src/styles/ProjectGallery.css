@@ -1,4 +1,4 @@
-/* CHANGE VERSION: PORTFOLIO-REFINE-R6 | A paper-and-ink project index with connected case studies */
+/* CHANGE VERSION: PORTFOLIO-SELF-CASE-STUDY-R4 | Hover-only previews and portfolio case study */
 #projects.portfolio-projects.project-showcase {
   --project-paper: #f2e9d6; --project-ink: #20222a; --project-accent: var(--brand-accent, var(--amber));
   position: relative; isolation: isolate; overflow: clip; box-sizing: border-box;
@@ -106,10 +106,111 @@
 .project-screen__placeholder > strong { color: #514f53; font: 600 11px/1.5 'Poppins', sans-serif; }
 .project-screen__placeholder > span { max-width: 250px; margin-top: 5px; color: #796e5f; font: 400 10px/1.65 'Poppins', sans-serif; }
 .project-screen > img { display: block; width: 100%; height: 248px; object-fit: cover; }
+.project-screen--real > img { object-fit: contain; background: #f4f5ef; }
 .project-screen figcaption { padding: 13px 16px; border-top: 1px dashed #b4a893; color: #786f63; font: 400 10px/1.7 'Poppins', sans-serif; }
 .project-empty { padding: 40px; border: 2px solid #11151d; border-radius: 12px; background: var(--project-paper); color: var(--project-ink); }
 #projects :is(button, a):focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; }
 #projects button:focus:not(:focus-visible) { outline: none; }
+
+/* The frame changes identity without moving the accordion's established edges. */
+#projects .project-collection {
+  transition: background-color .8s ease, border-color .8s ease, border-radius .8s ease, box-shadow .8s ease;
+}
+#projects .project-collection__bar {
+  background: var(--collection-accent, var(--project-accent));
+  transition: background-color .8s ease, border-color .8s ease, color .8s ease;
+}
+.project-collection__bar > span:first-child { flex: none; }
+#projects .project-collection__identity {
+  display: inline-flex; align-items: center; justify-content: flex-end; gap: 9px;
+  flex: 1; min-width: 0; min-height: 22px; font: 600 11px/1.4 'Poppins', sans-serif;
+  letter-spacing: 0; text-transform: none; transition: color .8s ease;
+}
+.project-collection__identity > svg { display: block; flex: none; width: 22px; height: 22px; transition: color .8s ease; }
+.project-collection__identity > img { display: block; flex: none; width: 22px; height: 22px; object-fit: contain; }
+.project-collection__identity > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#projects .project-collection .project-toolkit {
+  transition: background-color .8s ease, border-color .8s ease, color .8s ease;
+}
+#projects .project-collection .project-toolkit__heading > span:first-child,
+#projects .project-collection .project-toolkit__mark {
+  color: var(--collection-accent, var(--project-accent)); transition: color .8s ease;
+}
+#projects .project-collection[data-collection-theme='lifecity'] {
+  border-color: #d6e7df; border-radius: 26px; background: #f7faf9;
+  box-shadow: 0 12px 0 rgb(138 199 181 / .18), 0 22px 54px rgb(5 27 23 / .2);
+}
+#projects .project-collection[data-collection-theme='lifecity'] .project-collection__bar {
+  background: #e5f5ef; color: #315b53; border-color: #d6e7df;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+#projects .project-collection[data-collection-theme='lifecity'] .project-collection__identity {
+  color: #147d73; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+#projects .project-collection[data-collection-theme='lifecity'] .project-collection__identity > svg { color: #7964ad; }
+#projects .project-collection[data-collection-theme='lifecity'] .project-toolkit {
+  background: #153f38; color: #f5f3ec; border-color: #d6e7df;
+}
+#projects .project-collection[data-collection-theme='lifecity'] .project-toolkit__heading > span:first-child,
+#projects .project-collection[data-collection-theme='lifecity'] .project-toolkit__mark { color: #d8ebac; }
+
+/* The portfolio's own collection is an ink-and-paper frame with three accents. */
+#projects .project-collection[data-collection-theme='gbp'] {
+  background: #141820; border-color: #e6dcc7; border-radius: 18px;
+  box-shadow: 7px 9px 0 #11141b, 11px 13px 0 #86a8c1;
+}
+#projects .project-collection[data-collection-theme='gbp'] .project-collection__bar {
+  background: #efe5cf; color: #252a33; border-color: #e6dcc7;
+  box-shadow: inset 0 -3px 0 #d9bb78;
+}
+#projects .project-collection[data-collection-theme='gbp'] .project-toolkit {
+  background: #1c222e; border-color: #697484;
+}
+#projects .project-collection[data-collection-theme='gbp'] .project-collection__identity { color: #343d4c; }
+#projects .project-collection[data-collection-theme='gbp'] .project-toolkit__heading > span:first-child { color: #d9bb78; }
+#projects .project-collection[data-collection-theme='gbp'] .project-toolkit__mark { color: #d3a09a; }
+#projects .project-case-study.project-case-study--portfolio {
+  border: 2px solid #e6dcc7; border-radius: 18px; background: #141820;
+  box-shadow: 7px 9px 0 #0c1017, 11px 13px 0 #d3a09a;
+}
+#projects .project-case-study--portfolio > .project-case-study__bar {
+  background: #efe5cf; border-color: #262d39; color: #252a33;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* A shared expanding drawer keeps the moving row's item widths stable. */
+#projects .project-toolkit__loop .logoloop__content {
+  appearance: none; -webkit-appearance: none; display: inline-flex; align-items: center;
+  width: auto; min-width: 0; min-height: 0; height: auto; margin: 0; padding: 0;
+  border: 0; border-radius: 4px; background: transparent; box-shadow: none;
+  color: inherit; font: inherit; text-align: left; text-transform: none; cursor: inherit;
+}
+#projects .project-toolkit__loop .logoloop__content::before,
+#projects .project-toolkit__loop .logoloop__content::after { content: none; }
+#projects .project-toolkit__loop .logoloop__content:focus-visible {
+  outline: 2px solid var(--logoloop-item-color, #f2e9d6); outline-offset: 5px;
+}
+#projects .project-toolkit__loop .logoloop__item[data-preview-active='true'] .logoloop__content { color: var(--logoloop-item-color, #f2e9d6); }
+.project-tech-detail-shell { overflow: hidden; }
+#projects .project-tech-detail {
+  display: flex; align-items: center; gap: 15px; min-width: 0;
+  padding: 18px 24px; border-top: 1px solid rgb(242 233 214 / .15);
+  background: rgb(0 0 0 / .1); color: #f2e9d6;
+}
+.project-tech-detail__emblem {
+  display: grid; place-items: center; flex: none; width: 44px; height: 44px;
+  border: 1px solid color-mix(in srgb, var(--technology-color, #f2e9d6) 45%, transparent);
+  border-radius: 11px; background: color-mix(in srgb, var(--technology-color, #f2e9d6) 9%, transparent);
+  color: var(--technology-color, #f2e9d6); transition: color .4s ease, border-color .4s ease, background-color .4s ease;
+}
+.project-tech-detail__copy { flex: 1; min-width: 0; }
+#projects .project-tech-detail__copy strong { display: block; color: #f7f1e6; font: 600 12px/1.5 'Poppins', sans-serif; text-transform: none; }
+#projects .project-tech-detail__copy p { max-width: 790px; margin: 4px 0 0; color: #d2d1cb; font: 400 12px/1.7 'Poppins', sans-serif; }
+#projects .project-collection[data-collection-theme='lifecity'] .project-tech-detail__copy :is(strong, p) {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+#projects .project-collection[data-collection-theme='lifecity'] .project-tech-detail__copy p { color: #d1e4db; }
+
 @media (hover: hover) and (pointer: fine) {
   #projects .project-filters button:hover { transform: translate(-2px, -3px); box-shadow: 5px 7px 0 #0c1017; background: var(--project-accent); }
   #projects .project-filters button:hover svg { transform: rotate(-8deg); }
@@ -128,6 +229,11 @@
   #projects .project-showcase__toolbar { align-items: flex-start; flex-direction: column; }
   .project-collection__gallery { padding: 14px 13px 19px; }
   .project-toolkit__heading { padding-inline: 18px; }
+  #projects .project-collection__bar { gap: 12px; padding-inline: 16px; }
+  #projects .project-collection__identity { font-size: 10px; }
+  .project-collection__identity > svg { width: 18px; height: 18px; }
+  #projects .project-tech-detail { gap: 11px; padding: 16px 18px; }
+  .project-tech-detail__emblem { width: 36px; height: 36px; border-radius: 9px; }
   #projects .project-case-study { margin-top: 45px; }
   .project-case-study__overview { grid-template-columns: minmax(0, 1fr); padding: 25px; }
   .project-destination { padding: 23px 0 0; border-left: 0; border-top: 1px dashed #b6ac9c; }
@@ -140,5 +246,9 @@
 @media (prefers-reduced-motion: reduce) {
   #projects .project-filters button, #projects .project-filters button svg, #projects .project-links a,
   .project-links a > svg, .project-note--features, .project-collection__bar, .project-index-label, .projects-backdrop__glyph { transition: none; }
+  #projects .project-collection, #projects .project-collection__bar, #projects .project-collection .project-toolkit,
+  #projects .project-collection .project-toolkit__heading > span:first-child, #projects .project-collection .project-toolkit__mark,
+  #projects .project-collection__identity, .project-collection__identity > svg,
+  .project-tech-detail__emblem { transition: none; }
 }
-/* END OF FILE: PORTFOLIO-REFINE-R6 | ProjectGallery.css */
+/* END OF FILE: PORTFOLIO-SELF-CASE-STUDY-R4 */

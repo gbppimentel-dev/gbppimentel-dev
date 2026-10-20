@@ -1,4 +1,4 @@
-# CHANGE VERSION: HEARTS-PAGES-R1 | 2026-10-20 | Complete deploy.yml
+# CHANGE VERSION: HEARTS-CLOUDFLARE-R5 | GitHub Pages heart API configuration
 name: Deploy portfolio to GitHub Pages
 
 on:
@@ -38,6 +38,7 @@ jobs:
         env:
           # Empty base_path becomes /; a project path becomes /repository/.
           VITE_BASE_PATH: ${{ format('{0}/', steps.pages.outputs.base_path) }}
+          VITE_HEARTS_API_URL: ${{ vars.VITE_HEARTS_API_URL }}
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
       - name: Upload built site
@@ -58,4 +59,4 @@ jobs:
       - name: Publish GitHub Pages site
         id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5
-# END OF FILE: HEARTS-PAGES-R1 | deploy.yml
+# END OF FILE: HEARTS-CLOUDFLARE-R5

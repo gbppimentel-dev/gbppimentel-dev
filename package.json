@@ -9,7 +9,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "hearts:setup": "node scripts/hearts/setup.mjs",
+    "hearts:dev": "npm --prefix cloudflare/hearts run dev"
   },
   "dependencies": {
     "fdir": "^6.5.0",

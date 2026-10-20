@@ -1,0 +1,13 @@
+# CHANGE VERSION: HEARTS-CLOUDFLARE-R5
+node_modules/
+.wrangler/
+.migration/
+.dev.vars
+.dev.vars.*
+.env
+.env.*
+!.env.example
+*.export.sql
+*.export.json
+*.export.csv
+# END OF FILE: HEARTS-CLOUDFLARE-R5

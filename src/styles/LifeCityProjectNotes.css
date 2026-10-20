@@ -1,0 +1,238 @@
+/* CHANGE VERSION: PORTFOLIO-LIFECITY-PORTAL-R2 | LifeCity's own visual identity inside its case-study portal */
+@property --lcs-frame-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+
+#projects .project-case-study.project-case-study--lifecity {
+  border: 1px solid #d6e7df;
+  border-radius: 28px;
+  background: #f7faf9;
+  color: #173e37;
+  box-shadow: 0 22px 70px rgb(19 67 54 / .13);
+}
+#projects .project-case-study--lifecity > .project-case-study__bar {
+  min-height: 44px;
+  border-bottom: 1px solid #d6e7df;
+  background: #edf5ef;
+  color: #456d63;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 600;
+}
+#projects .project-case-study--lifecity > .project-case-study__bar > span:last-child { color: #60796f; }
+
+#projects .lifecity-study {
+  --lcs-primary: #147d73;
+  --lcs-heading: #173e37;
+  --lcs-text: #456d63;
+  --lcs-muted: #60796f;
+  --lcs-line: #d6e7df;
+  position: relative;
+  isolation: isolate;
+  padding: 0 clamp(24px, 3vw, 43px) clamp(28px, 3.5vw, 48px);
+  background: radial-gradient(ellipse at 0 0, #e5f5ef, transparent 45%), radial-gradient(ellipse at 100% 17%, #f1edfa, transparent 50%), radial-gradient(ellipse at 50% 100%, #fff4dd, transparent 45%), #f7faf9;
+  color: var(--lcs-text);
+  font: 400 14px/1.65 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  letter-spacing: normal;
+  text-transform: none;
+}
+#projects .lifecity-study *, #projects .lifecity-study *::before, #projects .lifecity-study *::after { box-sizing: border-box; }
+#projects .lifecity-study * { font-family: inherit; }
+#projects .lifecity-study :is(h3, h4, p, dl, dt, dd, ul, figure) { margin: 0; }
+#projects .lifecity-study :is(button, a) { font-family: inherit; letter-spacing: normal; text-transform: none; }
+#projects .lifecity-study .lcs-icon { display: block; flex: none; width: 20px; height: 20px; }
+#projects .lifecity-study :is(a, button):focus-visible { outline: 3px solid #8f7cd1; outline-offset: 4px; }
+#projects .lifecity-study .lcs-title:focus { outline: none; }
+
+#projects .lifecity-study .lcs-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  min-height: 97px;
+  padding-block: 20px;
+}
+#projects .lifecity-study .lcs-brand { display: inline-flex; align-items: center; gap: 12px; min-width: 0; color: #173e37; }
+#projects .lifecity-study .lcs-brand strong { font-size: 17px; font-weight: 650; letter-spacing: -.035em; }
+#projects .lifecity-study .lcs-brand__mark {
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  border: 1px solid #128176;
+  border-radius: 11px;
+  background: linear-gradient(145deg, #1a9d90, #15867c 68%, #116d66);
+  color: #fff;
+  box-shadow: 3px 4px 0 rgb(20 120 111 / .15);
+}
+#projects .lifecity-study .lcs-brand__mark::before, #projects .lifecity-study .lcs-brand__mark::after { content: ''; position: absolute; border: 2px solid #fff; border-radius: 50%; }
+#projects .lifecity-study .lcs-brand__mark::before { top: -4px; right: -4px; width: 10px; height: 10px; background: #e6ad4c; }
+#projects .lifecity-study .lcs-brand__mark::after { bottom: -4px; left: -4px; width: 8px; height: 8px; background: #8f7cd1; }
+#projects .lifecity-study .lcs-status { display: inline-flex; align-items: center; gap: 8px; color: #60796f; font-size: 11px; line-height: 1.5; }
+#projects .lifecity-study .lcs-status i { width: 7px; height: 7px; flex: none; border-radius: 50%; background: #529d7b; box-shadow: 0 0 0 4px #e4f0e8; }
+
+#projects .lifecity-study .lcs-welcome {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(280px, .82fr);
+  align-items: center;
+  gap: clamp(24px, 3vw, 44px);
+  padding: clamp(27px, 3.8vw, 48px);
+  border: 3px solid transparent;
+  border-radius: 30px;
+  background: linear-gradient(120deg, #f1faf6, #f5f2fc) padding-box, conic-gradient(from var(--lcs-frame-angle), #8ac7b5, #b8a4dc, #edce83, #8ac7b5) border-box;
+  box-shadow: 0 16px 45px rgb(43 110 76 / .05);
+  overflow: hidden;
+}
+#projects .lifecity-study .lcs-welcome__copy { position: relative; z-index: 1; min-width: 0; }
+#projects .lifecity-study .lcs-eyebrow { display: block; margin-bottom: 16px; color: #40887b; font-size: 10px; line-height: 1.5; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; }
+#projects .lifecity-study h3.lcs-title { margin: 0 0 21px; color: #234a44; font: 750 clamp(37px, 4.5vw, 62px)/1.08 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; letter-spacing: -.045em; overflow-wrap: normal; word-break: normal; }
+#projects .lifecity-study .lcs-title > span { display: block; color: #234a44; }
+#projects .lifecity-study .lcs-title > span:last-child { color: #7964ad; }
+#projects .lifecity-study .lcs-lead { max-width: 500px; color: #315b53; font-size: 16px; line-height: 1.7; font-weight: 500; }
+#projects .lifecity-study .lcs-summary { max-width: 510px; margin-top: 14px; color: #60796f; font-size: 13px; line-height: 1.85; }
+#projects .lifecity-study .lcs-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 11px; margin-top: 27px; }
+#projects .lifecity-study a.lcs-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 48px;
+  margin: 0;
+  padding: 12px 15px;
+  border: 1px solid #cfe4df;
+  border-radius: 13px;
+  background: #fff;
+  color: #315b53;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-decoration: none;
+  box-shadow: 0 4px 0 #e1efeb;
+  transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease, border-color .25s ease;
+}
+#projects .lifecity-study .lcs-button .lcs-icon { width: 16px; height: 16px; transition: transform .25s ease; }
+#projects .lifecity-study a.lcs-button--primary { border-color: #147d73; background: #147d73; color: #fff; }
+#projects .lifecity-study a.lcs-button--secondary { background: #fff; color: #315b53; }
+#projects .lifecity-study .lcs-facts { position: relative; min-width: 0; padding: 17px 0; }
+#projects .lifecity-study .lcs-orbit { position: absolute; inset: 0; width: 100%; height: 100%; color: #bddcd2; opacity: .8; pointer-events: none; }
+#projects .lifecity-study .lcs-facts dl { position: relative; display: grid; gap: 16px; margin: 0; padding: 0 7px; }
+#projects .lifecity-study .lcs-fact { display: flex; align-items: center; gap: 14px; min-width: 0; min-height: 84px; padding: 17px 19px; border: 1px solid #d1e5de; border-radius: 19px; background: #fff; box-shadow: 5px 7px 0 rgb(55 111 100 / .06); }
+#projects .lifecity-study .lcs-fact--0 { margin-right: 15px; }
+#projects .lifecity-study .lcs-fact--1 { margin-left: 16px; border-color: #dfd4ef; background: #f1ecfb; }
+#projects .lifecity-study .lcs-fact--2 { margin-right: 5px; border-color: #eedbab; background: #fff4d9; }
+#projects .lifecity-study .lcs-fact__icon { display: grid; flex: none; place-items: center; width: 40px; height: 40px; border-radius: 13px; background: #e9f6ef; color: #398477; }
+#projects .lifecity-study .lcs-fact--1 .lcs-fact__icon { background: #e8e0f5; color: #7964ad; }
+#projects .lifecity-study .lcs-fact--2 .lcs-fact__icon { background: #f7e8bd; color: #986a21; }
+#projects .lifecity-study .lcs-fact > div { min-width: 0; }
+#projects .lifecity-study .lcs-fact dt { margin-bottom: 4px; color: #60796f; font-size: 10px; font-weight: 500; line-height: 1.5; }
+#projects .lifecity-study .lcs-fact dd { color: #315b53; font-size: 13px; font-weight: 600; line-height: 1.6; overflow-wrap: break-word; }
+
+#projects .lifecity-study .lcs-story, #projects .lifecity-study .lcs-screens { margin-top: clamp(34px, 4vw, 52px); }
+#projects .lifecity-study .lcs-section-heading { margin-bottom: 22px; }
+#projects .lifecity-study .lcs-section-heading small { display: block; margin-bottom: 9px; color: #60796f; font-size: 10px; font-weight: 650; line-height: 1.5; letter-spacing: .15em; }
+#projects .lifecity-study .lcs-section-heading h4 { color: #203c38; font: 650 clamp(25px, 2.8vw, 37px)/1.2 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; letter-spacing: -.04em; }
+#projects .lifecity-study .lcs-workspace { display: grid; grid-template-columns: minmax(210px, .72fr) minmax(0, 1.65fr); gap: 24px; align-items: stretch; }
+#projects .lifecity-study .lcs-index { display: flex; flex-direction: column; justify-content: center; gap: 0; min-width: 0; padding: 10px 0; border-block: 1px solid #d6dcd4; }
+#projects .lifecity-study button.lcs-tab { display: flex; align-items: center; gap: 11px; width: 100%; min-height: 77px; margin: 0; padding: 15px 13px; border: 0; border-bottom: 1px solid #d6dcd4; border-radius: 0; background: transparent; color: #315b53; font-size: 13px; line-height: 1.5; text-align: left; cursor: pointer; box-shadow: none; transform: none; transition: background-color .25s ease, color .25s ease; }
+#projects .lifecity-study button.lcs-tab:last-child { border-bottom: 0; }
+#projects .lifecity-study .lcs-tab__number { display: grid; flex: none; place-items: center; width: 25px; height: 25px; color: #789086; font-size: 10px; font-weight: 500; }
+#projects .lifecity-study .lcs-tab > .lcs-icon { width: 18px; height: 18px; flex: none; color: #668d7f; }
+#projects .lifecity-study .lcs-tab > .lcs-icon:last-child { width: 14px; height: 14px; margin-left: auto; opacity: .5; transition: transform .25s ease, opacity .25s ease; }
+#projects .lifecity-study .lcs-tab__label { flex: 1; min-width: 0; font-weight: 600; }
+#projects .lifecity-study button.lcs-tab[aria-selected='true'] { background: #e0eacb; color: #203c38; }
+#projects .lifecity-study .lcs-tab[aria-selected='true'] .lcs-tab__number { color: #47735e; }
+#projects .lifecity-study .lcs-tab[aria-selected='true'] > .lcs-icon:last-child { opacity: 1; }
+#projects .lifecity-study .lcs-inspector { position: relative; isolation: isolate; display: flex; flex-direction: column; min-width: 0; padding: clamp(25px, 3vw, 37px); border: 1px solid #153f38; border-radius: 20px; background: #153f38; color: #fff; overflow: hidden; }
+#projects .lifecity-study .lcs-inspector__orbit { position: absolute; z-index: -1; top: -95px; right: -95px; width: 270px; height: 270px; border: 1px solid #ffffff15; border-radius: 50%; box-shadow: 0 0 0 25px #ffffff06, 0 0 0 50px #ffffff04; pointer-events: none; }
+#projects .lifecity-study .lcs-inspector__position { position: relative; display: block; margin-bottom: 23px; color: #d8ebac; font-size: 10px; line-height: 1.5; letter-spacing: .16em; }
+#projects .lifecity-study .lcs-inspector__body { position: relative; flex: 1; min-height: 290px; }
+#projects .lifecity-study .lcs-inspector__body:focus-visible { outline: 3px solid #b8a4dc; outline-offset: 7px; border-radius: 4px; }
+#projects .lifecity-study .lcs-panel { width: 100%; min-width: 0; }
+#projects .lifecity-study .lcs-panel h4 { margin: 0 0 17px; color: #fff; font: 650 clamp(26px, 2.6vw, 34px)/1.2 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; letter-spacing: -.035em; }
+#projects .lifecity-study .lcs-panel p { max-width: 650px; margin: 0; color: #e0e9e3; font-size: 14px; line-height: 1.9; font-weight: 400; }
+#projects .lifecity-study ul.lcs-features { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px 21px; list-style: none; margin: 0; padding: 0; }
+#projects .lifecity-study .lcs-features li { display: flex; align-items: flex-start; gap: 10px; min-width: 0; padding: 0; color: #e0e9e3; font-size: 12px; font-weight: 400; line-height: 1.75; }
+#projects .lifecity-study .lcs-features li > .lcs-icon { width: 16px; height: 16px; margin-top: 3px; color: #d8ebac; }
+#projects .lifecity-study .lcs-inspector__footer { position: relative; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-top: 25px; padding-top: 17px; border-top: 1px solid #ffffff26; }
+#projects .lifecity-study .lcs-inspector__footer > span { color: #a6c6b6; font-size: 10px; line-height: 1.5; letter-spacing: .08em; }
+#projects .lifecity-study button.lcs-next { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 38px; margin: 0; padding: 8px 10px; border: 1px solid #ffffff29; border-radius: 9px; background: #ffffff08; color: #e5efd9; font-size: 11px; font-weight: 500; line-height: 1.5; cursor: pointer; box-shadow: none; transform: none; transition: background-color .25s ease, border-color .25s ease; }
+#projects .lifecity-study .lcs-next .lcs-icon { width: 15px; height: 15px; transition: transform .25s ease; }
+
+#projects .lifecity-study .lcs-screen-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 21px; align-items: stretch; }
+#projects .lifecity-study .lcs-screen { min-width: 0; margin: 0; border: 1px solid #d6e7df; border-radius: 20px; background: #fff; box-shadow: 0 10px 25px rgb(49 91 83 / .04); overflow: hidden; }
+#projects .lifecity-study .lcs-screen__chrome { display: flex; align-items: center; justify-content: space-between; gap: 15px; min-height: 39px; padding: 11px 16px; border-bottom: 1px solid #d6e7df; background: #edf5ef; color: #60796f; font-size: 9px; font-weight: 500; line-height: 1.5; letter-spacing: .09em; }
+#projects .lifecity-study .lcs-screen:nth-child(2) .lcs-screen__chrome { background: #f1edfa; border-bottom-color: #e1d9ee; }
+#projects .lifecity-study a.lcs-screen__image { position: relative; display: block; height: 280px; padding: 10px; background: #f4f9f6; color: #315b53; text-decoration: none; overflow: hidden; }
+#projects .lifecity-study .lcs-screen:nth-child(2) a.lcs-screen__image { background: #f6f4fa; }
+#projects .lifecity-study .lcs-screen__image img { display: block; width: 100%; height: 100%; border: 0; border-radius: 8px; object-fit: contain; transform: none; transition: transform .4s cubic-bezier(.16,1,.3,1); }
+#projects .lifecity-study .lcs-screen__expand { position: absolute; right: 16px; bottom: 16px; display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid #cfe4df; border-radius: 11px; background: #fffffff2; color: #315b53; box-shadow: 0 3px 8px rgb(49 91 83 / .08); transition: background-color .25s ease, transform .25s ease; }
+#projects .lifecity-study .lcs-screen__expand .lcs-icon { width: 17px; height: 17px; }
+#projects .lifecity-study .lcs-screen figcaption { min-height: 83px; padding: 17px 19px; border-top: 1px solid #e1ebe5; color: #60796f; font-size: 11px; font-weight: 400; line-height: 1.8; }
+
+#projects .lifecity-study[data-motion='full'] .lcs-welcome { animation: lcs-frame-orbit 16s linear infinite; }
+#projects .lifecity-study[data-motion='full'] .lcs-orbit { animation: lcs-orbit-breathe 8s ease-in-out infinite; }
+#projects .lifecity-study[data-motion='full'][data-in-view='false'] .lcs-welcome,
+#projects .lifecity-study[data-motion='full'][data-in-view='false'] .lcs-orbit { animation-play-state: paused; }
+@keyframes lcs-frame-orbit { to { --lcs-frame-angle: 360deg; } }
+@keyframes lcs-orbit-breathe { 0%, 100% { opacity: .65; transform: scale(.96); } 50% { opacity: .9; transform: scale(1); } }
+@media (hover: hover) and (pointer: fine) {
+  #projects .lifecity-study a.lcs-button:hover { color: #315b53; text-decoration: none; transform: translateY(-2px); border-color: #82c9bc; box-shadow: 0 6px 0 #e1efeb, 0 12px 24px rgb(33 107 89 / .06); }
+  #projects .lifecity-study a.lcs-button--primary:hover { background: #0e655c; color: #fff; border-color: #0e655c; }
+  #projects .lifecity-study .lcs-button:hover > .lcs-icon:last-child { transform: translate(2px, -2px); }
+  #projects .lifecity-study button.lcs-tab:hover { background: #e9eee0; }
+  #projects .lifecity-study button.lcs-tab[aria-selected='true']:hover { background: #dbe6c5; }
+  #projects .lifecity-study .lcs-tab:hover > .lcs-icon:last-child { opacity: 1; transform: translate(2px, -2px); }
+  #projects .lifecity-study button.lcs-next:hover { background: #ffffff13; border-color: #a3bd99; }
+  #projects .lifecity-study .lcs-next:hover .lcs-icon { transform: translateX(3px); }
+  #projects .lifecity-study a.lcs-screen__image:hover img { transform: scale(1.025); }
+  #projects .lifecity-study .lcs-screen__image:hover .lcs-screen__expand { transform: translate(1px, -2px); background: #fff; }
+}
+#projects .lifecity-study a.lcs-button:active { transform: translateY(1px); box-shadow: 0 1px 0 #e1efeb; }
+
+@media (max-width: 1100px) {
+  #projects .lifecity-study .lcs-welcome { grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr); gap: 24px; padding: 27px; }
+  #projects .lifecity-study h3.lcs-title { font-size: 43px; }
+  #projects .lifecity-study .lcs-fact { gap: 11px; padding: 15px; }
+  #projects .lifecity-study .lcs-fact dd { font-size: 12px; }
+  #projects .lifecity-study .lcs-workspace { grid-template-columns: 225px minmax(0, 1fr); gap: 20px; }
+  #projects .lifecity-study button.lcs-tab { padding-inline: 9px; gap: 8px; font-size: 12px; }
+  #projects .lifecity-study .lcs-tab__number { width: 20px; }
+  #projects .lifecity-study .lcs-inspector { padding: 25px; }
+  #projects .lifecity-study .lcs-features li { font-size: 11px; gap: 8px; }
+  #projects .lifecity-study ul.lcs-features { gap: 15px; }
+  #projects .lifecity-study a.lcs-screen__image { height: 240px; }
+}
+@media (max-width: 850px) {
+  #projects .lifecity-study .lcs-welcome { grid-template-columns: minmax(0, 1fr); }
+  #projects .lifecity-study .lcs-facts { max-width: 480px; width: 100%; margin: 0 auto; }
+  #projects .lifecity-study .lcs-workspace { grid-template-columns: minmax(0, 1fr); }
+  #projects .lifecity-study .lcs-index { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0; }
+  #projects .lifecity-study button.lcs-tab { min-height: 62px; padding-inline: 12px; }
+  #projects .lifecity-study button.lcs-tab:last-child { border-bottom: 1px solid #d6dcd4; }
+}
+@media (max-width: 600px) {
+  #projects .lifecity-study { padding-inline: 18px; }
+  #projects .lifecity-study .lcs-topbar { align-items: flex-start; flex-direction: column; gap: 16px; padding-block: 22px; }
+  #projects .lifecity-study .lcs-welcome { padding: 24px 20px; border-radius: 23px; }
+  #projects .lifecity-study h3.lcs-title { font-size: 39px; }
+  #projects .lifecity-study .lcs-lead { font-size: 15px; }
+  #projects .lifecity-study .lcs-actions { align-items: stretch; flex-direction: column; }
+  #projects .lifecity-study .lcs-actions a { justify-content: flex-start; }
+  #projects .lifecity-study .lcs-actions a > .lcs-icon:last-child { margin-left: auto; }
+  #projects .lifecity-study .lcs-screen-grid { grid-template-columns: minmax(0, 1fr); }
+  #projects .lifecity-study ul.lcs-features { grid-template-columns: minmax(0, 1fr); }
+  #projects .lifecity-study .lcs-features li { font-size: 12px; }
+  #projects .lifecity-study .lcs-inspector__body { min-height: 290px; }
+  #projects .lifecity-study .lcs-index { grid-template-columns: minmax(0, 1fr); }
+}
+#projects .lifecity-study[data-motion='reduced'] *, #projects .lifecity-study[data-motion='reduced'] *::before, #projects .lifecity-study[data-motion='reduced'] *::after { animation: none; transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  #projects .lifecity-study *, #projects .lifecity-study *::before, #projects .lifecity-study *::after { animation: none !important; transition: none !important; }
+  #projects .lifecity-study a.lcs-button:hover, #projects .lifecity-study a.lcs-button:active,
+  #projects .lifecity-study .lcs-button:hover > .lcs-icon:last-child,
+  #projects .lifecity-study .lcs-tab:hover > .lcs-icon:last-child,
+  #projects .lifecity-study .lcs-next:hover .lcs-icon,
+  #projects .lifecity-study a.lcs-screen__image:hover img,
+  #projects .lifecity-study .lcs-screen__image:hover .lcs-screen__expand { transform: none; }
+}
+/* END OF FILE: PORTFOLIO-LIFECITY-PORTAL-R2 | LifeCityProjectNotes.css */
