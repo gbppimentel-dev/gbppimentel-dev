@@ -1,4 +1,4 @@
-/* CHANGE VERSION: ADAPTIVE-COLORS-R1 | Synchronized palette fades across the existing site */
+/* CHANGE VERSION: ABOUT-PROFILE-R2 | 2026-10-20 | Complete App.jsx */
 import { useEffect, useRef, useState } from "react";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
@@ -6,16 +6,20 @@ import About from "./components/About";
 import Footer, { Contact } from "./components/Footer";
 import CursorEffects from "./components/CursorEffects";
 import Projects from "./components/Projects";
-import Awards from "./components/Awards";
+import NetSuite from "./components/NetSuite";
 import PageLoader from "./components/PageLoader";
+import BackToTop from "./components/BackToTop";
 import { createColorTransition, publishAdaptiveAccent } from './utils/adaptiveColors';
 
 const slideBrandColors = ['--amber', '--coral', '--blue'];
 const slideStrapColors = ['#d8b97c', '#d79998', '#93aec6'];
-const readTarget = () => window.location.hash.slice(1) || "home";
+// Preserve old bookmarks while the former page is replaced by NetSuite.
+const canonicalTarget = target => target === "awards" ? "netsuite" : target;
+const pageForTarget = target => target === "projects" || target === "netsuite" ? target : "home";
+const readTarget = () => canonicalTarget(window.location.hash.slice(1) || "home");
 const readPage = () => {
   const target = readTarget();
-  return target === "projects" || target === "awards" ? target : "home";
+  return pageForTarget(target);
 };
 
 export default function App() {
@@ -97,8 +101,8 @@ export default function App() {
       }
       if (destination.origin !== window.location.origin || destination.pathname !== window.location.pathname) return;
 
-      const target = destination.hash.slice(1);
-      const nextPage = target === "projects" || target === "awards" ? target : "home";
+      const target = canonicalTarget(destination.hash.slice(1));
+      const nextPage = pageForTarget(target);
       if (nextPage !== pageRef.current) showLoaderNow();
     };
     const syncLocation = () => {
@@ -183,12 +187,13 @@ export default function App() {
         </>
       ) : (
         <main className="secondary-page">
-          {page === "projects" ? <Projects /> : <Awards />}
-          <Footer />
+          {page === "projects" ? <Projects /> : <NetSuite />}
+          <Footer showBackToTop={false} />
         </main>
       )}
+      <BackToTop disabled={loaderVisible} />
     </>
   );
 }
 
-/* END OF FILE: ADAPTIVE-COLORS-R1 | App.jsx */
+/* END OF FILE: ABOUT-PROFILE-R2 | App.jsx */

@@ -1,0 +1,56 @@
+/* CHANGE VERSION: HEARTS-PAGES-R1 | 2026-10-20 | Compact footer appreciation */
+#site-footer.sub-footer .footer-hearts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px 13px;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  color: var(--text, #f2e9d6);
+}
+#site-footer .footer-hearts__copy { min-width: 0; }
+#site-footer .footer-hearts__copy > p {
+  margin: 0 0 3px;
+  color: #f2e9d6;
+  font: 400 12px/1.35 'Poppins', sans-serif;
+  letter-spacing: -.02em;
+}
+#site-footer .footer-hearts__copy strong {
+  color: var(--brand-accent, #d8b97c);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+#site-footer .footer-hearts__status {
+  display: block;
+  max-width: 230px;
+  color: var(--muted, #aaa8a7);
+  font: 400 9px/1.5 'Poppins', sans-serif;
+}
+#site-footer .footer-hearts .pulse-heart { flex: 0 0 auto; min-height: 44px; }
+#site-footer .footer-hearts .pulse-heart__pill {
+  border: 1px solid rgb(242 233 214 / .2);
+  box-shadow: 3px 3px 0 #080c13;
+}
+#site-footer .footer-hearts__retry {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin: 0;
+  padding: 6px 9px;
+  border: 1px dashed rgb(242 233 214 / .4);
+  border-radius: 7px;
+  color: var(--brand-accent, #d8b97c);
+  background: transparent;
+  font: 500 10px/1.4 'Poppins', sans-serif;
+  cursor: pointer;
+}
+#site-footer .footer-hearts__retry:focus-visible { outline: 2px solid var(--brand-accent, #d8b97c); outline-offset: 4px; }
+@media (max-width: 767px) {
+  #site-footer.sub-footer > .container { display: flex; flex-wrap: wrap; align-items: center; gap: 17px 24px; }
+  #site-footer.sub-footer .footer-hearts { margin: 0; }
+}
+/* END OF FILE: HEARTS-PAGES-R1 | footer-hearts.css */

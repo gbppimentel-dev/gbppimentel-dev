@@ -1,4 +1,4 @@
-// CHANGE VERSION: HERO-PLAYGROUND-R4 | 2026-10-16 | Complete Hero.jsx
+// CHANGE VERSION: HERO-REFINE-R6 | 2026-10-20 | Complete Hero.jsx
 import { useEffect, useRef, useState } from 'react';
 import MorphNumber from './MorphNumber';
 import SocialLinks from './SocialLinks';
@@ -6,7 +6,6 @@ import TerminalText from './TerminalText';
 import TechText from './TechText';
 import SlideTwoText from './SlideTwoText';
 import HeroWorkbench from './HeroWorkbench';
-import HeroArtwork from './HeroArtwork';
 import DecryptedText from './DecryptedText';
 import BlurText from './BlurText';
 import { HERO_SLIDE_DELAY, useHeroPlayback } from '../utils/heroPlayback';
@@ -90,7 +89,6 @@ function HeroPlayground({ number }) {
     <div className="hero-play-dots" />
     <svg className="hero-play-registration" viewBox="0 0 1200 800" preserveAspectRatio="none" focusable="false"><path d="M35 75V35h40m1050 0h40v40M35 725v40h40m1050 0h40v-40" /><path d="M15 55h40M35 15v40m1110 0h40m-20-40v40M15 745h40m-20 0v40m1110-40h40m-20 0v40" /></svg>
     <svg className="hero-play-orbit" viewBox="0 0 600 420" focusable="false"><path d="M109 307C-34 120 414-68 532 72S248 406 165 295s212-164 231-61" /><path d="m379 222 20 15 9-23M76 151l12 9m-7-20 3 22m373-50 11 9m-7-20 3 22" /></svg>
-    <HeroArtwork number={number} />
   </div>;
 }
 
@@ -176,12 +174,13 @@ export default function Hero({ onActiveSlideChange }) {
             <Background number={1} />
             <HeroPlayground number={1} />
             <div className="container hero-copy">
-              <p className="hero-eyebrow" data-swiper-parallax="-100">DEVELOPMENT + DESIGN + ERP SOLUTIONS</p>
               <div className="hero-print-title-sheet">
-              <span className="hero-print-sheet-tag" aria-hidden="true"><span>WORK</span><svg viewBox="0 0 40 24" focusable="false"><path d="M2 12h34m-9-8 9 8-9 8" /></svg><span>IN PLAY</span></span>
+              <p className="hero-eyebrow">DEVELOPMENT + DESIGN + ERP SOLUTIONS</p>
+              <div className="hero-print-title-body">
               <h1 className="brand-heading" data-swiper-parallax="-300"><TechText text="gbppimentel-dev." suffix="-dev." /></h1>
               <p className="hero-byline" data-swiper-parallax="-150">by <em>Glenn Bernard Pimentel</em></p>
               <div className="hero-skill-patches" aria-hidden="true"><span><b>{'{ }'}</b> develop</span><span><b>✳</b> design</span><span><b>↗</b> connect</span></div>
+              </div>
               </div>
               <p className="hero-code hero-terminal" data-swiper-parallax="-200"><span className="hero-terminal-accessible">{'System.out.println("software engineer, UI/UX, business consultant" );'}</span><TerminalText reduced={reduced}>
                 <span className="syntax-amber">System</span>.<span className="syntax-coral">out</span>.<span className="syntax-blue">println</span><span className="syntax-amber">{'('}</span><wbr />
@@ -195,9 +194,8 @@ export default function Hero({ onActiveSlideChange }) {
             <Background number={2} />
             <HeroPlayground number={2} />
             <div className="container hero-copy">
-              <p className="hero-eyebrow" data-swiper-parallax="-100">Code meets creativity.</p>
               <HeroWorkbench reduced={reduced}>
-              <div className="hero-workbench-top" aria-hidden="true"><span className="hero-workbench-dots"><i /><i /><i /></span><span>mode: make</span><svg viewBox="0 0 70 30" focusable="false"><path d="M4 8c18 28 43 12 43-2 0-8-15-4-8 8 6 9 18 8 26 0m-11-2 12 1-6 10" /></svg></div>
+              <p className="hero-eyebrow">Code meets creativity.</p>
               <SlideTwoText reduced={reduced} />
               </HeroWorkbench>
               <PrintDetails number={2} />
@@ -207,10 +205,10 @@ export default function Hero({ onActiveSlideChange }) {
             <Background number={3} />
             <HeroPlayground number={3} />
             <div className="container hero-copy hero-copy-three">
-              <p className="hero-eyebrow" data-swiper-parallax="-100">Built for business.</p>
               {/* A fresh keyed frame clears positions retained by live code updates. */}
-              <div key="hero-three-print-frame-r3" className="hero-three-frame" data-swiper-parallax="-220">
-              <div className="hero-code-stamp" aria-hidden="true"><span>IDEA → SYSTEM</span><span className="hero-code-stamp-symbol">✦</span></div>
+              <div key="hero-three-print-frame-r6" className="hero-three-frame" data-swiper-parallax="-220">
+              <p className="hero-eyebrow">Built for business.</p>
+              <div className="hero-three-frame-body">
               <div className="hero-three-code" role="group" aria-label="Design and development for connected ERP solutions">
                 <span className="hero-three-brace hero-three-brace-open" aria-hidden="true">{'{'}</span>
                 <code className="hero-three-code-text">
@@ -239,6 +237,7 @@ export default function Hero({ onActiveSlideChange }) {
                 </code>
               </div>
               </div>
+              </div>
               <PrintDetails number={3} />
               <BlurText key={slideThreeVisit} active={slide === 2} text="from concept → business impact." className="hero-three-byline" />
               <div className="hero-three-actions" data-swiper-parallax="-100">
@@ -257,7 +256,7 @@ export default function Hero({ onActiveSlideChange }) {
           </div></SwiperSlide>
         <div slot="container-end" className="hero-carousel-nav" role="group" aria-label="Slide controls">
           <CarouselControl direction="prev" label="PREV" />
-          <button type="button" className="hero-carousel-toggle" data-paused={paused} onClick={player.toggle} aria-label={paused ? 'Play slides' : 'Pause slides'} title={paused ? 'Play slides' : 'Pause slides'}>
+          <button type="button" className="hero-carousel-toggle" data-paused={paused} onClick={player.toggle} aria-label={paused ? 'Play slides' : 'Pause slides'}>
             <svg className="hero-toggle-play" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z" /></svg>
             <svg className="hero-toggle-pause" viewBox="0 0 320 512" aria-hidden="true" focusable="false"><path d="M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z" /></svg>
           </button>
@@ -268,4 +267,4 @@ export default function Hero({ onActiveSlideChange }) {
       {!reduced && <div className="hero-slide-timer" aria-hidden="true"><span ref={progressRef} className="hero-slide-timer-fill" /></div>}
     </header>;
 }
-// END OF FILE: HERO-PLAYGROUND-R4 | Hero.jsx
+// END OF FILE: HERO-REFINE-R6 | Hero.jsx

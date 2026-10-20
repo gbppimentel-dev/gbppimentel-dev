@@ -1,9 +1,10 @@
-/* CHANGE VERSION: CONTACT-STUDIO-R1 | Contact ribbon, inquiry studio and frontend message preview */
+/* CHANGE VERSION: HEARTS-PAGES-R1 | 2026-10-20 | Complete Footer.jsx */
 import { useEffect, useId, useRef, useState } from 'react';
 import { contact, socialLinks } from '../data';
 import { asset } from '../utils/assets';
 import Brand from './Brand';
 import TextLoop from './TextLoop';
+import FooterHearts from './FooterHearts';
 import '../styles/contact-studio.css';
 
 const inquiryTypes = [
@@ -143,7 +144,7 @@ export default function Footer({ showBackToTop = true }) {
     return () => window.removeEventListener('scroll', scroll);
   }, [showBackToTop]);
   return <>
-    <footer id="site-footer" className="sub-footer"><div className="container"><div className="footer-brand"><Brand /><small>© {new Date().getFullYear()} · Glenn Bernard Pimentel</small></div><ul>{socialLinks.map(({ name, href }) => <li key={name}><a href={href}>{name}</a></li>)}</ul></div></footer>
+    <footer id="site-footer" className="sub-footer"><div className="container"><div className="footer-brand"><Brand /><small>© {new Date().getFullYear()} · Glenn Bernard Pimentel</small></div><FooterHearts /><ul>{socialLinks.map(({ name, href }) => <li key={name}><a href={href}>{name}</a></li>)}</ul></div></footer>
     {showBackToTop && <button type="button" className={`back-to-top ${showTop ? 'is-visible' : ''}`} aria-label="Back to top" tabIndex={showTop ? 0 : -1}
       onClick={() => {
         const home = document.getElementById('home');
@@ -152,4 +153,4 @@ export default function Footer({ showBackToTop = true }) {
       }}><svg height="1.2em" className="arrow" viewBox="0 0 512 512" aria-hidden="true"><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z" /></svg></button>}
   </>;
 }
-/* END OF FILE: CONTACT-STUDIO-R1 | Footer.jsx */
+/* END OF FILE: HEARTS-PAGES-R1 | Footer.jsx */

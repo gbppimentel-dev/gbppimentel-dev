@@ -1,0 +1,209 @@
+/* CHANGE VERSION: NETSUITE-PROJECTS-R1 | Compact adaptive sling dock with room to stretch */
+.sling-button {
+  --sl-size: 56px;
+  --sl-svg: 90px;
+  --sl-pad: #f5f5f5;
+  --sl-icon: #18181b;
+  --sl-accent: #f5f5f5;
+  --sl-well: #27272a;
+  --sl-band: #52525b;
+  --sl-stroke: 3px;
+  --sl-dot: 8px;
+  --sl-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+
+  position: relative;
+  display: inline-block;
+  width: var(--sl-size);
+  height: var(--sl-size);
+}
+
+.sling-button__fx {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--sl-svg);
+  height: var(--sl-svg);
+  margin: calc(var(--sl-svg) / -2) 0 0 calc(var(--sl-svg) / -2);
+  overflow: visible;
+  pointer-events: none;
+  shape-rendering: geometricPrecision;
+}
+
+.sling-button__well {
+  fill: var(--sl-well);
+  transition: fill 200ms ease;
+}
+
+.sling-button[data-sent] .sling-button__well {
+  fill: var(--sl-accent);
+}
+
+.sling-button__band {
+  fill: none;
+  stroke: var(--sl-band);
+  stroke-width: var(--sl-stroke);
+  stroke-linecap: round;
+  transition: stroke-width 160ms var(--sl-ease-out);
+}
+
+.sling-button[data-armed] .sling-button__band {
+  stroke-width: calc(var(--sl-stroke) * 1.5);
+}
+
+.sling-button__band--hot {
+  stroke: var(--sl-accent);
+}
+
+.sling-button__arc {
+  fill: none;
+  stroke: var(--sl-accent);
+  stroke-width: var(--sl-stroke);
+  stroke-linecap: butt;
+  transition: stroke-width 160ms var(--sl-ease-out);
+}
+
+.sling-button[data-armed] .sling-button__arc {
+  stroke-width: calc(var(--sl-stroke) * 1.5);
+}
+
+.sling-button__move {
+  position: absolute;
+  inset: 0;
+}
+
+.sling-button__pad {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: grab;
+  outline: none;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sling-button__pad::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+}
+
+.sling-button__pad[data-held] {
+  cursor: grabbing;
+}
+
+.sling-button__pad[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.sling-button__face {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--sl-pad);
+  color: var(--sl-icon);
+  transition: transform 160ms var(--sl-ease-out);
+}
+
+.sling-button__pad[data-held] .sling-button__face {
+  transform: scale(0.97);
+}
+
+.sling-button__pad[data-armed] .sling-button__face {
+  transform: scale(1.04);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sling-button__pad:not([data-held]):not([aria-disabled='true']):hover .sling-button__face {
+    transform: scale(1.02);
+  }
+}
+
+.sling-button__icon {
+  display: inline-flex;
+  will-change: transform;
+}
+
+.sling-button__dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--sl-dot);
+  height: var(--sl-dot);
+  margin: calc(var(--sl-dot) / -2) 0 0 calc(var(--sl-dot) / -2);
+  border-radius: 50%;
+  background: var(--sl-accent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sling-button__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sling-button__face {
+    transform: none !important;
+    transition: none;
+  }
+}
+
+
+/* Keep this native button independent of the legacy .button hover faces. */
+.sling-button .sling-button__pad:focus-visible { outline: 3px solid var(--sl-accent); outline-offset: 12px; }
+.sling-button .sling-button__face { box-sizing: border-box; border: 2px solid #20222a; box-shadow: 0 4px 0 #090c12; }
+.sling-button .sling-button__pad { flex: none; text-transform: none; box-shadow: none; }
+.sling-button .sling-button__icon svg { display: block; flex: none; }
+.sling-button .sling-button__pad:disabled { cursor: default; }
+
+.sling-top-dock {
+  position: fixed; z-index: 7; right: calc(34px + env(safe-area-inset-right, 0px));
+  bottom: calc(clamp(130px, 18vh, 175px) + env(safe-area-inset-bottom, 0px)); width: 44px; height: 44px;
+  color: #f2e9d6; isolation: isolate; opacity: 0; visibility: hidden;
+  transform: translateY(18px) scale(.94); pointer-events: none;
+  transition: opacity 260ms ease, transform 360ms cubic-bezier(.2,.7,.2,1), visibility 0s linear 360ms;
+}
+.sling-top-dock[data-visible] { opacity: 1; visibility: visible; transform: none; pointer-events: auto; transition-delay: 0s; }
+.sling-top-dock .sling-top-tooltip {
+  position: absolute; right: calc(100% + 19px); bottom: 5px; width: max-content; max-width: min(240px, calc(100vw - 110px));
+  display: grid; gap: 3px; box-sizing: border-box; padding: 10px 13px; border: 1.5px solid rgb(242 233 214 / .45);
+  border-radius: 10px 10px 2px 10px; background: #20222a; color: #f2e9d6;
+  box-shadow: 3px 3px 0 #090c12; font: 500 12px/1.35 Roboto, sans-serif;
+  opacity: 0; transform: translateX(5px); pointer-events: none;
+  transition: opacity 180ms ease, transform 240ms ease;
+}
+.sling-top-tooltip strong { font: 700 12px/1.2 Poppins, sans-serif; color: var(--brand-accent, #d8b97c); }
+.sling-top-dock:hover .sling-top-tooltip, .sling-top-dock:focus-within .sling-top-tooltip,
+.sling-top-dock[data-held] .sling-top-tooltip { opacity: 1; transform: none; }
+.sling-top-dock[data-held] { z-index: 7; }
+@media (max-width: 767px) {
+  .sling-top-dock { right: calc(28px + env(safe-area-inset-right, 0px)); bottom: calc(clamp(128px, 20vh, 150px) + env(safe-area-inset-bottom, 0px)); }
+  .sling-top-dock .sling-top-tooltip { max-width: calc(100vw - 118px); font-size: 11px; }
+}
+@media (hover: none) {
+  .sling-top-dock:hover .sling-top-tooltip { opacity: 0; transform: translateX(5px); }
+  .sling-top-dock[data-held] .sling-top-tooltip, .sling-top-dock:focus-within .sling-top-tooltip { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sling-top-dock, .sling-top-dock .sling-top-tooltip, .sling-button .sling-button__icon { transition: none !important; transform: none !important; }
+}
+
+/* END OF FILE: NETSUITE-PROJECTS-R1 | SlingButton.css */

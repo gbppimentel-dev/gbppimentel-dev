@@ -1,19 +1,39 @@
-/* CHANGE VERSION: ID-COHERENT-HERO-R1 | Playful, paged About cards around the identity card */
+/* CHANGE VERSION: ABOUT-PROFILE-R2 | A finished profile grounded in real work, creative practice and NetSuite support */
 import { Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react';
 import { asset } from '../utils/assets';
-import { socialLinks } from '../data';
+import { projects, socialLinks } from '../data';
 import TextLoop from './TextLoop';
 import AboutCardDeck from './AboutCardDeck';
+import BranchedMenu from './BranchedMenu';
+import '../styles/AboutBranches.css';
 
 const loadLanyard = () => import('./Lanyard');
 const Lanyard = lazy(loadLanyard);
 const ID_CARD_SIZE = 0.67;
 const ID_STRAP_WIDTH = 0.56;
-const focusAreas = [
-  { id: 'development', code: '</>', title: 'Development', subtitle: 'Interfaces with purpose.', detail: 'Useful experiences, thoughtful interactions, and code that brings an idea to life.', tags: ['Web', 'Systems', 'Scripts'] },
-  { id: 'design', code: '✦', title: 'Design', subtitle: 'Clarity in every detail.', detail: 'Turning complex ideas into clear layouts, considered visuals, and intuitive flows.', tags: ['UI / UX', 'Visual design', 'Prototyping'] },
-  { id: 'erp', code: '{ }', title: 'ERP solutions', subtitle: 'The business behind the build.', detail: 'Connecting business requirements with practical workflows, automation, and ERP solutions.', tags: ['NetSuite', 'Workflows', 'Automation'] },
+
+// These short entries are real areas of practice. Each detail is a separate
+// measured block, so the deck can keep whole ideas together on smaller screens.
+export const aboutToolkitBranches = [
+  { label: 'Development', children: [
+    { value: 'interfaces', label: 'Web interfaces', detail: 'React, JavaScript, HTML and CSS: turning a layout into a working, responsive interface.', icon: <svg viewBox="0 0 20 20"><path d="m6 5-4 5 4 5m8-10 4 5-4 5M12 3 8 17" /></svg> },
+    { value: 'games', label: 'Games & interaction', detail: 'Python and Java game projects, combining code with original visuals, story and interaction.', icon: <svg viewBox="0 0 20 20"><rect x="2" y="5" width="16" height="11" rx="3" /><path d="M5 10h4M7 8v4m6-3v.1m2 3v.1" /></svg> },
+  ] },
+  { label: 'Design', children: [
+    { value: 'experience', label: 'UI / UX & prototypes', detail: 'Interface design and Figma prototypes that give a product a clear structure before the build.', icon: <svg viewBox="0 0 20 20"><rect x="2" y="3" width="16" height="14" rx="2" /><path d="M2 7h16M7 7v10" /></svg> },
+    { value: 'visuals', label: 'Visual design', detail: 'Freelance art and digital assets, using Photoshop, Illustrator and Procreate alongside my design work.', icon: <svg viewBox="0 0 20 20"><circle cx="7" cy="7" r="4" /><path d="M9 10h8v7H9z" /></svg> },
+  ] },
+  { label: 'NetSuite', children: [
+    { value: 'support', label: 'Technical support', detail: 'Investigating system behavior, understanding the business impact and explaining the next step clearly.', icon: <svg viewBox="0 0 20 20"><path d="M3 11V8a7 7 0 0 1 14 0v3M3 8H2v6h3V8H3Zm14 0h1v6h-3V8h2Zm0 6c0 3-4 3-6 3" /></svg> },
+    { value: 'workflows', label: 'Business workflows', detail: 'Connecting a business request with the process, records and workflow that sit behind it.', icon: <svg viewBox="0 0 20 20"><rect x="2" y="2" width="6" height="5" rx="1" /><rect x="12" y="13" width="6" height="5" rx="1" /><path d="M5 7v6h10m-3-3 3 3-3 3" /></svg> },
+  ] },
 ];
+
+const personalBuilds = [
+  { id: 'salt-and-light', copy: 'Faith and everyday goals, brought together in a gamified life tracker.' },
+  { id: 'lifecity-attendance', copy: 'A church attendance app for the LifeCity community.' },
+  { id: 'gbppimentel-dev', copy: 'An interactive home for my development, design and ERP work.' },
+].map(entry => ({ ...entry, project: projects.find(project => project.id === entry.id) })).filter(entry => entry.project);
 
 function SocialIcon({ name }) {
   return name === 'LinkedIn'
@@ -30,67 +50,79 @@ function Doodle({ kind = 'spark' }) {
   return <svg className={`about-doodle about-doodle--${kind}`} viewBox="0 0 40 40" aria-hidden="true"><path d={paths[kind]} /></svg>;
 }
 
+function ProfileProof({ meta, title, children }) {
+  return <div className="about-proof"><span className="about-proof__meta">{meta}</span><h4>{title}</h4><p>{children}</p></div>;
+}
+
+function ProfileLink({ href, children, pdf = false }) {
+  return <a className="about-profile-link" href={href} target={pdf ? '_blank' : undefined} rel={pdf ? 'noopener noreferrer' : undefined}>{children}<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5" /></svg></a>;
+}
+
 function Introduction() {
   const pages = useMemo(() => [
-    { id: 'human', label: 'The human', blocks: [
-      { id: 'human-kicker', content: <p className="about-intro-overline">BEHIND THE BUILD <Doodle /></p> },
+    { id: 'human', label: 'Meet Glenn', blocks: [
+      { id: 'human-kicker', content: <p className="about-intro-overline">THE PERSON BEHIND THE WORK <Doodle /></p> },
       { id: 'human-name', content: <div className="about-introduction"><h2><span>Glenn Bernard</span>Pimentel<span className="about-name-period">.</span></h2></div> },
-      { id: 'human-intro', content: <p className="about-intro-copy">I work where <em>code</em>, <em>design</em>, and <em>business systems</em> meet.</p> },
-      { id: 'human-roles', content: <div className="about-role-list" aria-label="Areas of practice"><span>Developer</span><span>Designer</span><span>ERP consultant</span></div> },
-      { id: 'human-note', content: <div className="about-small-note"><span className="about-note-prefix" aria-hidden="true">//</span><p>Thoughtful on the surface.<br /><strong>Connected underneath.</strong></p></div> },
+      { id: 'human-intro', content: <p className="about-intro-copy">I’m a software engineer and UI/UX designer with a creative background and experience in <em>NetSuite technical support</em>.</p> },
+      { id: 'human-roles', content: <div className="about-role-list" aria-label="Areas of practice"><span>Development</span><span>Design</span><span>ERP solutions</span></div> },
+      { id: 'human-note', content: <div className="about-profile-statement"><span aria-hidden="true">✦</span><p>From the interface people see<br />to the systems they work with.</p></div> },
     ] },
-    { id: 'approach', label: 'My approach', blocks: [
-      { id: 'approach-kicker', content: <p className="about-note-kicker">A LITTLE METHOD <Doodle kind="arrow" /></p> },
-      { id: 'approach-title', content: <h3 className="about-note-heading">Think it through.<br /><em>Make it click.</em></h3> },
-      { id: 'approach-intro', content: <p className="about-note-copy">A useful solution starts with the people and the problem behind it.</p> },
-      { id: 'approach-curious', content: <div className="about-principle"><span aria-hidden="true">01</span><p><strong>Stay curious.</strong><span>Understand the why before building the what.</span></p></div> },
-      { id: 'approach-clear', content: <div className="about-principle"><span aria-hidden="true">02</span><p><strong>Keep it clear.</strong><span>Make complex ideas easier to use.</span></p></div> },
-      { id: 'approach-connect', content: <div className="about-principle"><span aria-hidden="true">03</span><p><strong>Connect the dots.</strong><span>Bring the experience and the business together.</span></p></div> },
+    { id: 'foundations', label: 'My foundations', blocks: [
+      { id: 'foundations-kicker', content: <p className="about-note-kicker">LEARNING THROUGH MAKING <Doodle kind="plus" /></p> },
+      { id: 'foundations-title', content: <h3 className="about-note-heading">A creative eye.<br /><em>A technical foundation.</em></h3> },
+      { id: 'foundations-education', content: <ProfileProof meta="2023 / EDUCATION" title="Polytechnic University of the Philippines">Graduated Magna Cum Laude.</ProfileProof> },
+      { id: 'foundations-background', content: <p className="about-note-copy">My background spans front-end web work, freelance design and game projects. I bring that mix into how I build and troubleshoot.</p> },
+      { id: 'foundations-resume', content: <ProfileLink href={asset('Pimentel-Resume-IT.pdf')} pdf>Read my résumé</ProfileLink> },
     ] },
-    { id: 'off-clock', label: 'Off the clock', blocks: [
-      { id: 'off-clock-kicker', content: <p className="about-note-kicker">THE OTHER SIDE <Doodle kind="plus" /></p> },
-      { id: 'off-clock-title', content: <h3 className="about-note-heading">More than<br /><em>the work.</em></h3> },
-      { id: 'off-clock-intro', content: <p className="about-note-copy">A little room for the things that make me, me.</p> },
-      { id: 'off-clock-hobby', content: <p className="about-placeholder"><strong>Outside the screen</strong><span>Add a hobby or creative interest here.</span></p> },
-      { id: 'off-clock-repeat', content: <p className="about-placeholder"><strong>On repeat lately</strong><span>Add something you are reading, playing, or exploring.</span></p> },
-      { id: 'off-clock-note', content: <span className="about-note-placeholder-label">A few personal details, coming soon.</span> },
+    { id: 'creative', label: 'Creative practice', blocks: [
+      { id: 'creative-kicker', content: <p className="about-note-kicker">DESIGN / ART / INTERACTION <Doodle /></p> },
+      { id: 'creative-title', content: <h3 className="about-note-heading">I think in<br /><em>screens and stories.</em></h3> },
+      { id: 'creative-intro', content: <p className="about-note-copy">My freelance background includes UI/UX, website prototypes, game design and commissioned art.</p> },
+      { id: 'creative-origin', content: <ProfileProof meta="2022 / PYTHON" title="Origin University">Independently designed and programmed an educational visual novel, including its story, graphics and animations.</ProfileProof> },
+      { id: 'creative-deceit', content: <ProfileProof meta="2021 / JAVA" title="Deceit">Co-designed and programmed a horror visual novel with custom interface assets, characters and interactive gameplay.</ProfileProof> },
+      { id: 'creative-tools', content: <div className="about-profile-tools"><span>DESIGN TOOLS</span><div className="about-focus-tags"><span>Figma</span><span>Photoshop</span><span>Illustrator</span><span>Procreate</span></div></div> },
     ] },
   ], []);
 
   return <div className="about-wing about-wing--intro">
     <AboutCardDeck id="about-human" label="THE HUMAN" pages={pages} className="about-deck--intro" />
     <div className="about-links-panel">
-      <span className="about-panel-label">ELSEWHERE ON THE WEB</span>
+      <span className="about-panel-label">LET’S CONNECT</span>
       <div className="about-professional-links">{socialLinks.map(link => <a href={link.href} key={link.name} target="_blank" rel="noopener noreferrer"><SocialIcon name={link.name} /><span>{link.name}</span><span className="about-link-arrow" aria-hidden="true">↗</span></a>)}</div>
     </div>
   </div>;
 }
 
 function Workbench() {
+  const [toolkitSelection, setToolkitSelection] = useState(aboutToolkitBranches[0].children[0]);
   const pages = useMemo(() => [
-    ...focusAreas.map((area, index) => ({ id: area.id, label: area.title, blocks: [
-      { id: `${area.id}-kicker`, content: <p className="about-note-kicker">THE WORKBENCH / 0{index + 1} <Doodle kind={index === 1 ? 'spark' : 'plus'} /></p> },
-      { id: `${area.id}-title`, content: <h3 className="about-note-heading about-tool-heading"><span className="about-tool-symbol" aria-hidden="true">{area.code}</span>{area.title}</h3> },
-      { id: `${area.id}-subtitle`, content: <p className="about-tool-subtitle">{area.subtitle}</p> },
-      { id: `${area.id}-detail`, content: <p className="about-note-copy">{area.detail}</p> },
-      { id: `${area.id}-tags`, content: <div className="about-focus-tags">{area.tags.map(tag => <span key={tag}>{tag}</span>)}</div> },
-    ] })),
-    { id: 'process', label: 'How I work', blocks: [
-      { id: 'process-kicker', content: <p className="about-note-kicker">FROM IDEA TO IMPACT <Doodle kind="arrow" /></p> },
-      { id: 'process-title', content: <h3 className="about-note-heading">Less guesswork.<br /><em>More purpose.</em></h3> },
-      { id: 'process-find', content: <div className="about-process-step"><span className="about-process-step-number" aria-hidden="true">01</span><div><strong>Find the real need.</strong><p>Ask questions, map the context, and define what matters.</p></div></div> },
-      { id: 'process-shape', content: <div className="about-process-step"><span className="about-process-step-number" aria-hidden="true">02</span><div><strong>Shape the solution.</strong><p>Sketch the flow, build the pieces, and keep it practical.</p></div></div> },
-      { id: 'process-refine', content: <div className="about-process-step"><span className="about-process-step-number" aria-hidden="true">03</span><div><strong>Refine the details.</strong><p>Try it, learn from it, and make the experience clearer.</p></div></div> },
+    { id: 'toolkit', label: 'Explore my toolkit', blocks: [
+      { id: 'toolkit-kicker', content: <p className="about-branches-kicker"><span aria-hidden="true">↳</span> SKILLS, WITH CONTEXT <span aria-hidden="true">✦</span></p> },
+      { id: 'toolkit-menu', content: <BranchedMenu items={aboutToolkitBranches} defaultOpen={aboutToolkitBranches.findIndex(branch => branch.children.some(child => child.value === toolkitSelection.value))} defaultActive={toolkitSelection.value} singleOpen reserveOpenSpace rowHeight={26} fontSize={12} width={340} label="Glenn’s toolkit topics" className="about-toolkit-menu" onSelect={(_value, item) => setToolkitSelection(item)} /> },
+      { id: 'toolkit-preview', content: <div className="about-branch-preview" aria-live="polite" aria-atomic="true"><strong>{toolkitSelection.label}</strong><p>{toolkitSelection.detail}</p></div> },
     ] },
-    { id: 'next', label: 'Next up', blocks: [
-      { id: 'next-kicker', content: <p className="about-note-kicker">ALWAYS IN PROGRESS <Doodle /></p> },
-      { id: 'next-title', content: <h3 className="about-note-heading">A little curious.<br /><em>Still building.</em></h3> },
-      { id: 'next-intro', content: <p className="about-note-copy">A space for what I am learning and what I would love to build next.</p> },
-      { id: 'next-exploring', content: <p className="about-placeholder"><strong>Currently exploring</strong><span>Add a tool, skill, or idea you are learning.</span></p> },
-      { id: 'next-wishlist', content: <p className="about-placeholder"><strong>On the wish list</strong><span>Add a project or challenge you would love to take on.</span></p> },
-      { id: 'next-note', content: <span className="about-note-placeholder-label">Room for the next chapter.</span> },
+    { id: 'web-work', label: 'Web work', blocks: [
+      { id: 'web-kicker', content: <p className="about-note-kicker">FRONT-END / UI & UX <Doodle kind="plus" /></p> },
+      { id: 'web-title', content: <h3 className="about-note-heading">Useful interfaces.<br /><em>Real contexts.</em></h3> },
+      { id: 'web-blokc', content: <ProfileProof meta="2023 / INTERNSHIP" title="The BLOKC · UNBLOKC">Developed the event website’s UI/UX and front-end, using HTML, CSS and JavaScript.</ProfileProof> },
+      { id: 'web-scholars', content: <ProfileProof meta="2022–2023 / FRONT-END" title="PUP-STB Scholars Portal">Designed and built a front-end for scholars to submit requirements and documents to administrators.</ProfileProof> },
+      { id: 'web-stack', content: <div className="about-focus-tags" aria-label="Web technologies"><span>React</span><span>JavaScript</span><span>HTML / CSS</span></div> },
     ] },
-  ], []);
+    { id: 'personal-builds', label: 'Personal builds', blocks: [
+      { id: 'builds-kicker', content: <p className="about-note-kicker">PRODUCTS / COMMUNITIES <Doodle /></p> },
+      { id: 'builds-title', content: <h3 className="about-note-heading">Ideas I keep<br /><em>building.</em></h3> },
+      ...personalBuilds.map(({ id, copy, project }) => ({ id: `build-${id}`, content: <ProfileProof meta="PERSONAL PROJECT" title={project.title}>{copy}</ProfileProof> })),
+    ] },
+    { id: 'erp-support', label: 'NetSuite & support', blocks: [
+      { id: 'erp-kicker', content: <p className="about-note-kicker">ERP / BUSINESS SYSTEMS <Doodle kind="plus" /></p> },
+      { id: 'erp-title', content: <h3 className="about-note-heading">Technical work.<br /><em>Business context.</em></h3> },
+      { id: 'erp-intro', content: <p className="about-note-copy">I bring a developer’s eye to NetSuite support: understanding an issue, connecting the process and explaining the next step.</p> },
+      { id: 'erp-investigate', content: <div className="about-profile-practice"><span aria-hidden="true">01</span><p><strong>Investigate the behavior.</strong><span>Trace the steps and understand what the user needs.</span></p></div> },
+      { id: 'erp-translate', content: <div className="about-profile-practice"><span aria-hidden="true">02</span><p><strong>Connect the context.</strong><span>Relate technical findings to the business process.</span></p></div> },
+      { id: 'erp-explain', content: <div className="about-profile-practice"><span aria-hidden="true">03</span><p><strong>Make the handover clear.</strong><span>Document the outcome and the practical next step.</span></p></div> },
+      { id: 'erp-link', content: <ProfileLink href="#netsuite">Explore my NetSuite focus</ProfileLink> },
+    ] },
+  ], [toolkitSelection]);
   return <div className="about-wing about-wing--workbench">
     <AboutCardDeck id="about-work" label="THE WORK" pages={pages} className="about-deck--workbench" />
     <a href="#projects" className="about-work-link"><span>Explore the work</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7" /></svg></a>
@@ -160,4 +192,4 @@ export default function About({ strapColor = '#d8b97c' }) {
   <div className="about-scroll-hold" aria-hidden="true" />
   </>;
 }
-/* END OF FILE: ID-COHERENT-HERO-R1 | About.jsx */
+/* END OF FILE: ABOUT-PROFILE-R2 | About.jsx */

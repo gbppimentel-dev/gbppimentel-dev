@@ -1,4 +1,4 @@
-/* CHANGE VERSION: HERO-PLAYGROUND-R4 | 2026-10-16 | Complete HeroPrint.css */
+/* CHANGE VERSION: HERO-REFINE-R6 | 2026-10-20 | Complete HeroPrint.css */
 /* The existing photographic heroes become ink-and-paper compositions, like the ID. */
 
 #home.header.hero-print {
@@ -575,4 +575,244 @@
   #home.header.hero-print .swiper-slide-active .hero-collage-route { animation: none; }
 }
 
-/* END OF FILE: HERO-PLAYGROUND-R4 | HeroPrint.css */
+/* A steady central panel replaces the space formerly reserved for artwork.
+   The existing word springs move each full line around a shared center. */
+#home.header.hero-print .slide-two .hero-copy {
+  max-width: 1200px;
+  margin-inline: auto;
+  text-align: center;
+}
+#home.header.hero-print .slide-two .hero-eyebrow { margin-inline: auto; }
+#home.header.hero-print .slide-two .hero-print-workbench {
+  width: min(100%, 1120px);
+  max-width: 100%;
+  margin-inline: auto;
+}
+#home.header.hero-print .slide-two .hero-workbench-top {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+#home.header.hero-print .slide-two .hero-workbench-dots { justify-self: start; }
+#home.header.hero-print .slide-two .hero-workbench-top svg { justify-self: end; margin-left: 0; }
+#home.header.hero-print .slide-two .hero-rotating-row {
+  justify-content: center;
+  align-content: center;
+  min-height: 1.5em;
+}
+#home.header.hero-print .slide-two .hero-static-phrase { text-align: center; }
+#home.header.hero-print .slide-two .slide-two-actions { display: flex; justify-content: center; }
+#home.header.hero-print .slide-two .hero-print-details { left: 50%; translate: -50% 0; }
+
+/* Reserve the stacked line before a word changes, so the CTA stays anchored. */
+@media (max-width: 540px) {
+  #home.header.hero-print .slide-two h2 .hero-rotating-row { min-height: 2.65em; }
+}
+@media (max-width: 400px) {
+  #home.header.hero-print .slide-two .hero-rotating-line { font-size: clamp(21px, 6vw, 24px) !important; line-height: 1.18; }
+  #home.header.hero-print .slide-two .hero-design-line .hero-static-phrase { flex-basis: 100%; }
+  #home.header.hero-print .slide-two .hero-rotating-row { min-height: 2.55em; }
+}
+@media (max-width: 767px) and (max-height: 640px) {
+  #home.header.hero-print .slide-two .hero-print-workbench { padding: 10px 11px 14px; }
+  #home.header.hero-print .slide-two .hero-workbench-top { padding-bottom: 6px; margin-bottom: 8px; }
+  #home.header.hero-print .slide-two h2.hero-rotating-line { margin-bottom: 12px; }
+  #home.header.hero-print .slide-two .slide-two-actions { margin-top: 12px; }
+  #home.header.hero-print .slide-two .hero-resume { height: 43px; }
+}
+
+/* R6: connected title bars, compact word layout and a visible control rail.
+   The original slide/parallax/typing layers continue to own their animations. */
+#home.header.hero-print .hero-print-title-sheet,
+#home.header.hero-print .hero-three-frame,
+#home.header.hero-print .slide-two .hero-print-workbench {
+  padding: 0;
+  max-width: 100%;
+}
+#home.header.hero-print .hero-print-title-sheet { width: min(100%, 1130px); }
+#home.header.hero-print .slide-two .hero-print-workbench {
+  width: fit-content;
+  margin-inline: auto;
+}
+#home.header.hero-print .hero-print-title-sheet::before,
+#home.header.hero-print .hero-workbench-backdrop::after,
+#home.header.hero-print .hero-three-frame::before { display: none; }
+
+/* These are the top edges of the cards, rather than separate stickers. */
+#home.header.hero-print .hero-print-title-sheet > .hero-eyebrow,
+#home.header.hero-print .hero-workbench-content > .hero-eyebrow,
+#home.header.hero-print .hero-three-frame > .hero-eyebrow {
+  display: block;
+  box-sizing: border-box;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 13px 22px 13px 43px;
+  border: 0;
+  border-bottom: 2px solid var(--print-ink);
+  border-radius: 13px 13px 0 0;
+  outline: 0;
+  background: var(--print-paper);
+  box-shadow: none;
+  color: var(--print-ink);
+  text-align: left;
+  transform: none;
+}
+#home.header.hero-print .hero-workbench-content > .hero-eyebrow {
+  border-radius: 17px 17px 0 0;
+  background: var(--blue);
+}
+#home.header.hero-print .hero-three-frame > .hero-eyebrow {
+  border-radius: 11px 11px 0 0;
+  background: var(--amber);
+}
+#home.header.hero-print .hero-print-title-sheet > .hero-eyebrow::before,
+#home.header.hero-print .hero-workbench-content > .hero-eyebrow::before,
+#home.header.hero-print .hero-three-frame > .hero-eyebrow::before {
+  left: 16px;
+  color: var(--print-ink);
+  font-size: 18px;
+  opacity: .65;
+}
+#home.header.hero-print .hero-print-title-body,
+#home.header.hero-print .hero-workbench-body,
+#home.header.hero-print .hero-three-frame-body {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: clamp(20px, 2.1vw, 30px) clamp(20px, 2.4vw, 34px) 26px;
+}
+#home.header.hero-print .hero-three-frame-body { padding: 23px 20px 18px; }
+
+/* Three level, equally sized skill patches. */
+#home.header.hero-print .hero-skill-patches {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  width: min(100%, 390px);
+}
+#home.header.hero-print .hero-skill-patches > span:nth-child(n) {
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 34px;
+  padding: 6px 9px;
+  white-space: nowrap;
+  rotate: 0deg;
+  transform: none;
+}
+
+/* Hidden typography copies reserve the widest state and tallest wrapped row.
+   The visible words still spring between their own natural widths. */
+#home.header.hero-print .slide-two .hero-rotating-line { display: grid; }
+#home.header.hero-print .slide-two .hero-rotating-line > .hero-rotating-row {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+#home.header.hero-print .slide-two .hero-rotating-sizing-row {
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* The supporting sentence stays readable without becoming another card. */
+#home.header.hero-print .slide-three .hero-three-byline {
+  margin: 0 0 25px;
+  padding: 2px 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  box-shadow: none;
+  color: rgb(242 233 214 / .78);
+  font-size: clamp(15px, 1.2vw, 18px);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* One adaptive, high-contrast home for PREV / pause / NEXT. */
+#home.header.hero-print .hero-carousel-nav {
+  box-sizing: border-box;
+  gap: 4px;
+  padding: 8px 5px;
+  border: 2px solid var(--print-ink);
+  border-radius: 15px 15px 21px 12px;
+  background: var(--brand-accent, var(--amber));
+  box-shadow: 4px 5px 0 var(--print-shadow);
+  color: var(--print-ink);
+  transition: background-color .7s cubic-bezier(.4, 0, .2, 1);
+}
+#home.header.hero-print .hero-carousel-nav button {
+  border-radius: 7px;
+  color: var(--print-ink);
+  transition: background-color .2s ease, color .2s ease;
+}
+#home.header.hero-print .hero-carousel-nav button:focus-visible {
+  outline: 2px solid var(--print-ink);
+  outline-offset: 1px;
+  background: var(--print-paper);
+  color: var(--print-ink);
+}
+#home.header.hero-print .hero-carousel-nav button:active {
+  background: var(--print-ink);
+  color: var(--print-paper);
+}
+@media (hover: hover) and (pointer: fine) {
+  #home.header.hero-print .hero-carousel-nav button:hover {
+    background: var(--print-ink);
+    color: var(--print-paper);
+  }
+}
+@media (max-width: 767px) {
+  #home.header.hero-print .hero-print-title-sheet > .hero-eyebrow,
+  #home.header.hero-print .hero-workbench-content > .hero-eyebrow,
+  #home.header.hero-print .hero-three-frame > .hero-eyebrow {
+    padding: 11px 13px 11px 32px;
+    border-top-left-radius: 11px;
+    border-top-right-radius: 11px;
+  }
+  #home.header.hero-print .hero-print-title-sheet > .hero-eyebrow::before,
+  #home.header.hero-print .hero-workbench-content > .hero-eyebrow::before,
+  #home.header.hero-print .hero-three-frame > .hero-eyebrow::before { left: 11px; font-size: 15px; }
+  #home.header.hero-print .hero-print-title-body { padding: 20px 15px 17px; }
+  #home.header.hero-print .hero-workbench-body { padding: 18px 14px 21px; }
+  #home.header.hero-print .hero-three-frame-body { padding: 18px 9px 15px; }
+  #home.header.hero-print .hero-skill-patches { width: min(100%, 340px); }
+  #home.header.hero-print .hero-skill-patches > span:nth-child(n) { min-height: 29px; padding: 4px 5px; }
+  #home.header.hero-print .slide-three .hero-three-byline { margin-bottom: 22px; font-size: clamp(13px, 3.35vw, 16px); }
+  #home.header.hero-print .hero-carousel-nav { padding: 5px 8px; border-radius: 12px 15px 15px 10px; }
+}
+@media (max-height: 740px) and (min-width: 768px) {
+  #home.header.hero-print .hero-print-title-body { padding-block: 20px 17px; }
+  #home.header.hero-print .hero-workbench-body { padding-block: 16px 23px; }
+  #home.header.hero-print .hero-three-frame-body { padding-block: 18px 14px; }
+}
+@media (max-height: 600px) and (min-width: 768px) {
+  #home.header.hero-print .hero-print-title-sheet > .hero-eyebrow,
+  #home.header.hero-print .hero-workbench-content > .hero-eyebrow,
+  #home.header.hero-print .hero-three-frame > .hero-eyebrow { padding-block: 8px; }
+  #home.header.hero-print .hero-print-title-body { padding: 15px 22px 13px; }
+  #home.header.hero-print .hero-workbench-body { padding-block: 11px 16px; }
+  #home.header.hero-print .hero-three-frame-body { padding-block: 13px 9px; }
+  #home.header.hero-print .hero-skill-patches { display: none; }
+  #home.header.hero-print .slide-three .hero-three-byline { margin-bottom: 18px; font-size: 15px; }
+}
+@media (max-width: 767px) and (max-height: 740px) {
+  #home.header.hero-print .hero-print-title-body { padding-block: 17px 14px; }
+  #home.header.hero-print .hero-three-frame-body { padding-block: 16px 12px; }
+  #home.header.hero-print .hero-skill-patches { display: none; }
+}
+@media (max-width: 767px) and (max-height: 640px) {
+  #home.header.hero-print .hero-print-title-sheet > .hero-eyebrow,
+  #home.header.hero-print .hero-workbench-content > .hero-eyebrow,
+  #home.header.hero-print .hero-three-frame > .hero-eyebrow { padding-block: 8px; }
+  #home.header.hero-print .hero-print-title-body { padding-block: 15px 12px; }
+  #home.header.hero-print .hero-workbench-body { padding: 12px 11px 14px; }
+  #home.header.hero-print .hero-three-frame-body { padding: 13px 7px 9px; }
+  #home.header.hero-print .slide-three .hero-three-byline { margin-bottom: 18px; font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #home.header.hero-print .hero-carousel-nav,
+  #home.header.hero-print .hero-carousel-nav button { transition: none; }
+}
+
+/* END OF FILE: HERO-REFINE-R6 | HeroPrint.css */

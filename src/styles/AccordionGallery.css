@@ -1,0 +1,164 @@
+/* CHANGE VERSION: INTERACTION-POLISH-R1 | 2026-10-20 | Complete AccordionGallery.css */
+/* All gallery rules are local, including the supplied component's overlay variables. */
+.accordion-gallery {
+  --ag-accent: #d8b97c;
+  --ag-overlay: #14151b;
+  --ag-text: #f2e9d6;
+  --ag-gap: 12px;
+  --ag-radius: 22px;
+  --ag-media-size: 320px;
+  display: flex;
+  flex-direction: row;
+  gap: var(--ag-gap);
+  width: 100%;
+  max-width: 100%;
+  height: clamp(340px, 48vw, var(--ag-height, 460px));
+  perspective: 1400px;
+  perspective-origin: 50% 50%;
+  isolation: isolate;
+}
+.accordion-gallery.accordion-gallery--vertical {
+  flex-direction: column;
+  height: var(--ag-vertical-height, 520px);
+}
+.accordion-gallery .ag-panel {
+  --ag-dim: .36;
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 2px solid #f2e9d6;
+  border-radius: var(--ag-radius);
+  background: #20222a;
+  box-shadow: 5px 6px 0 #090c12;
+  transform-style: preserve-3d;
+  transform-origin: center;
+  will-change: flex-grow, transform;
+}
+.accordion-gallery .ag-panel:has(.ag-panel__select:focus-visible) {
+  outline: 3px solid var(--ag-accent);
+  outline-offset: 5px;
+}
+.accordion-gallery .ag-panel__frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.accordion-gallery .ag-panel__media {
+  --ag-gray: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--ag-media-size);
+  height: 100%;
+  filter: grayscale(var(--ag-gray));
+  will-change: transform, filter;
+}
+.accordion-gallery.accordion-gallery--vertical .ag-panel__media { width: 100%; height: var(--ag-media-size); }
+.accordion-gallery .ag-panel__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.accordion-gallery .ag-panel__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgb(20 21 27 / .06) 20%, rgb(20 21 27 / .88) 100%),
+    color-mix(in srgb, var(--ag-overlay) calc(var(--ag-dim) * 100%), transparent);
+}
+.accordion-gallery .ag-panel__artmark {
+  position: absolute;
+  inset: 22% 20% 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10%;
+  color: var(--ag-text);
+  opacity: .68;
+  pointer-events: none;
+}
+.accordion-gallery .ag-panel__artmark > span { font: 400 clamp(54px, 10vw, 136px)/1 'Tilt Warp', sans-serif; letter-spacing: -.09em; }
+.accordion-gallery .ag-panel__artmark svg { width: clamp(60px, 9vw, 110px); flex-shrink: 0; stroke: var(--ag-accent); stroke-width: 10; stroke-linecap: square; }
+.accordion-gallery .ag-panel__select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: block;
+  border: 0;
+  border-radius: inherit;
+  color: var(--ag-text);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.accordion-gallery .ag-panel__select:focus-visible { outline: 3px dashed var(--ag-accent); outline-offset: -8px; }
+.accordion-gallery .ag-panel__number {
+  position: absolute;
+  top: 19px;
+  left: 20px;
+  padding: 6px 9px;
+  border: 1px solid rgb(242 233 214 / .5);
+  border-radius: 7px;
+  background: rgb(20 21 27 / .42);
+  font: 600 12px/1.2 'Roboto', sans-serif;
+  letter-spacing: .06em;
+}
+.accordion-gallery .ag-panel__label {
+  position: absolute;
+  left: 24px;
+  bottom: 25px;
+  right: 24px;
+  display: flex;
+  align-items: stretch;
+  gap: 13px;
+  min-width: 0;
+  pointer-events: none;
+}
+.accordion-gallery .ag-panel__bar { flex: 0 0 4px; border-radius: 2px; background: var(--ag-accent); opacity: 0; }
+.accordion-gallery .ag-panel__label-copy { min-width: 0; display: block; }
+.accordion-gallery .ag-panel__text {
+  display: block;
+  color: var(--ag-text);
+  font: 400 clamp(26px, 3.7vw, 52px)/1.04 'Tilt Warp', sans-serif;
+  letter-spacing: -.025em;
+  overflow-wrap: anywhere;
+}
+.accordion-gallery .ag-panel__detail { display: flex; align-items: center; gap: 15px; margin-top: 13px; font: 500 11px/1.4 'Poppins', sans-serif; opacity: 0; }
+.accordion-gallery .ag-panel__detail > span { font: 22px/1 'Roboto', sans-serif; color: var(--ag-accent); }
+.accordion-gallery .ag-panel__expand { position: absolute; top: 18px; right: 19px; font: 400 26px/1 'Roboto', sans-serif; }
+.accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__label { left: 16px; right: 16px; gap: 0; }
+.accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__bar { flex-basis: 0; }
+.accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__text { font-size: clamp(19px, 2.1vw, 30px); }
+.accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__detail { height: 0; margin: 0; overflow: hidden; }
+@media (min-width: 641px) {
+  .accordion-gallery:has(.ag-panel:nth-child(4)) .ag-panel:not(.ag-panel--active) .ag-panel__label { top: 65px; bottom: 22px; align-items: end; }
+  .accordion-gallery:has(.ag-panel:nth-child(4)) .ag-panel:not(.ag-panel--active) .ag-panel__text { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-height: 100%; font-size: clamp(20px, 2vw, 28px); }
+  .accordion-gallery:has(.ag-panel:nth-child(4)) .ag-panel:not(.ag-panel--active) .ag-panel__number { left: 50%; transform: translateX(-50%); }
+  .accordion-gallery:has(.ag-panel:nth-child(4)) .ag-panel:not(.ag-panel--active) .ag-panel__expand { display: none; }
+}
+@media (max-width: 640px) {
+  .accordion-gallery { perspective: none; }
+  .accordion-gallery .ag-panel { transform: none !important; border-radius: min(var(--ag-radius), 17px); box-shadow: 3px 4px 0 #090c12; }
+  .accordion-gallery .ag-panel__label { left: 20px; right: 20px; bottom: 21px; }
+  .accordion-gallery .ag-panel__text { font-size: clamp(27px, 7vw, 37px); }
+  .accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__label { inset: 0 50px 0 60px; align-items: center; }
+  .accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__text { font: 600 14px/1.2 'Poppins', sans-serif; letter-spacing: -.01em; }
+  .accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__number { top: 50%; left: 12px; transform: translateY(-50%); padding: 5px 7px; font-size: 10px; }
+  .accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__expand { top: 50%; transform: translateY(-50%); }
+  .accordion-gallery .ag-panel__artmark { inset: 18% 20% 35%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .accordion-gallery .ag-panel, .accordion-gallery .ag-panel__media { will-change: auto; }
+}
+/* END OF FILE: INTERACTION-POLISH-R1 | AccordionGallery.css */

@@ -1,11 +1,11 @@
-// CHANGE VERSION: PORTFOLIO-POLISH-R2 | 2026-10-14 | Complete Navigation.jsx
+// CHANGE VERSION: NETSUITE-PROJECTS-R1 | 2026-10-20 | Complete Navigation.jsx
 import { useEffect, useRef, useState } from 'react';
 import { asset } from '../utils/assets';
 import Brand from './Brand';
 import SocialLinks from './SocialLinks';
 import MorphNumber from './MorphNumber';
 import '../styles/Navigation.css';
-const links = [['home', 'HOME'], ['about', 'ABOUT ME'], ['contact', 'CONTACT'], ['projects', 'PROJECTS'], ['awards', 'AWARDS']];
+const links = [['home', 'HOME'], ['about', 'ABOUT ME'], ['contact', 'CONTACT'], ['projects', 'PROJECTS'], ['netsuite', 'NETSUITE']];
 export default function Navigation() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -73,4 +73,4 @@ export default function Navigation() {
     </nav>
   </>;
 }
-// END OF FILE: PORTFOLIO-POLISH-R2 | Navigation.jsx
+// END OF FILE: NETSUITE-PROJECTS-R1 | Navigation.jsx

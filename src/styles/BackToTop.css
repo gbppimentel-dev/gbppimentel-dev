@@ -1,0 +1,44 @@
+/* CHANGE VERSION: ABOUT-PROFILE-R2 | 2026-10-20 | Complete BackToTop.css */
+button.portfolio-back-to-top {
+  position: fixed;
+  z-index: 7;
+  right: calc(28px + env(safe-area-inset-right, 0px));
+  bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 2px solid #20222a;
+  border-radius: 50%;
+  background: var(--brand-accent, #d8b97c);
+  color: #20222a;
+  box-shadow: 0 4px 0 #090c12;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  pointer-events: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: opacity .22s ease, transform .25s ease, background-color .6s ease, visibility 0s linear .25s;
+}
+button.portfolio-back-to-top[data-visible] { opacity: 1; visibility: visible; transform: none; pointer-events: auto; transition-delay: 0s; }
+button.portfolio-back-to-top svg { display: block; width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+button.portfolio-back-to-top:focus-visible { outline: 3px solid #f2e9d6; outline-offset: 5px; }
+button.portfolio-back-to-top:active { box-shadow: 0 1px 0 #090c12; }
+button.portfolio-back-to-top:disabled { cursor: default; }
+@media (hover: hover) and (pointer: fine) {
+  button.portfolio-back-to-top[data-visible]:hover { transform: translateY(-2px); }
+}
+@media (max-width: 767px) {
+  button.portfolio-back-to-top { right: calc(22px + env(safe-area-inset-right, 0px)); bottom: calc(22px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  button.portfolio-back-to-top { transition: none; transform: none !important; }
+}
+/* END OF FILE: ABOUT-PROFILE-R2 | BackToTop.css */
