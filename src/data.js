@@ -1,27 +1,9 @@
-// CHANGE VERSION: HEARTS-CLOUDFLARE-R5 | Case-study tools follow the configured heart service
-import { getPortfolioHeartsConfig } from './utils/portfolioHearts.js';
-
-const heartConfig = getPortfolioHeartsConfig();
-const cloudflareHearts = heartConfig.configured && heartConfig.provider === 'cloudflare';
-const portfolioHeartBackend = cloudflareHearts ? {
-  tools: ['cloudflare-workers', 'cloudflare-d1'],
-  approach: 'Keep the site deployable as static files, with a Cloudflare Worker and D1 database for anonymous hearts.',
-  feature: 'Anonymous hearts saved through Cloudflare Workers and D1, with local development and live-site configuration',
-  tag: 'CLOUDFLARE / DEPLOYMENT',
-  description: 'Visitors can leave a heart without an account. A browser identifier and a Cloudflare Worker API maintain the shared count in D1, while GitHub Actions builds and publishes the static portfolio to GitHub Pages.',
-  technologyNotes: [
-    { technology: 'cloudflare-workers', role: 'A small HTTP API for anonymous heart reads and explicit, idempotent heart updates.' },
-    { technology: 'cloudflare-d1', role: 'Persistent anonymous heart records and the shared total, separate from the static frontend.' },
-  ],
-} : {
-  tools: ['supabase'],
-  approach: 'Keep the site deployable as static files, with a small Supabase integration for anonymous hearts.',
-  feature: 'Anonymous hearts saved through Supabase, with local development and live-site configuration',
-  tag: 'SUPABASE / DEPLOYMENT',
-  description: 'Visitors can leave a heart without an account. A browser identifier and Supabase RPC calls maintain the shared count, while GitHub Actions builds and publishes the static portfolio to GitHub Pages.',
-  technologyNotes: [
-    { technology: 'supabase', role: 'Anonymous heart state and shared counts through a small REST client.' },
-  ],
+// CHANGE VERSION: HEARTS-UI-ONLY-R6 | Portfolio feedback currently runs without a backend
+const portfolioHeartFeedback = {
+  approach: 'Keep the portfolio deployable as static files, with heart feedback handled entirely in the browser for the current visit.',
+  feature: 'An animated header heart with a smooth thank-you response, without accounts or a saved count',
+  tag: 'REACT / FEEDBACK',
+  description: 'The header heart responds with a pulse and a smooth thank-you message. Its state lasts for the current visit and resets on refresh; no shared count or database connection is used.',
 };
 
 export const socialLinks = [
@@ -95,18 +77,18 @@ export const projects = [
     screenshot: 'images/projects/gbppimentel-dev-hero-r4.png',
     liveUrl: '#home', liveLabel: 'Explore portfolio', sourceUrl: 'https://github.com/gbppimentel-dev/gbppimentel-dev',
     details: 'Development, design, and NetSuite experience brought together through an animated landing page, a tactile 3D identity card, and project-specific case studies.',
-    technologies: ['react', 'vite', 'javascript', 'html', 'css', 'gsap', 'motion', 'swiper', 'three', ...portfolioHeartBackend.tools, 'github-pages', 'github-actions'],
+    technologies: ['react', 'vite', 'javascript', 'html', 'css', 'gsap', 'motion', 'swiper', 'three', 'github-pages', 'github-actions'],
     caseStudy: {
       role: 'Development & interface design', focus: 'Creative portfolio & interaction design', scope: 'React frontend & static deployment',
       challenge: 'Present development, design, and NetSuite experience in one clear professional identity. Make the work easy to explore while giving the portfolio enough character to demonstrate the same care put into its projects.',
-      approach: 'Build the experience as focused React components around a shared paper-and-ink visual system. Use Swiper for the hero, GSAP and Motion for coordinated interactions, and Three.js for the identity card. ' + portfolioHeartBackend.approach,
+      approach: 'Build the experience as focused React components around a shared paper-and-ink visual system. Use Swiper for the hero, GSAP and Motion for coordinated interactions, and Three.js for the identity card. ' + portfolioHeartFeedback.approach,
       features: [
         'Three hero slides with terminal typing, rotating words, decryption, and replaying text reveals',
         'A draggable, flippable Three.js identity card with a simulated strap and adaptive colors',
         'Continuous overlapping sections, animated ribbon separators, and a staggered navigation panel',
         'An accordion project gallery with preview transitions, technology explanations, and individual case studies',
         'Shared amber, blue, and coral accents across loaders, controls, backgrounds, and the identity card',
-        portfolioHeartBackend.feature,
+        portfolioHeartFeedback.feature,
       ],
       featureDetails: [
         {
@@ -130,8 +112,8 @@ export const projects = [
           description: 'Amber, blue, and coral move through the site as a shared accent. Loader echoes, menu hovers, custom pointer effects, bento interactions, and button reveals add feedback without changing the underlying navigation.',
         },
         {
-          title: 'A small response that persists', tag: portfolioHeartBackend.tag,
-          description: portfolioHeartBackend.description,
+          title: 'A small response, right away', tag: portfolioHeartFeedback.tag,
+          description: portfolioHeartFeedback.description,
         },
       ],
       technologyNotes: [
@@ -144,15 +126,14 @@ export const projects = [
         { technology: 'motion', role: 'Layout transitions, rotating text, blur reveals, and project-note changes.' },
         { technology: 'swiper', role: 'Hero slide navigation, autoplay, parallax, and keyboard support.' },
         { technology: 'three', role: 'The 3D ID, textured card surfaces, lighting, and simulated strap rendering.' },
-        ...portfolioHeartBackend.technologyNotes,
         { technology: 'github-pages', role: 'Static hosting for the built portfolio under its repository base path.' },
         { technology: 'github-actions', role: 'Automated production builds and deployment from the main branch.' },
       ],
       deployment: {
         platform: 'GitHub Pages', automation: 'GitHub Actions',
-        description: 'The default branch triggers a production build and publishes its static output. The deployed base path and public heart-service configuration are supplied during the build.',
+        description: 'The default branch triggers a production build and publishes its static output with the deployed base path. The portfolio and its header-heart interaction run without a backend connection.',
       },
-      outcome: 'A live desktop-first portfolio where the interface itself demonstrates the work: development, visual design, motion, and a focused backend integration. Visitors can explore the projects, open the source, view the résumé, and start a professional conversation through LinkedIn.',
+      outcome: 'A live desktop-first portfolio where the interface itself demonstrates the work: development, visual design, motion, and responsive interaction. Visitors can explore the projects, open the source, view the résumé, and start a professional conversation through LinkedIn.',
       screens: [
         {
           src: 'images/projects/gbppimentel-dev-hero-r4.png',
@@ -185,4 +166,4 @@ export const contact = {
   email: '', // Your public contact email; leave empty to use LinkedIn instead.
   linkedin: 'https://www.linkedin.com/in/glenn-bernard-pimentel-2b3461265/',
 };
-// END OF FILE: HEARTS-CLOUDFLARE-R5 | data.js
+// END OF FILE: HEARTS-UI-ONLY-R6 | data.js
