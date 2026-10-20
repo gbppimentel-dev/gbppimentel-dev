@@ -1,7 +1,7 @@
-<!-- CHANGE VERSION: HEARTS-PAGES-R1 | 2026-10-20 | Portfolio launch guide -->
+<!-- CHANGE VERSION: HEADER-HEARTS-R1 | 2026-10-20 | Portfolio launch guide -->
 # Put your portfolio online
 
-This update adds a compact “Loved what you see?” heart in the footer on every page. It uses the PulseHeart shrink, rebound, beat and rolling-count animation. The count is stored in Supabase and shared across visitors. Visitors do not need accounts. Their browser keeps a random ID so a refresh remembers their heart, and clicking again removes it.
+The header has a subtle “Loved what you see? Give this page a heart!” interaction on every page. Its small outline heart keeps the PulseHeart animation, and the prompt changes to “Thanks!” once the saved heart is confirmed. The count is stored in Supabase and shared across visitors. Visitors do not need accounts. Their browser keeps a random ID so a refresh remembers their heart, and clicking again removes it.
 
 The ZIP contains your complete current project, including all existing images and other assets. Extract its contents into your existing project root, where `package.json` already lives, and replace matching files. Do not put the whole project inside another nested folder. `README.md` and the package versions are unchanged. There are no new npm dependencies.
 
@@ -56,15 +56,17 @@ You do not need to create a `gh-pages` branch, upload `node_modules`, edit an as
 ## 5. Check the live site
 
 1. Open the hero, About, Contact, Projects and NetSuite pages. Check the images, resume and menu.
-2. In the footer, wait for the heart count to load. Click the heart: it animates, saves and updates the shared total.
+2. In the header, wait for the heart count to load. Click the heart: it animates, saves, updates the shared total, and displays “Thanks!”.
 3. Refresh. Your heart should stay selected. Click again to remove it.
-4. Open the site in another browser to confirm the shared total is the same. That browser has its own heart selection. Totals refresh when the footer mounts or you return focus to the page; this is not a continuously streaming counter.
+4. Open the site in another browser to confirm the shared total is the same. That browser has its own heart selection. Totals refresh when the header mounts or you return focus to the page; this is not a continuously streaming counter.
 
 One heart is remembered per browser profile for this website, rather than verified per person. Clearing site storage, private browsing, a different device or a different site origin creates a new browser identity.
 
 If the heart remains disabled with “Hearts are taking a little break,” check the two repository variables and start a new workflow run. If the heart shows a retry message, confirm the SQL ran successfully in the same Supabase project, that the project is available, and that the URL/key match it. A failed save rolls back the visible change so it does not pretend a heart was stored.
 
-Local development and Codespaces previews need the same two environment values to use the shared database. Configuring GitHub repository variables only configures GitHub’s deployed build. The rest of the preview works without those values.
+For local development, this update includes a ready-to-use `.env.development.local` with the same public frontend configuration already used by the live site. Extract this file into the project root alongside `package.json`. Stop the current dev server with **Ctrl+C**, then start it again with `npm run dev`. No code or key edits are needed. This works for Vite development previews, including Codespaces.
+
+Local clicks use the real shared database, so they affect the same total as the live site. Localhost and the live website each keep their own browser identity; use the heart again to undo a test reaction if desired. The development configuration file is ignored by Git and is not loaded by a normal production build. GitHub Pages continues to use your existing repository variables. It contains only the public project URL and publishable key, not a database password or server secret.
 
 ## Continue polishing
 
@@ -79,4 +81,4 @@ The contact form remains a frontend message preview as before; publishing does n
 - [Supabase: API keys](https://supabase.com/docs/guides/getting-started/api-keys)
 - [Supabase: database functions](https://supabase.com/docs/guides/database/functions)
 
-<!-- END OF FILE: HEARTS-PAGES-R1 | DEPLOYMENT.md -->
+<!-- END OF FILE: HEADER-HEARTS-R1 | DEPLOYMENT.md -->

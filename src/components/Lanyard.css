@@ -1,17 +1,9 @@
-/* CHANGE VERSION: ABOUT-ID-R1 | Lanyard canvas */
-.lanyard {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  touch-action: pan-y;
-}
-
-.lanyard-canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-
-/* END OF FILE: ABOUT-ID-R1 | Lanyard.css */
+/* CHANGE VERSION: PORTFOLIO-REFINE-R4 | Expanded canvas stays transparent to the surrounding controls */
+.lanyard { position: relative; width: 100%; height: 100%; overflow: hidden; touch-action: pan-y; }
+.lanyard-canvas { display: block; width: 100%; height: 100%; }
+/* The renderer overscans the original stage rather than being clipped to it. */
+.lanyard-viewport { position: absolute; z-index: 4; inset: 0; overflow: hidden; pointer-events: none; }
+.lanyard-viewport .lanyard-canvas { pointer-events: none; }
+[data-lanyard-cursor='grab'], [data-lanyard-cursor='grab'] * { cursor: grab !important; }
+[data-lanyard-cursor='grabbing'], [data-lanyard-cursor='grabbing'] * { cursor: grabbing !important; user-select: none !important; }
+/* END OF FILE: PORTFOLIO-REFINE-R4 | Lanyard.css */

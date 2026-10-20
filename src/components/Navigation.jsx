@@ -1,11 +1,20 @@
-// CHANGE VERSION: NETSUITE-PROJECTS-R1 | 2026-10-20 | Complete Navigation.jsx
+// CHANGE VERSION: PORTFOLIO-REFINE-R5 | 2026-10-20 | Vector NetSuite mark in the existing menu
 import { useEffect, useRef, useState } from 'react';
 import { asset } from '../utils/assets';
 import Brand from './Brand';
-import SocialLinks from './SocialLinks';
+import MenuSocialLinks from './MenuSocialLinks';
 import MorphNumber from './MorphNumber';
+import HeaderHearts from './HeaderHearts';
+import NetSuiteMark from './NetSuiteMark';
 import '../styles/Navigation.css';
 const links = [['home', 'HOME'], ['about', 'ABOUT ME'], ['contact', 'CONTACT'], ['projects', 'PROJECTS'], ['netsuite', 'NETSUITE']];
+const linkDetails = {
+  home: ['Home', 'general overview and cool animations!!'],
+  about: ['About Me', 'some basic information, nothing much.. hmm?'],
+  contact: ['Contact', "need a project for anything? let's talk!"],
+  projects: ['Projects', 'a closer look at what i do,,'],
+  netsuite: ['NetSuite', 'netsuite giving you trouble? i can help.'],
+};
 export default function Navigation() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -13,6 +22,7 @@ export default function Navigation() {
   const bar = useRef(null);
   const menu = useRef(null);
   const toggle = useRef(null);
+  const location = useRef(null);
   const closeMenu = () => { setOpen(false); toggle.current?.focus({ preventScroll: true }); };
   useEffect(() => {
     let frame = 0;
@@ -29,6 +39,17 @@ export default function Navigation() {
     window.addEventListener('hashchange', scroll); window.addEventListener('popstate', scroll);
     return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', scroll); window.removeEventListener('resize', scroll); window.removeEventListener('hashchange', scroll); window.removeEventListener('popstate', scroll); };
   }, []);
+  useEffect(() => {
+    const node = location.current;
+    if (!node) return undefined;
+    const measure = () => bar.current?.style.setProperty('--nav-location-width', `${Math.ceil(node.getBoundingClientRect().width)}px`);
+    measure();
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(measure);
+    observer?.observe(node);
+    window.addEventListener('resize', measure);
+    document.fonts?.ready.then(measure).catch(() => {});
+    return () => { observer?.disconnect(); window.removeEventListener('resize', measure); };
+  }, [section]);
   useEffect(() => {
     // Nonmodal panel: the page stays scrollable and available to the keyboard.
     if (open) menu.current.querySelector('a')?.focus({ preventScroll: true });
@@ -54,9 +75,9 @@ export default function Navigation() {
       <div className="sm-panel" style={{ '--menu-art': `url(${asset('images/menu-background.png')})` }}>
         <div className="sm-panel-inner">
           <div className="sm-links">
-            <p className="sm-panel-kicker">EXPLORE</p>
-            <nav aria-label="Main navigation"><ul className="sm-panel-list">{links.map(([id, label], index) => <li key={id} style={{ '--item-index': index }}><a href={`#${id}`} onClick={navigate} className="sm-panel-item" aria-current={section === index ? 'location' : undefined}><small>0{index + 1}</small><span className="sm-item-window"><span className="sm-panel-itemLabel">{label}</span></span></a></li>)}</ul></nav>
-            <div className="sm-socials"><p>PROFESSIONAL PROFILES</p><SocialLinks onNavigate={closeMenu} /></div>
+            <div className="sm-directory-heading"><p className="sm-panel-kicker">THE DIRECTORY <span aria-hidden="true">✦</span></p><h2>Explore the work<span>.</span></h2></div>
+            <nav aria-label="Main navigation"><ul className="sm-panel-list">{links.map(([id], index) => <li key={id} style={{ '--item-index': index }}><a href={`#${id}`} onClick={navigate} className="sm-panel-item" aria-current={section === index ? 'location' : undefined}><small>0{index + 1}</small><span className="sm-item-window"><span className="sm-panel-itemLabel">{linkDetails[id][0]}{id === 'netsuite' && <NetSuiteMark className="sm-netsuite-mark" />}</span><span className="sm-panel-itemDescription">{linkDetails[id][1]}</span></span></a></li>)}</ul></nav>
+            <MenuSocialLinks onNavigate={closeMenu} />
           </div>
         </div>
       </div>
@@ -64,7 +85,8 @@ export default function Navigation() {
     <nav ref={bar} className={`navbar site-navbar ${scrolled ? 'is-scrolled' : ''} ${open ? 'menu-is-open' : ''}`} aria-label="Header">
       <div className="logo"><Brand withLogo /></div>
       <div className="nav-actions">
-        <span className="nav-location" aria-hidden="true"><MorphNumber value={section + 1} padded /><i />{links[section][1]}</span>
+        <HeaderHearts />
+        <span className="nav-location-shell" aria-hidden="true"><span ref={location} className="nav-location"><MorphNumber value={section + 1} padded /><i />{links[section][1]}</span></span>
         <button ref={toggle} type="button" className="nav-hamburger" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="site-menu" onClick={() => setOpen(value => !value)}>
           <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path className="line line-top-bottom" d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22" /><path className="line" d="M7 16 27 16" /></svg>
         </button>
@@ -73,4 +95,4 @@ export default function Navigation() {
     </nav>
   </>;
 }
-// END OF FILE: NETSUITE-PROJECTS-R1 | Navigation.jsx
+// END OF FILE: PORTFOLIO-REFINE-R5 | Navigation.jsx

@@ -1,4 +1,4 @@
-/* CHANGE VERSION: ADAPTIVE-COLORS-R1 | Shared live accent tint for the lanyard */
+/* CHANGE VERSION: PORTFOLIO-REFINE-R4 | Full About interaction viewport with hit-only pointer capture */
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { getAdaptiveAccent, subscribeAdaptiveAccent } from '../utils/adaptiveColors';
@@ -701,6 +701,14 @@ const stepSimulation = (sim, dt, physics, time) => {
   sim.calm = energy < 2e-4 ? sim.calm + dt : 0;
 };
 
+// Keep the original ID stage as a virtual camera frame while drawing a larger
+// transparent viewport. Overscan extends the view without resizing the ID.
+export const lanyardViewportFrame = ({ width, height, referenceWidth = width, referenceHeight = height, referenceLeft = 0, referenceTop = 0 }) => ({
+  width: Math.max(1, width), height: Math.max(1, height),
+  referenceWidth: Math.max(1, referenceWidth), referenceHeight: Math.max(1, referenceHeight),
+  offsetX: -referenceLeft, offsetY: -referenceTop,
+});
+
 const Lanyard = ({
   frontImage,
   backImage,
@@ -724,6 +732,7 @@ const Lanyard = ({
   interactive = true,
   intro = true,
   className = '',
+  extendTo = '',
   style
 }) => {
   const containerRef = useRef(null);
@@ -751,7 +760,8 @@ const Lanyard = ({
     elasticity,
     breeze,
     interactive,
-    intro
+    intro,
+    extendTo
   };
 
   useEffect(() => {
@@ -761,6 +771,14 @@ const Lanyard = ({
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return undefined;
+
+    const surface = settingsRef.current.extendTo ? container.closest(settingsRef.current.extendTo) || container : container;
+    const extended = surface !== container;
+    const viewport = extended ? document.createElement('div') : container;
+    if (extended) {
+      viewport.className = 'lanyard-viewport';
+      viewport.setAttribute('aria-hidden', 'true');
+    }
 
     let renderer;
     try {
@@ -775,7 +793,8 @@ const Lanyard = ({
     const canvas = renderer.domElement;
     canvas.className = 'lanyard-canvas';
     canvas.setAttribute('aria-hidden', 'true');
-    container.appendChild(canvas);
+    if (extended) surface.appendChild(viewport);
+    viewport.appendChild(canvas);
 
     const anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
     const scene = new THREE.Scene();
@@ -868,7 +887,7 @@ const Lanyard = ({
     const mouth = new THREE.Vector3();
     const tuck = new THREE.Vector3();
     const curve = new THREE.CatmullRomCurve3(controls, false, 'centripetal');
-    const view = { width: 1, height: 1 };
+    const view = lanyardViewportFrame({ width: 1, height: 1 });
     let layout = cardLayout('portrait', 0.3);
     let applied = {};
     let strapScale = STRAP_WIDTH;
@@ -881,6 +900,8 @@ const Lanyard = ({
     let placed = false;
     let hovering = false;
     let press = null;
+    let activePointerId = null;
+    let suppressClickUntil = 0;
     let imageToken = 0;
     let strapPaint = null;
     const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
@@ -923,12 +944,14 @@ const Lanyard = ({
 
     const frameView = () => {
       const s = settingsRef.current;
-      const aspect = view.width / view.height;
+      const aspect = view.referenceWidth / view.referenceHeight;
       let viewHeight = layout.height / clamp(s.size, 0.15, 0.9);
       const minimumWidth = layout.width / 0.72;
       if (viewHeight * aspect < minimumWidth) viewHeight = minimumWidth / aspect;
       const viewWidth = viewHeight * aspect;
       camera.aspect = aspect;
+      if (extended) camera.setViewOffset(view.referenceWidth, view.referenceHeight, view.offsetX, view.offsetY, view.width, view.height);
+      else camera.clearViewOffset();
       camera.position.set(0, 0, viewHeight / 2 / Math.tan((FOV * Math.PI) / 360));
       camera.lookAt(0, 0, 0);
       camera.updateProjectionMatrix();
@@ -964,7 +987,7 @@ const Lanyard = ({
         ring.position.set(0, layout.ringY, 0);
         applied.framingKey = '';
       }
-      const framingKey = `${layoutKey}|${s.size}|${s.anchor}|${s.strapLength}|${view.width}|${view.height}`;
+      const framingKey = `${layoutKey}|${s.size}|${s.anchor}|${s.strapLength}|${view.width}|${view.height}|${view.referenceWidth}|${view.referenceHeight}|${view.offsetX}|${view.offsetY}`;
       if (framingKey !== applied.framingKey) {
         frameView();
         if (!placed) {
@@ -1143,7 +1166,7 @@ const Lanyard = ({
 
     const tick = now => {
       raf = 0;
-      if (!alive) return;
+      if (!alive || !visible || document.hidden) return;
       const dt = Math.min(1 / 30, Math.max(1 / 240, (now - last) / 1000));
       last = now;
       time += dt;
@@ -1160,7 +1183,7 @@ const Lanyard = ({
     };
 
     const start = () => {
-      if (raf || !visible || !alive) return;
+      if (raf || !visible || !alive || document.hidden) return;
       sim.calm = 0;
       last = performance.now();
       raf = requestAnimationFrame(tick);
@@ -1170,7 +1193,7 @@ const Lanyard = ({
     const pointer = new THREE.Vector2();
 
     const toPointer = event => {
-      const rect = canvas.getBoundingClientRect();
+      const rect = viewport.getBoundingClientRect();
       pointer.set(
         ((event.clientX - rect.left) / rect.width) * 2 - 1,
         -((event.clientY - rect.top) / rect.height) * 2 + 1
@@ -1185,7 +1208,15 @@ const Lanyard = ({
     };
 
     const setCursor = value => {
-      if (canvas.style.cursor !== value) canvas.style.cursor = value;
+      if (extended) {
+        if (value) surface.dataset.lanyardCursor = value;
+        else delete surface.dataset.lanyardCursor;
+      } else if (canvas.style.cursor !== value) canvas.style.cursor = value;
+    };
+    const pointerInsideSurface = event => {
+      if (extended && !surface.contains(event.target)) return false;
+      const rect = viewport.getBoundingClientRect();
+      return event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
     };
 
     const flip = point => {
@@ -1200,11 +1231,16 @@ const Lanyard = ({
       body.angular.addScaledVector(up, FLIP_SPIN * direction);
     };
 
+    const captureTarget = extended ? surface : canvas;
     const onPointerDown = event => {
-      if (!settingsRef.current.interactive || event.button > 0) return;
+      if (!settingsRef.current.interactive || event.button > 0 || activePointerId !== null || !visible || !pointerInsideSurface(event)) return;
+      // A fresh gesture on an uncovered control is unrelated to the ID's click.
+      suppressClickUntil = 0;
       toPointer(event);
       const hit = pickCard();
+      // A transparent canvas must never consume a click on a bento control.
       if (!hit) return;
+      activePointerId = event.pointerId;
       sim.grab = {
         local: hit.point.clone().sub(sim.body.position).applyQuaternion(sim.body.quaternion.clone().invert()),
         rotation: sim.body.quaternion.clone(),
@@ -1213,14 +1249,16 @@ const Lanyard = ({
         target: hit.point.clone()
       };
       press = { x: event.clientX, y: event.clientY, time: performance.now(), point: hit.point.clone() };
-      canvas.setPointerCapture?.(event.pointerId);
+      try { captureTarget.setPointerCapture?.(event.pointerId); } catch { /* Synthetic pointers may not support capture. */ }
       setCursor('grabbing');
       event.preventDefault();
+      if (extended) event.stopPropagation();
       start();
     };
 
     const onPointerMove = event => {
       if (!settingsRef.current.interactive) return;
+      if (sim.grab && event.pointerId !== activePointerId) return;
       toPointer(event);
       if (sim.grab) {
         if (press && Math.hypot(event.clientX - press.x, event.clientY - press.y) > 6) press = null;
@@ -1229,29 +1267,53 @@ const Lanyard = ({
         return;
       }
       if (event.pointerType === 'touch') return;
-      hovering = !!pickCard();
+      hovering = visible && pointerInsideSurface(event) && !!pickCard();
       setCursor(hovering ? 'grab' : '');
     };
 
     const onPointerUp = event => {
-      if (!sim.grab) return;
+      if (!sim.grab || (event.pointerId !== undefined && event.pointerId !== activePointerId)) return;
       sim.grab = null;
+      const releasedPointer = activePointerId;
+      activePointerId = null;
       if (press && event.type === 'pointerup' && performance.now() - press.time < 450) flip(press.point);
       press = null;
-      canvas.releasePointerCapture?.(event.pointerId);
-      setCursor(hovering && event.pointerType !== 'touch' ? 'grab' : '');
+      suppressClickUntil = event.type === 'pointerup' ? performance.now() + 300 : 0;
+      try { captureTarget.releasePointerCapture?.(releasedPointer); } catch { /* Already released by the browser. */ }
+      hovering = false;
+      setCursor('');
       start();
     };
-
-    canvas.addEventListener('pointerdown', onPointerDown);
-    canvas.addEventListener('pointermove', onPointerMove);
-    canvas.addEventListener('pointerup', onPointerUp);
-    canvas.addEventListener('pointercancel', onPointerUp);
-    canvas.addEventListener('lostpointercapture', onPointerUp);
+    const cancelInteraction = () => onPointerUp({ type: 'pointercancel', pointerId: activePointerId });
+    const preventUnderlayClick = event => {
+      if (extended && event.detail !== 0 && performance.now() < suppressClickUntil && surface.contains(event.target)) {
+        suppressClickUntil = 0;
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+    const onWindowBlur = () => { cancelInteraction(); hovering = false; setCursor(''); };
+    const pointerTarget = extended ? window : canvas;
+    const pointerOptions = extended ? { capture: true } : false;
+    pointerTarget.addEventListener('pointerdown', onPointerDown, pointerOptions);
+    pointerTarget.addEventListener('pointermove', onPointerMove, pointerOptions);
+    pointerTarget.addEventListener('pointerup', onPointerUp, pointerOptions);
+    pointerTarget.addEventListener('pointercancel', onPointerUp, pointerOptions);
+    captureTarget.addEventListener('lostpointercapture', onPointerUp);
+    if (extended) window.addEventListener('click', preventUnderlayClick, true);
+    window.addEventListener('blur', onWindowBlur);
 
     const resize = () => {
-      view.width = Math.max(1, container.clientWidth);
-      view.height = Math.max(1, container.clientHeight);
+      const surfaceRect = surface.getBoundingClientRect();
+      const referenceRect = container.getBoundingClientRect();
+      const scaleX = surfaceRect.width ? surface.clientWidth / surfaceRect.width : 1;
+      const scaleY = surfaceRect.height ? surface.clientHeight / surfaceRect.height : 1;
+      Object.assign(view, lanyardViewportFrame({
+        width: surface.clientWidth, height: surface.clientHeight,
+        referenceWidth: container.clientWidth, referenceHeight: container.clientHeight,
+        referenceLeft: (referenceRect.left - surfaceRect.left) * scaleX,
+        referenceTop: (referenceRect.top - surfaceRect.top) * scaleY,
+      }));
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.setSize(view.width, view.height, false);
       apply();
@@ -1260,13 +1322,16 @@ const Lanyard = ({
 
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(container);
+    if (extended) resizeObserver.observe(surface);
     const intersectionObserver = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       if (visible) start();
+      else { cancelInteraction(); cancelAnimationFrame(raf); raf = 0; setCursor(''); }
     });
     intersectionObserver.observe(container);
     const onVisibility = () => {
       if (!document.hidden) start();
+      else { cancelInteraction(); cancelAnimationFrame(raf); raf = 0; setCursor(''); }
     };
     document.addEventListener('visibilitychange', onVisibility);
 
@@ -1290,17 +1355,22 @@ const Lanyard = ({
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
-      canvas.removeEventListener('pointerdown', onPointerDown);
-      canvas.removeEventListener('pointermove', onPointerMove);
-      canvas.removeEventListener('pointerup', onPointerUp);
-      canvas.removeEventListener('pointercancel', onPointerUp);
-      canvas.removeEventListener('lostpointercapture', onPointerUp);
+      cancelInteraction();
+      setCursor('');
+      pointerTarget.removeEventListener('pointerdown', onPointerDown, pointerOptions);
+      pointerTarget.removeEventListener('pointermove', onPointerMove, pointerOptions);
+      pointerTarget.removeEventListener('pointerup', onPointerUp, pointerOptions);
+      pointerTarget.removeEventListener('pointercancel', onPointerUp, pointerOptions);
+      captureTarget.removeEventListener('lostpointercapture', onPointerUp);
+      if (extended) window.removeEventListener('click', preventUnderlayClick, true);
+      window.removeEventListener('blur', onWindowBlur);
       [bodyMesh, frontMesh, backMesh, ring, clampMesh, eyelet, band].forEach(mesh => mesh.geometry?.dispose());
       [frontMaterial, backMaterial, edgeMaterial, metalMaterial, bandMaterial].forEach(material => material.dispose());
       [frontTexture, backTexture, strapTexture, grain, weave].forEach(texture => texture.dispose());
       environment.dispose();
       renderer.dispose();
       if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
+      if (extended) viewport.remove();
     };
   }, []);
 
@@ -1310,4 +1380,4 @@ const Lanyard = ({
 export default Lanyard;
 
 
-/* END OF FILE: ADAPTIVE-COLORS-R1 | Lanyard.jsx */
+/* END OF FILE: PORTFOLIO-REFINE-R4 | Lanyard.jsx */

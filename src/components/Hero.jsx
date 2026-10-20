@@ -1,4 +1,4 @@
-// CHANGE VERSION: HERO-REFINE-R6 | 2026-10-20 | Complete Hero.jsx
+// CHANGE VERSION: DESKTOP-POLISH-R1 | 2026-10-20 | Complete Hero.jsx
 import { useEffect, useRef, useState } from 'react';
 import MorphNumber from './MorphNumber';
 import SocialLinks from './SocialLinks';
@@ -111,8 +111,9 @@ function HeroDecryptWord({ text, wordClassName, ...props }) {
 
 const INTERLEAVE_OFFSET = 0.5;
 const HERO_TRANSITION_EASE = 'cubic-bezier(.42, 0, .58, 1)';
-const slideThreeErp = 'ERP,';
-const slideThreeConnected = 'connected.';
+const slideThreeIdeas = 'ideas';
+const slideThreeWorking = 'working';
+const slideThreeSystems = 'systems_';
 const slideThreeDecryptPalette = ['var(--amber)', 'var(--blue)', 'var(--lilac)', 'var(--sage)'];
 const slideThreeDecryptCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_/%*#$@!~[]{}<>+-=';
 
@@ -205,41 +206,33 @@ export default function Hero({ onActiveSlideChange }) {
             <Background number={3} />
             <HeroPlayground number={3} />
             <div className="container hero-copy hero-copy-three">
-              {/* A fresh keyed frame clears positions retained by live code updates. */}
-              <div key="hero-three-print-frame-r6" className="hero-three-frame" data-swiper-parallax="-220">
+              <div key="hero-three-systems-frame-r1" className="hero-three-frame" data-swiper-parallax="-220">
               <p className="hero-eyebrow">Built for business.</p>
               <div className="hero-three-frame-body">
-              <div className="hero-three-code" role="group" aria-label="Design and development for connected ERP solutions">
+              <div className="hero-three-code" role="group" aria-label="Ideas into working systems. ERP workflows and practical solutions.">
                 <span className="hero-three-brace hero-three-brace-open" aria-hidden="true">{'{'}</span>
                 <code className="hero-three-code-text">
                   <span className="hero-three-line hero-three-line-primary">
-                    {reduced ? <>
-                      <span className="hero-three-think-word">think</span>{' '}
-                      <span className="hero-three-plus" aria-hidden="true">+</span>{' '}
-                      <span className="hero-three-build-word">BUILD_</span>
-                    </> : <>
-                      <HeroDecryptWord text="think" speed={145} sequential revealDirection="center" characters={slideThreeDecryptCharacters} encryptedPalette={slideThreeDecryptPalette} className="hero-decrypted-char" wordClassName="hero-three-think-word" encryptedClassName="hero-decrypted-encrypted" animateOn="manual" replayKey={slide === 2 ? slideThreeVisit : null} startDelay={0} />{' '}
-                      <span className="hero-three-plus" aria-hidden="true">+</span>{' '}
-                      <HeroDecryptWord text="BUILD_" speed={145} sequential revealDirection="center" characters={slideThreeDecryptCharacters} encryptedPalette={slideThreeDecryptPalette} className="hero-decrypted-char" wordClassName="hero-three-build-word" encryptedClassName="hero-decrypted-encrypted" animateOn="manual" replayKey={slide === 2 ? slideThreeVisit : null} startDelay={360} />
-                    </>}
+                    {reduced ? <span className="hero-three-ideas-word">{slideThreeIdeas}</span> :
+                      <HeroDecryptWord text={slideThreeIdeas} speed={165} sequential revealDirection="center" characters={slideThreeDecryptCharacters} encryptedPalette={slideThreeDecryptPalette} className="hero-decrypted-char" wordClassName="hero-three-ideas-word" encryptedClassName="hero-decrypted-encrypted" animateOn="manual" replayKey={slide === 2 ? slideThreeVisit : null} startDelay={0} />}
+                    <span className="hero-three-arrow" aria-hidden="true">→</span>
                   </span>
                   <span className="hero-three-line hero-three-line-accent">
-                    {reduced ? (
-                      <><span className="hero-three-erp">ERP,</span>{' '}<span className="hero-three-connected">connected.</span></>
-                    ) : (
-                      <>
-                        <HeroDecryptWord text={slideThreeErp} speed={145} sequential revealDirection="center" characters={slideThreeDecryptCharacters} encryptedPalette={slideThreeDecryptPalette} className="hero-decrypted-char" wordClassName="hero-three-erp" encryptedClassName="hero-decrypted-encrypted" animateOn="manual" replayKey={slide === 2 ? slideThreeVisit : null} startDelay={1150} />{' '}
-                        <HeroDecryptWord text={slideThreeConnected} speed={145} sequential revealDirection="center" characters={slideThreeDecryptCharacters} encryptedPalette={slideThreeDecryptPalette} className="hero-decrypted-char" wordClassName="hero-three-connected" encryptedClassName="hero-decrypted-encrypted" animateOn="manual" replayKey={slide === 2 ? slideThreeVisit : null} startDelay={1550} />
-                      </>
-                    )}
-                    <span className="hero-three-brace hero-three-brace-close" aria-hidden="true">{'}'}</span>
+                    {reduced ? <>
+                      <span className="hero-three-working-word">{slideThreeWorking}</span>{' '}
+                      <span className="hero-three-systems-word">{slideThreeSystems}</span>
+                    </> : <>
+                      <HeroDecryptWord text={slideThreeWorking} speed={165} sequential revealDirection="center" characters={slideThreeDecryptCharacters} encryptedPalette={slideThreeDecryptPalette} className="hero-decrypted-char" wordClassName="hero-three-working-word" encryptedClassName="hero-decrypted-encrypted" animateOn="manual" replayKey={slide === 2 ? slideThreeVisit : null} startDelay={550} />{' '}
+                      <HeroDecryptWord text={slideThreeSystems} speed={165} sequential revealDirection="center" characters={slideThreeDecryptCharacters} encryptedPalette={slideThreeDecryptPalette} className="hero-decrypted-char" wordClassName="hero-three-systems-word" encryptedClassName="hero-decrypted-encrypted" animateOn="manual" replayKey={slide === 2 ? slideThreeVisit : null} startDelay={1300} />
+                    </>}
                   </span>
                 </code>
+                <span className="hero-three-brace hero-three-brace-close" aria-hidden="true">{'}'}</span>
               </div>
               </div>
               </div>
               <PrintDetails number={3} />
-              <BlurText key={slideThreeVisit} active={slide === 2} text="from concept → business impact." className="hero-three-byline" />
+              <BlurText key={slideThreeVisit} active={slide === 2} text="ERP workflows. Practical solutions." className="hero-three-byline" />
               <div className="hero-three-actions" data-swiper-parallax="-100">
                 <a href="#projects" className="hero-resume hero-project-cta" aria-label="Explore projects">
                   <span className="hero-resume-face hero-resume-rest" aria-hidden="true">
@@ -267,4 +260,4 @@ export default function Hero({ onActiveSlideChange }) {
       {!reduced && <div className="hero-slide-timer" aria-hidden="true"><span ref={progressRef} className="hero-slide-timer-fill" /></div>}
     </header>;
 }
-// END OF FILE: HERO-REFINE-R6 | Hero.jsx
+// END OF FILE: DESKTOP-POLISH-R1 | Hero.jsx

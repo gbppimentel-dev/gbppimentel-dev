@@ -1,4 +1,4 @@
-/* CHANGE VERSION: HERO-REFINE-R6 | 2026-10-20 | Complete HeroPrint.css */
+/* CHANGE VERSION: PORTFOLIO-REFINE-R4 | 2026-10-20 | Content-sized hero 3 frame */
 /* The existing photographic heroes become ink-and-paper compositions, like the ID. */
 
 #home.header.hero-print {
@@ -815,4 +815,104 @@
   #home.header.hero-print .hero-carousel-nav button { transition: none; }
 }
 
-/* END OF FILE: HERO-REFINE-R6 | HeroPrint.css */
+/* Desktop launch polish: the control rail owns its own lane, including its
+   offset print shadow. Content never borrows that lane on smaller laptops. */
+@media (min-width: 768px) {
+  #home.header.hero-print .slide-inner {
+    padding-left: clamp(42px, 7.6vw, 146px);
+    padding-right: 160px;
+  }
+  #home.header.hero-print .hero-copy { max-width: 1350px; }
+  #home.header.hero-print .hero-print-title-sheet { max-width: 100%; }
+  #home.header.hero-print .hero-carousel-nav { width: 58px; right: 24px; }
+}
+
+/* One concise statement replaces the disconnected ERP badge and mixed slogan.
+   Both braces are the same grid item: same size, alignment and color. */
+#home.header.hero-print .slide-three .hero-copy-three { max-width: 1120px; }
+#home.header.hero-print .hero-three-frame {
+  /* The original hidden text sizers set a stable width during decryption. */
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 27px;
+  border-radius: 15px 15px 27px 9px;
+}
+#home.header.hero-print .hero-three-frame-body {
+  padding: clamp(24px, 2.5vw, 36px) clamp(20px, 2.1vw, 32px);
+}
+#home.header.hero-print .slide-three .hero-three-code {
+  display: grid;
+  grid-template-columns: auto max-content auto;
+  align-items: center;
+  column-gap: clamp(12px, 1.35vw, 22px);
+  width: max-content;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+#home.header.hero-print .slide-three .hero-three-brace {
+  position: static;
+  display: block;
+  align-self: center;
+  color: var(--amber);
+  font: 400 clamp(140px, 14.2vw, 225px)/.86 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  text-shadow: none;
+  transform: none;
+}
+#home.header.hero-print .slide-three .hero-three-code-text { min-width: 0; }
+#home.header.hero-print .slide-three .hero-three-line-primary {
+  display: flex;
+  align-items: center;
+  gap: .25em;
+  margin: 0;
+  color: var(--print-paper);
+  font: 400 clamp(60px, 6.2vw, 100px)/1.06 var(--display);
+  letter-spacing: -.025em;
+}
+#home.header.hero-print .hero-three-ideas-word,
+#home.header.hero-print .hero-three-ideas-word .hero-decrypted-char { color: var(--print-paper); }
+#home.header.hero-print .hero-three-arrow {
+  color: var(--blue);
+  font: 400 .76em/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+#home.header.hero-print .slide-three .hero-three-line-accent {
+  margin: .15em 0 0;
+  color: var(--amber);
+  font: 400 clamp(36px, 4.2vw, 68px)/1.15 var(--display);
+  letter-spacing: -.035em;
+}
+#home.header.hero-print .hero-three-working-word {
+  color: var(--print-paper);
+  font-family: 'Poppins', sans-serif;
+  font-size: .68em;
+  font-weight: 400;
+  letter-spacing: -.035em;
+}
+#home.header.hero-print .hero-three-working-word .hero-decrypted-char { color: var(--print-paper); font-size: inherit; }
+#home.header.hero-print .hero-three-systems-word,
+#home.header.hero-print .hero-three-systems-word .hero-decrypted-char { color: var(--amber); }
+#home.header.hero-print .slide-three .hero-three-byline {
+  margin-bottom: 24px;
+  font-size: clamp(14px, 1.12vw, 18px);
+}
+@media (min-width: 768px) and (max-height: 740px) {
+  #home.header.hero-print .hero-three-frame-body { padding-block: 23px; }
+  #home.header.hero-print .slide-three .hero-three-line-primary { font-size: min(6.2vw, 10.8vh); }
+  #home.header.hero-print .slide-three .hero-three-line-accent { font-size: min(4.2vw, 7.4vh); }
+  #home.header.hero-print .slide-three .hero-three-brace { font-size: min(14.2vw, 23.8vh); }
+}
+@media (min-width: 768px) and (max-height: 600px) {
+  #home.header.hero-print .hero-three-frame-body { padding-block: 15px; }
+}
+/* Preserve a readable fallback for a resized preview; mobile gets its own
+   desktop notice at the app boundary rather than running this carousel. */
+@media (max-width: 767px) {
+  #home.header.hero-print .hero-three-frame-body { padding: 18px 13px; }
+  #home.header.hero-print .slide-three .hero-three-code { column-gap: 8px; }
+  #home.header.hero-print .slide-three .hero-three-line-primary { font-size: clamp(32px, 7.8vw, 60px); }
+  #home.header.hero-print .slide-three .hero-three-line-accent { font-size: clamp(22px, 5.3vw, 38px); }
+  #home.header.hero-print .slide-three .hero-three-brace { font-size: clamp(78px, 16vw, 125px); }
+}
+
+/* END OF FILE: PORTFOLIO-REFINE-R4 | HeroPrint.css */

@@ -1,18 +1,133 @@
-// CHANGE VERSION: NETSUITE-PROJECTS-R1 | 2026-10-20 | Complete Projects.jsx
-import { useCallback, useId, useMemo, useState } from 'react';
+// CHANGE VERSION: PORTFOLIO-REFINE-R6 | A project collection with connected case studies
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { AnimatePresence, motion, useIsPresent } from 'motion/react';
 import { projects } from '../data';
 import { asset } from '../utils/assets';
 import AccordionGallery from './AccordionGallery';
 import LogoLoop from './LogoLoop';
 import TechLogo, { technologyCatalog } from './TechLogo';
+import ProjectsBackdrop from './ProjectsBackdrop';
 import '../styles/ProjectGallery.css';
 
-const categories = ['All', 'Web development', 'Artworks', 'Games'];
+const pad = value => String(value).padStart(2, '0');
+const categoryOptions = ['All', ...new Set(projects.map(project => project.category))];
+
+function useProjectReducedMotion() {
+  const [reduced, setReduced] = useState(() => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  useEffect(() => {
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setReduced(preference.matches);
+    sync();
+    preference.addEventListener('change', sync);
+    return () => preference.removeEventListener('change', sync);
+  }, []);
+  return reduced;
+}
+
+function ProjectIcon({ name = 'arrow', className = '' }) {
+  const paths = {
+    arrow: <path d="M6 18 18 6M6 6h12v12" />,
+    code: <><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-2-14-4 18" /></>,
+    grid: <><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></>,
+    screen: <><rect x="3" y="4" width="18" height="13" rx="2" /><path d="M8 21h8M12 17v4" /></>,
+    check: <path d="m5 12 4 4L19 6" />,
+  };
+  return <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">{paths[name] || paths.arrow}</svg>;
+}
+
+function DraftText({ value, children, className = '' }) {
+  return <p className={(value ? '' : 'project-draft ') + className}>{value || children}</p>;
+}
+
+function DestinationLink({ href, children, icon = 'arrow', label }) {
+  const content = <><ProjectIcon name={icon} /><span>{children}<small>{href ? label : 'link not connected'}</small></span><ProjectIcon className="project-link-arrow" /></>;
+  return href ? <a href={href} target={href.startsWith('#') ? undefined : '_blank'} rel={href.startsWith('#') ? undefined : 'noopener noreferrer'}>{content}</a>
+    : <button type="button" aria-disabled="true" aria-label={children + ' — link not connected'}>{content}</button>;
+}
+
+function ScreenshotSlot({ screen, number }) {
+  return <figure className={'project-screen' + (screen?.src ? ' project-screen--real' : ' project-screen--draft')}>
+    <div className="project-screen__chrome" aria-hidden="true"><span /><span /><span /><i>{pad(number)} / SCREEN</i></div>
+    {screen?.src ? <img src={asset(screen.src)} alt={screen.alt || 'Project screen ' + number} loading="lazy" /> : <div className="project-screen__placeholder">
+      <div className="project-screen__wireframe" aria-hidden="true"><i /><div><b /><b /><b /></div><span /><span /></div>
+      <strong>{number === 1 ? 'The main experience' : 'A closer look'}</strong>
+      <span>{number === 1 ? 'Add the primary product screenshot here.' : 'Add a feature, flow, or detail screen here.'}</span>
+    </div>}
+    <figcaption>{screen?.caption || (number === 1 ? 'Describe what this screen helps people do.' : 'Explain the feature or decision shown in this view.')}</figcaption>
+  </figure>;
+}
+
+// Keep both layouts mounted during a crossfade. The outgoing copy leaves flow,
+// while the incoming copy supplies its real height and becomes the only active UI.
+function ProjectNotesPanel({ projectId, accent, reducedMotion, onMeasure, onReady, children }) {
+  const panelRef = useRef(null);
+  const present = useIsPresent();
+  useLayoutEffect(() => {
+    const panel = panelRef.current;
+    if (!panel || !present) return undefined;
+    const measure = () => onMeasure(projectId, panel.getBoundingClientRect().height || panel.scrollHeight);
+    measure();
+    onReady(projectId);
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(measure);
+    observer?.observe(panel);
+    return () => observer?.disconnect();
+  }, [projectId, present, onMeasure, onReady]);
+  return <motion.div ref={panelRef} className="project-case-study__transition"
+    data-notes-project={projectId} data-notes-active={present ? 'true' : 'false'}
+    aria-hidden={present ? undefined : true} inert={!present}
+    style={{ '--project-accent': `var(--${accent})`, position: present ? 'relative' : 'absolute' }}
+    initial={reducedMotion ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: reducedMotion ? 0 : -3 }}
+    transition={{ opacity: { duration: reducedMotion ? 0 : present ? .58 : .42, ease: [.25, .1, .25, 1] },
+      y: { duration: reducedMotion ? 0 : .64, ease: [.22, 1, .36, 1] } }}>
+    {children}
+  </motion.div>;
+}
+
+function ProjectNotesTransition({ projectId, accent, reducedMotion, onReady, children }) {
+  const [height, setHeight] = useState(0);
+  const activeProject = useRef(projectId);
+  const latestHeight = useRef(0);
+  const changing = useRef(false);
+  if (activeProject.current !== projectId) {
+    activeProject.current = projectId;
+    changing.current = !reducedMotion;
+  }
+  const measure = useCallback((id, value) => {
+    if (id !== activeProject.current || value <= 0) return;
+    latestHeight.current = value;
+    // A shorter incoming panel must not crop the outgoing copy mid-fade.
+    setHeight(previous => {
+      const next = changing.current ? Math.max(previous, value) : value;
+      return Math.abs(previous - next) < .5 ? previous : next;
+    });
+  }, []);
+  const settle = useCallback(() => {
+    changing.current = false;
+    if (latestHeight.current > 0) setHeight(latestHeight.current);
+  }, []);
+  useLayoutEffect(() => { if (reducedMotion) settle(); }, [reducedMotion, settle]);
+  return <motion.div className="project-case-study__viewport" initial={false}
+    animate={{ height: height || 'auto' }}
+    transition={{ duration: reducedMotion ? 0 : .64, ease: [.22, 1, .36, 1] }}>
+    <AnimatePresence mode="sync" initial={false} onExitComplete={settle}>
+      <ProjectNotesPanel key={projectId} projectId={projectId} accent={accent} reducedMotion={reducedMotion}
+        onMeasure={measure} onReady={onReady}>{children}</ProjectNotesPanel>
+    </AnimatePresence>
+  </motion.div>;
+}
 
 export default function Projects() {
+  const reducedMotion = useProjectReducedMotion();
   const [category, setCategory] = useState('All');
-  const [selectedId, setSelectedId] = useState(null);
-  const detailsId = `project-details-${useId().replace(/:/g, '')}`;
+  const [selectedId, setSelectedId] = useState(projects[0]?.id || null);
+  const [notesId, setNotesId] = useState(projects[0]?.id || null);
+  const [activation, setActivation] = useState(null);
+  const [readyProjectId, setReadyProjectId] = useState(projects[0]?.id || null);
+  const detailsRef = useRef(null);
+  const activationCount = useRef(0);
+  const handledActivation = useRef(0);
+  const detailsId = 'project-details-' + useId().replace(/:/g, '');
   const shown = useMemo(() => projects.filter(project => category === 'All' || project.category === category), [category]);
   const galleryItems = useMemo(() => shown.map(project => ({
     ...project,
@@ -21,60 +136,125 @@ export default function Projects() {
     hasScreenshot: Boolean(project.screenshot),
   })), [shown]);
   const selected = shown.find(project => project.id === selectedId) || shown[0];
+  const notes = shown.find(project => project.id === notesId) || selected;
+  const study = notes?.caseStudy || {};
+  const selectedIndex = projects.findIndex(project => project.id === notes?.id);
+  const notesHeadingId = `${detailsId}-title-${notes?.id || 'empty'}`;
+  // Brief hover intent keeps the notes readable while crossing other panels.
+  // Activating a project below bypasses this delay entirely.
+  useEffect(() => {
+    if (selected?.id === notesId) return undefined;
+    if (reducedMotion) { setNotesId(selected?.id); return undefined; }
+    const timer = window.setTimeout(() => setNotesId(selected?.id), 130);
+    return () => window.clearTimeout(timer);
+  }, [selected?.id, notesId, reducedMotion]);
   const techLogos = useMemo(() => (selected?.technologies || []).map(technology => {
     const entry = technologyCatalog[technology];
-    return {
-      node: <TechLogo technology={technology} />,
-      title: entry?.label || technology,
-      hoverColor: entry?.color || '#f2e9d6',
-    };
+    return { node: <TechLogo technology={technology} />, title: entry?.label || technology, hoverColor: entry?.color || '#f2e9d6' };
   }), [selected]);
-  const handleSelection = useCallback(item => setSelectedId(item?.id || null), []);
+  const handleSelection = useCallback(item => { if (item?.id) setSelectedId(item.id); }, []);
+  const handleActivation = useCallback(item => {
+    if (!item?.id) return;
+    setSelectedId(item.id);
+    setNotesId(item.id);
+    setActivation({ id: item.id, count: ++activationCount.current });
+  }, []);
+  const filter = value => {
+    setActivation(null);
+    const next = projects.filter(project => value === 'All' || project.category === value);
+    if (!next.some(project => project.id === selectedId)) setSelectedId(next[0]?.id || null);
+    setNotesId(next.some(project => project.id === selectedId) ? selectedId : next[0]?.id || null);
+    setCategory(value);
+  };
 
-  return <section id="projects" className="portfolio-projects project-showcase">
-    <div className="section-heading project-showcase__heading">
-      <div><span className="section-kicker">02 / SELECTED WORK</span><h2>PROJECTS<span>.</span></h2></div>
-      <p>Ideas brought to life through code and design.<span>Pick a project. Take a closer look.</span></p>
-    </div>
-    <div className="project-showcase__toolbar">
-      <div className="project-filters" role="group" aria-label="Filter projects">
-        {categories.map(value => <button key={value} type="button" aria-pressed={category === value} onClick={() => setCategory(value)}>{value}</button>)}
+  useLayoutEffect(() => {
+    if (!activation || handledActivation.current === activation.count) return undefined;
+    if (activation.id !== selected?.id) { handledActivation.current = activation.count; setActivation(null); return undefined; }
+    if (readyProjectId !== activation.id) return undefined;
+    handledActivation.current = activation.count;
+    const frame = requestAnimationFrame(() => {
+      const section = detailsRef.current;
+      if (!section) return;
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const top = Math.max(0, window.scrollY + section.getBoundingClientRect().top - 104);
+      document.getElementById(notesHeadingId)?.focus({ preventScroll: true });
+      window.scrollTo({ top, behavior: reduced ? 'instant' : 'smooth' });
+      setActivation(null);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [activation, selected?.id, readyProjectId, notesHeadingId]);
+
+  return <section id="projects" className="portfolio-projects project-showcase" aria-labelledby="projects-title">
+    <ProjectsBackdrop />
+    <div className="project-showcase__content">
+      <header className="project-showcase__heading">
+        <div><span className="project-index-label"><span aria-hidden="true">✦</span> SELECTED WORK / INDEX</span><h2 id="projects-title">Projects<span>.</span></h2></div>
+        <p>Development, design, and the thinking behind each build.</p>
+      </header>
+      <div className="project-showcase__toolbar">
+        <div className="project-filters" role="group" aria-label="Filter projects">
+          {categoryOptions.map(value => <button key={value} type="button" aria-pressed={category === value} onClick={() => filter(value)}>
+            <ProjectIcon name={value === 'All' ? 'grid' : 'code'} /><span>{value === 'All' ? 'All work' : value}</span><small>{pad(value === 'All' ? projects.length : projects.filter(project => project.category === value).length)}</small>
+          </button>)}
+        </div>
+        <span className="project-showcase__count" aria-live="polite"><b>{pad(shown.length)}</b> {shown.length === 1 ? 'project' : 'projects'}</span>
       </div>
-      <span className="project-showcase__count" aria-live="polite">{String(shown.length).padStart(2, '0')} {shown.length === 1 ? 'project' : 'projects'}</span>
+      {selected ? <>
+        <div className="project-collection">
+          <div className="project-collection__bar"><span>THE COLLECTION</span><span aria-hidden="true">01 — {pad(shown.length)}</span></div>
+          <div className="project-collection__gallery">
+            <AccordionGallery items={galleryItems} defaultIndex={0} expandRatio={0.7} height={450}
+              duration={1} ease="power3.inOut" tilt={2} gap={14} radius={14} detailsId={detailsId}
+              onSelectionChange={handleSelection} onItemActivate={handleActivation}
+              label={(category === 'All' ? 'Selected' : category) + ' projects'} />
+          </div>
+          <section className="project-toolkit" aria-label={'Technologies used in ' + selected.title}>
+            <div className="project-toolkit__heading"><span>BUILT WITH</span><motion.strong key={selected.id} initial={reducedMotion ? false : { opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : .25 }}>{selected.title}</motion.strong><span className="project-toolkit__mark" aria-hidden="true">✦</span></div>
+            <motion.div key={selected.id} className="project-toolkit__body" initial={reducedMotion ? false : { opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : .35, ease: 'easeOut' }}>
+              {techLogos.length ? <LogoLoop logos={techLogos} speed={42} direction="left" logoHeight={27} gap={29}
+                hoverSpeed={0} fadeOut fadeOutWidth={.06} scaleOnHover labels="inline" layout="line" intro={false} draggable
+                ariaLabel={selected.title + ' technology stack'} className="project-toolkit__loop" />
+                : <div className="project-toolkit__unlisted"><ProjectIcon name="code" /><span>Add the verified technologies used in this project.</span></div>}
+            </motion.div>
+          </section>
+        </div>
+        <section ref={detailsRef} id={detailsId} className={'project-case-study accent-' + (notes.accent || 'blue')} aria-labelledby={notesHeadingId} data-project-id={selected.id} data-notes-id={notes.id}>
+          <div className="project-case-study__bar"><span>PROJECT NOTES</span><motion.span key={notes.id}
+            initial={reducedMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: reducedMotion ? 0 : .4 }}>
+            {pad(selectedIndex + 1)} / {pad(projects.length)}</motion.span></div>
+          <ProjectNotesTransition projectId={notes.id} accent={notes.accent || 'blue'} reducedMotion={reducedMotion} onReady={setReadyProjectId}>
+            <div className="project-case-study__overview">
+              <div className="project-case-study__intro">
+                <span className="project-case-study__category">{notes.category}</span>
+                <h3 tabIndex={-1} id={notesHeadingId}>{notes.title}<span>.</span></h3>
+                <p className="project-case-study__description">{notes.description}</p>
+                {notes.details && <p className="project-case-study__summary">{notes.details}</p>}
+              </div>
+              <aside className="project-destination" aria-label="Visit this project">
+                <span className="project-section-label">OPEN THE PROJECT</span>
+                <div className="project-links">
+                  <DestinationLink href={notes.liveUrl} label={notes.liveUrl?.startsWith('#') ? 'return to the live portfolio' : 'open the live experience'}>{notes.liveLabel || 'Visit project'}</DestinationLink>
+                  <DestinationLink href={notes.sourceUrl} icon="code" label="explore the repository">Source code</DestinationLink>
+                </div>
+              </aside>
+            </div>
+            <dl className="project-facts">
+              <div><dt>My role</dt><dd className={study.role ? '' : 'project-draft'}>{study.role || 'Add your role and contribution.'}</dd></div>
+              <div><dt>Focus</dt><dd className={study.focus ? '' : 'project-draft'}>{study.focus || 'Describe the core focus.'}</dd></div>
+              <div><dt>Scope</dt><dd className={study.scope ? '' : 'project-draft'}>{study.scope || 'Add the project scope or timeline.'}</dd></div>
+            </dl>
+            <div className="project-story-grid">
+              <article className="project-note project-note--challenge"><span className="project-note__number" aria-hidden="true">01</span><h4>The challenge</h4><DraftText value={study.challenge}>Describe the problem, who it affected, and why this project mattered.</DraftText></article>
+              <article className="project-note project-note--approach"><span className="project-note__number" aria-hidden="true">02</span><h4>The approach</h4><DraftText value={study.approach}>Explain the decisions behind the experience, structure, and technical approach.</DraftText></article>
+              <article className="project-note project-note--features"><span className="project-note__number" aria-hidden="true">03</span><h4>Key features</h4><ul>{(study.features?.length ? study.features : ['Add the first key feature.', 'Add a second important capability.', 'Add one thoughtful detail.']).map(feature => <li key={feature} className={study.features?.length ? '' : 'project-draft'}><ProjectIcon name="check" /><span>{feature}</span></li>)}</ul></article>
+              <article className="project-note project-note--outcome"><span className="project-note__number" aria-hidden="true">04</span><h4>The outcome</h4><DraftText value={study.outcome}>Share what changed, what you learned, or the result you can support with evidence.</DraftText></article>
+            </div>
+            <div className="project-screens-heading"><div><span className="project-section-label">IN THE DETAILS</span><h4>A look inside<span>.</span></h4></div><ProjectIcon name="screen" /></div>
+            <div className="project-screens"><ScreenshotSlot screen={study.screens?.[0]} number={1} /><ScreenshotSlot screen={study.screens?.[1]} number={2} /></div>
+          </ProjectNotesTransition>
+        </section>
+      </> : <div className="project-empty"><h3>No projects in this view.</h3><button type="button" onClick={() => filter('All')}>Show all work</button></div>}
     </div>
-    {shown.length ? <>
-      <div className="project-showcase__instruction"><span aria-hidden="true">↔</span><span>Hover, tap, or use the arrow keys to explore.</span></div>
-      <AccordionGallery items={galleryItems} defaultIndex={0} expandRatio={0.72} height={470}
-        duration={0.85} tilt={3} gap={14} detailsId={detailsId} onSelectionChange={handleSelection}
-        label={`${category === 'All' ? 'Selected' : category} projects`} />
-      <div id={detailsId} className={`project-spotlight accent-${selected.accent || 'blue'}`} role="region" aria-label="Selected project details">
-        <div className="project-spotlight__main" aria-live="polite" aria-atomic="true">
-          <span className="project-spotlight__category">{selected.category}</span>
-          <h3>{selected.title}</h3>
-          <p>{selected.description}</p>
-          {selected.details && <details key={selected.id}><summary>About this project<span aria-hidden="true">+</span></summary><p>{selected.details}</p></details>}
-        </div>
-        <div className="project-spotlight__aside">
-          {selected.status && <span className="project-spotlight__status"><span aria-hidden="true" />{selected.status}</span>}
-          {(selected.liveUrl || selected.sourceUrl) && <div className="project-links">
-            {selected.liveUrl && <a href={selected.liveUrl} target={selected.liveUrl.startsWith('#') ? undefined : '_blank'} rel={selected.liveUrl.startsWith('#') ? undefined : 'noopener noreferrer'}><span>{selected.liveLabel || 'Live project'}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg></a>}
-            {selected.sourceUrl && <a href={selected.sourceUrl} target="_blank" rel="noopener noreferrer"><span>Source code</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-2-14-4 18" /></svg></a>}
-          </div>}
-          <span className="project-spotlight__edition" aria-hidden="true">made with purpose<span>✦</span></span>
-        </div>
-      </div>
-      <section className="project-toolkit" aria-label={`Technologies used in ${selected.title}`}>
-        <div className="project-toolkit__heading">
-          <div><span className="project-toolkit__kicker">TOOLS BEHIND THE BUILD</span><h3>{selected.title}<span aria-hidden="true"> ✦</span></h3></div>
-          <span className="project-toolkit__hint">{techLogos.length ? 'Drag to explore · hover to pause' : 'More details on the way'}</span>
-        </div>
-        {techLogos.length ? <LogoLoop key={selected.id} logos={techLogos} speed={48} direction="left" logoHeight={32} gap={34}
-          hoverSpeed={0} fadeOut fadeOutWidth={0.07} scaleOnHover labels="inline" layout="line" intro draggable
-          ariaLabel={`${selected.title} technology stack`} className="project-toolkit__loop" />
-          : <div className="project-toolkit__empty"><span aria-hidden="true">{'{ }'}</span><p>Stack details coming soon.</p></div>}
-      </section>
-    </> : <div className="collection-placeholder"><span className="placeholder-glyph" aria-hidden="true">{category === 'Games' ? '{ play }' : '/* art */'}</span><h3>{category} collection</h3><p>Selected work coming soon.</p></div>}
-    {category === 'All' && <div className="project-next"><span aria-hidden="true">↳</span><p>More experiments, games, and artworks.<small>Coming to the collection soon.</small></p></div>}
   </section>;
 }
-// END OF FILE: NETSUITE-PROJECTS-R1 | Projects.jsx
+// END OF FILE: PORTFOLIO-REFINE-R6 | Projects.jsx

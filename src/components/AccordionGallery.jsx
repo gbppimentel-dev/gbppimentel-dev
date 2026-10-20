@@ -1,4 +1,4 @@
-// CHANGE VERSION: INTERACTION-POLISH-R1 | 2026-10-20 | Complete AccordionGallery.jsx
+// CHANGE VERSION: PORTFOLIO-REFINE-R5 | Word-safe title fitting with stable transition layers
 // Adapted from the React Bits AccordionGallery supplied with this project.
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
@@ -7,13 +7,39 @@ import '../styles/AccordionGallery.css';
 const clamp = (value, low, high) => Math.min(Math.max(Number.isFinite(value) ? value : low, low), high);
 const itemKey = (item, index) => String(item.id ?? `${item.label || ''}-${item.image || ''}-${index}`);
 
+// Break only between words or before an existing hyphen. Each visible token
+// stays intact; the full, unsplit title remains the button's accessible label.
+const titleWords = label => String(label || '').split(/(\s+|(?=-))/).filter(Boolean).map((word, index) =>
+  /^\s+$/.test(word) ? word : [
+    index > 0 && word.startsWith('-') ? <wbr key={`break-${index}`} /> : null,
+    <span className="ag-panel__title-word" key={index}>{word}</span>,
+  ]
+);
+
+const fitTitle = (node, width, context) => {
+  if (!node) return;
+  node.style.fontSize = '';
+  const styles = getComputedStyle(node);
+  const base = parseFloat(styles.fontSize) || (node.classList.contains('ag-panel__text--collapsed') ? 24 : 42);
+  if (context) context.font = `${styles.fontStyle || 'normal'} ${styles.fontWeight || 400} ${base}px ${styles.fontFamily || 'sans-serif'}`;
+  const words = [...node.querySelectorAll('.ag-panel__title-word')];
+  // Ignoring negative tracking slightly overestimates the width, keeping a
+  // small safety margin for glyph outlines without ever cutting a letter.
+  const tracking = Math.max(0, parseFloat(styles.letterSpacing) || 0);
+  const longest = Math.max(1, ...words.map(word => context
+    ? context.measureText(word.textContent).width + tracking * word.textContent.length
+    : word.offsetWidth || word.textContent.length * base * .7));
+  const size = Math.min(base, base * Math.max(1, width - 2) / longest);
+  node.style.fontSize = `${Math.floor(size * 100) / 100}px`;
+};
+
 export default function AccordionGallery({
   items = [], defaultIndex = 0, accentColor = 'var(--brand-accent, #d8b97c)',
   overlayColor = '#14151b', textColor = '#f2e9d6', height = 460, gap = 12,
   radius = 22, expandRatio = 0.62, orientation = 'horizontal', duration = 0.85,
   ease = 'power3.inOut', parallax = 0.5, tilt = 3, stagger = 0.06,
   trigger = 'hover', showLabels = true, grayscale = true, className = '',
-  onSelectionChange, label = 'Selected projects', detailsId,
+  onSelectionChange, onItemActivate, label = 'Selected projects', detailsId,
 }) {
   const rootRef = useRef(null);
   const panelRefs = useRef([]);
@@ -21,6 +47,9 @@ export default function AccordionGallery({
   const mediaRefs = useRef([]);
   const barRefs = useRef([]);
   const detailRefs = useRef([]);
+  const labelRefs = useRef([]);
+  const expandedTitleRefs = useRef([]);
+  const collapsedTitleRefs = useRef([]);
   const timelineRef = useRef(null);
   const layoutRef = useRef(null);
   const firstRun = useRef(true);
@@ -38,6 +67,7 @@ export default function AccordionGallery({
   const selectedItem = items[active];
   const vertical = orientation === 'vertical' || environment.narrow;
   const ratio = count > 1 ? clamp(expandRatio, 0.2, 0.9) : 1;
+  const labelSignature = items.map(item => String(item.label || '')).join('\u0000');
   callbackRef.current = onSelectionChange;
 
   useLayoutEffect(() => {
@@ -78,11 +108,37 @@ export default function AccordionGallery({
           duration: seconds, ease,
         }, 0);
       }
+      const labelNode = labelRefs.current[index];
+      if (labelNode) timeline.to(labelNode, {
+        left: vertical ? (expanded ? 20 : 60) : (expanded ? 24 : 16),
+        right: vertical ? (expanded ? 20 : 50) : (expanded ? 24 : 16),
+        '--ag-label-reveal': expanded && showLabels ? 1 : 0,
+        duration: seconds, ease,
+      }, 0);
+      const expandedTitle = expandedTitleRefs.current[index];
+      const collapsedTitle = collapsedTitleRefs.current[index];
+      // Each title keeps its final line breaks while the panel changes width.
+      // Crossfading these fixed layouts avoids a word jumping to another line
+      // halfway through the expansion. Interrupted transitions start where they are.
+      if (expandedTitle) timeline.to(expandedTitle, {
+        opacity: expanded && showLabels ? 1 : 0,
+        scale: expanded ? 1 : .92,
+        y: expanded ? 0 : 5,
+        duration: seconds * (expanded ? .82 : .5),
+        ease,
+      }, expanded && seconds ? seconds * .12 : 0);
+      if (collapsedTitle) timeline.to(collapsedTitle, {
+        opacity: !expanded && showLabels ? 1 : 0,
+        scale: expanded ? 1.06 : 1,
+        y: expanded ? -3 : 0,
+        duration: seconds * (expanded ? .46 : .78),
+        ease,
+      }, !expanded && seconds ? seconds * .12 : 0);
       const reveal = [barRefs.current[index], detailRefs.current[index]].filter(Boolean);
       if (reveal.length) timeline.to(reveal, {
         opacity: expanded && showLabels ? 1 : 0,
-        x: expanded ? 0 : -10,
-        duration: expanded ? seconds : seconds * 0.65,
+        x: expanded ? 0 : -6,
+        duration: seconds * .8,
         stagger: environment.reduced || !expanded ? 0 : Math.max(0, stagger), ease,
       }, 0);
     });
@@ -95,6 +151,8 @@ export default function AccordionGallery({
     if (!root) return undefined;
     let frame = 0;
     let previousSize = '';
+    let textContext = null;
+    try { textContext = document.createElement('canvas').getContext('2d'); } catch { /* DOM measurements remain available. */ }
     const measure = () => {
       frame = 0;
       const rect = root.getBoundingClientRect();
@@ -102,9 +160,21 @@ export default function AccordionGallery({
       if (signature === previousSize) return;
       previousSize = signature;
       const total = vertical ? rect.height : rect.width;
-      const usable = Math.max(total - Math.max(0, gap) * Math.max(0, count - 1), 120);
+      // Flex growth divides panel content boxes, after their four-pixel borders.
+      const usable = Math.max(total - Math.max(0, gap) * Math.max(0, count - 1) - count * 4, 1);
       mediaSizeRef.current = Math.max(140, usable * ratio * 1.22);
       root.style.setProperty('--ag-media-size', `${mediaSizeRef.current}px`);
+      const expandedWidth = Math.max(1, vertical ? rect.width - 61 : usable * ratio - 65);
+      const collapsedWidth = Math.max(1, vertical ? rect.width - 114 : count > 1 ? usable * (1 - ratio) / (count - 1) - 32 : expandedWidth);
+      root.style.setProperty('--ag-expanded-label-width', `${expandedWidth}px`);
+      root.style.setProperty('--ag-collapsed-label-width', `${collapsedWidth}px`);
+      labelRefs.current.slice(0, count).forEach((node, index) => {
+        if (!node) return;
+        fitTitle(expandedTitleRefs.current[index], expandedWidth, textContext);
+        fitTitle(collapsedTitleRefs.current[index], collapsedWidth, textContext);
+        const titleHeight = Math.max(expandedTitleRefs.current[index]?.offsetHeight || 0, collapsedTitleRefs.current[index]?.offsetHeight || 0);
+        node.style.setProperty('--ag-title-height', `${titleHeight || (vertical ? 82 : 108)}px`);
+      });
       // Root dimensions stay fixed while panels animate. Resize never starts a new tween.
       layoutRef.current?.(false);
     };
@@ -113,12 +183,15 @@ export default function AccordionGallery({
     const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(schedule) : null;
     observer?.observe(root);
     window.addEventListener('resize', schedule, { passive: true });
+    let cancelled = false;
+    document.fonts?.ready.then(() => { if (!cancelled) { previousSize = ''; schedule(); } }).catch(() => {});
     return () => {
+      cancelled = true;
       observer?.disconnect();
       window.removeEventListener('resize', schedule);
       if (frame) window.cancelAnimationFrame(frame);
     };
-  }, [vertical, gap, count, ratio]);
+  }, [vertical, gap, count, ratio, labelSignature]);
 
   useLayoutEffect(() => {
     panelRefs.current.length = count;
@@ -126,6 +199,9 @@ export default function AccordionGallery({
     mediaRefs.current.length = count;
     barRefs.current.length = count;
     detailRefs.current.length = count;
+    labelRefs.current.length = count;
+    expandedTitleRefs.current.length = count;
+    collapsedTitleRefs.current.length = count;
     applyLayout(!firstRun.current);
     firstRun.current = false;
   }, [applyLayout, count]);
@@ -161,7 +237,7 @@ export default function AccordionGallery({
       const expanded = index === active;
       return <article key={itemKey(item, index)} ref={node => { panelRefs.current[index] = node; }}
         className={`ag-panel${expanded ? ' ag-panel--active' : ''} ag-panel--${item.accent || 'blue'}`}
-        style={{ '--ag-dim': expanded ? 0 : 0.36 }}>
+        style={{ '--ag-dim': 0.36 }}>
         <div className="ag-panel__frame" aria-hidden="true">
           <div className="ag-panel__media" ref={node => { mediaRefs.current[index] = node; }}>
             <img src={item.image} alt="" draggable="false" loading={index === active ? 'eager' : 'lazy'} />
@@ -173,11 +249,14 @@ export default function AccordionGallery({
           aria-pressed={expanded} aria-controls={expanded ? detailsId : undefined}
           aria-label={`Show ${item.label || `project ${index + 1}`}`}
           onPointerEnter={event => { if (trigger === 'hover' && event.pointerType !== 'touch') select(index); }}
-          onFocus={() => select(index)} onClick={() => select(index)} onKeyDown={event => handleKeyDown(index, event)}>
+          onFocus={() => select(index)} onClick={() => { select(index); onItemActivate?.(item, index); }} onKeyDown={event => handleKeyDown(index, event)}>
           <span className="ag-panel__number" aria-hidden="true">/{String(index + 1).padStart(2, '0')}</span>
-          {showLabels && <span className="ag-panel__label">
+          {showLabels && <span className="ag-panel__label" ref={node => { labelRefs.current[index] = node; }} aria-hidden="true">
             <span className="ag-panel__bar" ref={node => { barRefs.current[index] = node; }} aria-hidden="true" />
-            <span className="ag-panel__label-copy"><span className="ag-panel__text">{item.label}</span>
+            <span className="ag-panel__label-copy"><span className="ag-panel__title-stage">
+              <span className="ag-panel__text ag-panel__text--expanded" ref={node => { expandedTitleRefs.current[index] = node; }}>{titleWords(item.label)}</span>
+              <span className="ag-panel__text ag-panel__text--collapsed" ref={node => { collapsedTitleRefs.current[index] = node; }}>{titleWords(item.label)}</span>
+            </span>
               <span className="ag-panel__detail" ref={node => { detailRefs.current[index] = node; }} aria-hidden="true">{item.category || 'Selected project'}<span>↗</span></span>
             </span>
           </span>}
@@ -187,4 +266,4 @@ export default function AccordionGallery({
     })}
   </div>;
 }
-// END OF FILE: INTERACTION-POLISH-R1 | AccordionGallery.jsx
+// END OF FILE: PORTFOLIO-REFINE-R5 | AccordionGallery.jsx

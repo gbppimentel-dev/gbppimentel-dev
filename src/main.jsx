@@ -1,7 +1,8 @@
-// CHANGE VERSION: TAB-METADATA-R1 | 2026-10-16 | Complete src/main.jsx
+// CHANGE VERSION: DESKTOP-POLISH-R1 | 2026-10-20 | Complete src/main.jsx
 import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
+import DesktopGate from "./components/DesktopGate";
 import { asset } from "./utils/assets";
 import "./styles/bootstrap.min.css";
 import "swiper/css";
@@ -63,7 +64,7 @@ applyPortfolioMetadata();
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
+    <DesktopGate><App /></DesktopGate>
   </React.StrictMode>,
 );
-// END OF FILE: TAB-METADATA-R1 | src/main.jsx
+// END OF FILE: DESKTOP-POLISH-R1 | src/main.jsx

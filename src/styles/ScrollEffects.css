@@ -1,4 +1,4 @@
-/* CHANGE VERSION: PORTFOLIO-POLISH-R4 | 2026-10-14 | Complete ScrollEffects.css */
+/* CHANGE VERSION: PORTFOLIO-REFINE-R3 | Original round mouse restored; viewport scrollbar behavior preserved */
 /* Mouse animation adapted from Uiverse.io by mrhyddenn. */
 .header .hero-corner { position: absolute; z-index: 4; right: 40px; bottom: 32px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .header .hero-corner .hero-pagination { position: static; }
@@ -38,4 +38,4 @@ html[data-scroll-edge="both"]::-webkit-scrollbar-thumb, html[data-scroll-edge="b
   .hero-scroll-mouse .scrolldown::before { opacity: 1; height: 6px; }
   .hero-scroll-mouse .chevrondown { opacity: .65; }
 }
-/* END OF FILE: PORTFOLIO-POLISH-R4 | ScrollEffects.css */
+/* END OF FILE: PORTFOLIO-REFINE-R3 | ScrollEffects.css */

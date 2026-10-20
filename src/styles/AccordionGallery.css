@@ -1,4 +1,4 @@
-/* CHANGE VERSION: INTERACTION-POLISH-R1 | 2026-10-20 | Complete AccordionGallery.css */
+/* CHANGE VERSION: PORTFOLIO-REFINE-R5 | Word-safe accordion titles retain continuous transitions */
 /* All gallery rules are local, including the supplied component's overlay variables. */
 .accordion-gallery {
   --ag-accent: #d8b97c;
@@ -103,6 +103,7 @@
   -webkit-tap-highlight-color: transparent;
 }
 .accordion-gallery .ag-panel__select:focus-visible { outline: 3px dashed var(--ag-accent); outline-offset: -8px; }
+.accordion-gallery .ag-panel__select:focus:not(:focus-visible) { outline: none; box-shadow: none; }
 .accordion-gallery .ag-panel__number {
   position: absolute;
   top: 19px;
@@ -114,51 +115,69 @@
   font: 600 12px/1.2 'Roboto', sans-serif;
   letter-spacing: .06em;
 }
+/* Titles use two fixed final layouts. Their scale/opacity and these reveal
+   metrics share the panel's GSAP timeline, so narrowing panels cannot reflow
+   a growing title in discrete jumps. No writing-mode/font-family swap. */
 .accordion-gallery .ag-panel__label {
+  --ag-label-reveal: 0;
   position: absolute;
-  left: 24px;
+  left: 16px;
   bottom: 25px;
-  right: 24px;
+  right: 16px;
   display: flex;
   align-items: stretch;
-  gap: 13px;
+  gap: calc(13px * var(--ag-label-reveal));
   min-width: 0;
   pointer-events: none;
 }
-.accordion-gallery .ag-panel__bar { flex: 0 0 4px; border-radius: 2px; background: var(--ag-accent); opacity: 0; }
-.accordion-gallery .ag-panel__label-copy { min-width: 0; display: block; }
+.accordion-gallery .ag-panel__bar {
+  flex: 0 0 calc(4px * var(--ag-label-reveal));
+  border-radius: 2px;
+  background: var(--ag-accent);
+  opacity: 0;
+}
+.accordion-gallery .ag-panel__label-copy { flex: 1 1 0; min-width: 0; display: block; }
+.accordion-gallery .ag-panel__title-stage { position: relative; display: block; height: var(--ag-title-height, 108px); }
 .accordion-gallery .ag-panel__text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
   display: block;
+  max-width: none;
   color: var(--ag-text);
   font: 400 clamp(26px, 3.7vw, 52px)/1.04 'Tilt Warp', sans-serif;
   letter-spacing: -.025em;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  transform-origin: left bottom;
+  will-change: transform, opacity;
 }
-.accordion-gallery .ag-panel__detail { display: flex; align-items: center; gap: 15px; margin-top: 13px; font: 500 11px/1.4 'Poppins', sans-serif; opacity: 0; }
+.accordion-gallery .ag-panel__text--expanded { width: var(--ag-expanded-label-width, 420px); opacity: 0; }
+.accordion-gallery .ag-panel__text--collapsed { width: var(--ag-collapsed-label-width, 140px); font-size: clamp(19px, 2.1vw, 30px); opacity: 1; }
+.accordion-gallery .ag-panel__title-word { display: inline-block; white-space: nowrap; }
+.accordion-gallery .ag-panel__detail {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  height: calc(28px * var(--ag-label-reveal));
+  margin-top: calc(10px * var(--ag-label-reveal));
+  overflow: hidden;
+  white-space: nowrap;
+  font: 500 11px/1.4 'Poppins', sans-serif;
+  opacity: 0;
+}
 .accordion-gallery .ag-panel__detail > span { font: 22px/1 'Roboto', sans-serif; color: var(--ag-accent); }
 .accordion-gallery .ag-panel__expand { position: absolute; top: 18px; right: 19px; font: 400 26px/1 'Roboto', sans-serif; }
-.accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__label { left: 16px; right: 16px; gap: 0; }
-.accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__bar { flex-basis: 0; }
-.accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__text { font-size: clamp(19px, 2.1vw, 30px); }
-.accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__detail { height: 0; margin: 0; overflow: hidden; }
-@media (min-width: 641px) {
-  .accordion-gallery:has(.ag-panel:nth-child(4)) .ag-panel:not(.ag-panel--active) .ag-panel__label { top: 65px; bottom: 22px; align-items: end; }
-  .accordion-gallery:has(.ag-panel:nth-child(4)) .ag-panel:not(.ag-panel--active) .ag-panel__text { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-height: 100%; font-size: clamp(20px, 2vw, 28px); }
-  .accordion-gallery:has(.ag-panel:nth-child(4)) .ag-panel:not(.ag-panel--active) .ag-panel__number { left: 50%; transform: translateX(-50%); }
-  .accordion-gallery:has(.ag-panel:nth-child(4)) .ag-panel:not(.ag-panel--active) .ag-panel__expand { display: none; }
-}
 @media (max-width: 640px) {
   .accordion-gallery { perspective: none; }
   .accordion-gallery .ag-panel { transform: none !important; border-radius: min(var(--ag-radius), 17px); box-shadow: 3px 4px 0 #090c12; }
-  .accordion-gallery .ag-panel__label { left: 20px; right: 20px; bottom: 21px; }
-  .accordion-gallery .ag-panel__text { font-size: clamp(27px, 7vw, 37px); }
-  .accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__label { inset: 0 50px 0 60px; align-items: center; }
-  .accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__text { font: 600 14px/1.2 'Poppins', sans-serif; letter-spacing: -.01em; }
-  .accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__number { top: 50%; left: 12px; transform: translateY(-50%); padding: 5px 7px; font-size: 10px; }
-  .accordion-gallery .ag-panel:not(.ag-panel--active) .ag-panel__expand { top: 50%; transform: translateY(-50%); }
+  .accordion-gallery .ag-panel__label { bottom: 21px; }
+  .accordion-gallery .ag-panel__text--expanded { font-size: clamp(27px, 7vw, 37px); }
+  .accordion-gallery .ag-panel__text--collapsed { font-size: 16px; }
   .accordion-gallery .ag-panel__artmark { inset: 18% 20% 35%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .accordion-gallery .ag-panel, .accordion-gallery .ag-panel__media { will-change: auto; }
+  .accordion-gallery .ag-panel, .accordion-gallery .ag-panel__media, .accordion-gallery .ag-panel__text { will-change: auto; }
 }
-/* END OF FILE: INTERACTION-POLISH-R1 | AccordionGallery.css */
+/* END OF FILE: PORTFOLIO-REFINE-R5 | AccordionGallery.css */

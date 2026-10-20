@@ -1,0 +1,11 @@
+/* CHANGE VERSION: PORTFOLIO-REFINE-R4 | A quiet life verse beside the portfolio signature */
+#site-footer.sub-footer > .container { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+#site-footer.sub-footer .footer-brand { flex: 1 1 240px; min-width: 0; }
+#site-footer.sub-footer .footer-lifeverse { flex: 0 1 560px; min-width: 0; max-width: 100%; margin: 0; padding: 0; border: 0; text-align: right; }
+#site-footer.sub-footer .footer-lifeverse p { margin: 0; color: #c7c7ce; font: italic 400 10px/1.75 'Poppins', sans-serif; }
+#site-footer.sub-footer .footer-lifeverse cite { display: block; margin-top: 4px; color: var(--brand-accent, var(--amber)); font: 500 9px/1.5 'Poppins', sans-serif; transition: color 1.1s ease; }
+@media (max-width: 767px) {
+  #site-footer.sub-footer .footer-lifeverse { flex-basis: 100%; text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { #site-footer.sub-footer .footer-lifeverse cite { transition: none; } }
+/* END OF FILE: PORTFOLIO-REFINE-R4 | footer-verse.css */
