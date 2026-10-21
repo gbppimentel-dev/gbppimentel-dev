@@ -1,4 +1,4 @@
-// CHANGE VERSION: HEARTS-CLOUDFLARE-R5 | Technology emblems for the configured heart backend
+// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R1 | Verified Salt & Light technology emblems
 
 // Lightweight, code-drawn technology emblems. Labels keep every tool identifiable.
 // Add an entry here and its ID to a project's technologies array in data.js.
@@ -28,6 +28,12 @@ export const technologyCatalog = {
   'github-actions': { label: 'GitHub Actions', color: '#edc879', glyph: 'actions', description: 'Runs automated build and deployment workflows when project updates reach the main branch.' },
   'cloudflare-workers': { label: 'Cloudflare Workers', color: '#efbd88', glyph: 'cloudflare-workers', description: 'Runs backend code for website APIs, handling requests without a dedicated application server.' },
   'cloudflare-d1': { label: 'Cloudflare D1', color: '#a8c9f0', glyph: 'cloudflare-d1', description: 'Stores application data in a serverless SQL database that Cloudflare Workers can query.' },
+  'react-router': { label: 'React Router', color: '#f1a5a5', glyph: 'router', description: 'Handles navigation between application pages and routes that require a signed-in user.' },
+  'date-fns': { label: 'date-fns', color: '#efbddf', glyph: 'date', description: 'Formats dates and helps build calendars, due dates, and comparisons between days.' },
+  html2canvas: { label: 'html2canvas', color: '#a9dfcc', glyph: 'canvas', description: 'Renders a visible interface into an image for downloadable profile cards and journal views.' },
+  pwa: { label: 'PWA', color: '#cbb8f4', glyph: 'pwa', description: 'Adds an installable web-app experience through a manifest, service worker, and standalone display settings.' },
+  capacitor: { label: 'Capacitor', color: '#91c5ef', glyph: 'capacitor', description: 'Packages a web application inside native Android and iOS project targets.' },
+  'api-bible': { label: 'API.Bible', color: '#f2d287', glyph: 'bible', description: 'Provides Bible translations and passage content for an application to display.' },
 };
 
 function Emblem({ glyph }) {
@@ -56,6 +62,12 @@ function Emblem({ glyph }) {
     case 'actions': return <><circle cx="8" cy="7" r="4" /><circle cx="8" cy="25" r="4" /><path d="M8 11v10m4-14h9a5 5 0 0 1 5 5v3" /><rect x="18" y="15" width="12" height="14" rx="3" /><path d="m22 19 5 3-5 3Z" fill="currentColor" stroke="none" /></>;
     case 'cloudflare-workers': return <><path d="M10 24H8a6 6 0 0 1-.8-11.9A9 9 0 0 1 24.8 10a7 7 0 0 1-.8 14h-2" /><path d="m18 10-7 11h6l-2 9 10-14h-7Z" fill="currentColor" stroke="none" /></>;
     case 'cloudflare-d1': return <><ellipse cx="16" cy="7" rx="12" ry="4" /><path d="M4 7v18c0 2.2 5.4 4 12 4s12-1.8 12-4V7M4 13c0 2.2 5.4 4 12 4s12-1.8 12-4" /><text x="9" y="25" fill="currentColor" stroke="none" fontSize="10" fontFamily="Arial, sans-serif" fontWeight="700">D1</text></>;
+    case 'router': return <><circle cx="6" cy="7" r="3" /><circle cx="26" cy="25" r="3" /><circle cx="6" cy="25" r="3" /><path d="M9 7h7a5 5 0 0 1 5 5v8m-12 5h7a5 5 0 0 0 5-5V12M6 10v12" /></>;
+    case 'date': return <><rect x="4" y="6" width="24" height="23" rx="4" /><path d="M10 3v6m12-6v6M4 13h24m-17 5h4m-4 5h4m6-5h2m-2 5h2" /></>;
+    case 'canvas': return <><rect x="3" y="4" width="26" height="20" rx="3" /><path d="M11 29h10m-5-5v5M8 9h5v5H8Zm10 5 8 4-4 1-1 4Z" /><path d="M17 9h7" /></>;
+    case 'pwa': return <><rect x="3" y="5" width="21" height="21" rx="3" /><path d="M3 11h21m-15-3h.1m3 0h.1" /><rect x="18" y="14" width="11" height="16" rx="2" /><path d="m21 21 2 2 3-4m-3 8h1" /></>;
+    case 'capacitor': return <><path d="m9 3 20 20-6 6L3 9Zm14 0 6 6L9 29l-6-6Z" /><path d="m12 6 14 14M6 12l14 14" /></>;
+    case 'bible': return <><path d="M4 6c5-3 9-2 12 1 3-3 7-4 12-1v22c-5-3-9-2-12 1-3-3-7-4-12-1Z" /><path d="M16 7v22M9 10v9m-3-6h6m8-2h4m-4 5h4m-4 5h4" /></>;
     default: return <><path d="m11 8-8 8 8 8m10-16 8 8-8 8m-3-19-4 22" /></>;
   }
 }
@@ -66,4 +78,4 @@ export default function TechLogo({ technology, className = '' }) {
     <Emblem glyph={entry?.glyph} />
   </svg>;
 }
-// END OF FILE: HEARTS-CLOUDFLARE-R5 | TechLogo.jsx
+// END OF FILE: PORTFOLIO-SALT-LIGHT-R1 | TechLogo.jsx

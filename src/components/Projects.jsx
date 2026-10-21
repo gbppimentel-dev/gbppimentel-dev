@@ -1,4 +1,4 @@
-// CHANGE VERSION: PORTFOLIO-SELF-CASE-STUDY-R4 | Hover-only previews and portfolio case study
+// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R1 | Salt & Light joins the project-native case studies
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, useIsPresent } from 'motion/react';
 import { projects } from '../data';
@@ -9,6 +9,7 @@ import TechLogo, { technologyCatalog } from './TechLogo';
 import ProjectsBackdrop from './ProjectsBackdrop';
 import LifeCityProjectNotes from './LifeCityProjectNotes';
 import PortfolioProjectNotes from './PortfolioProjectNotes';
+import SaltLightProjectNotes from './SaltLightProjectNotes';
 import '../styles/ProjectGallery.css';
 
 const pad = value => String(value).padStart(2, '0');
@@ -249,11 +250,11 @@ export default function Projects() {
         <span className="project-showcase__count" aria-live="polite"><b>{pad(shown.length)}</b> {shown.length === 1 ? 'project' : 'projects'}</span>
       </div>
       {selected ? <>
-        <div className="project-collection" data-collection-theme={selected.id === 'lifecity-attendance' ? 'lifecity' : selected.id === 'gbppimentel-dev' ? 'gbp' : 'portfolio'}
+        <div className="project-collection" data-collection-theme={selected.id === 'salt-and-light' ? 'salt' : selected.id === 'lifecity-attendance' ? 'lifecity' : selected.id === 'gbppimentel-dev' ? 'gbp' : 'portfolio'}
           style={{ '--collection-accent': `var(--${selected.accent || 'blue'})` }}>
           <div className="project-collection__bar"><span>THE COLLECTION</span>
             <span className="project-collection__identity">
-              {selected.id === 'lifecity-attendance' ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m20 0v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /><circle cx="9" cy="7" r="4" /></svg> : selected.id === 'gbppimentel-dev' ? <img src={asset('brand/triangle-logo.png')} alt="" width="22" height="22" /> : <span aria-hidden="true">✦</span>}
+              {selected.id === 'salt-and-light' ? <img src={asset('images/projects/salt-light-icon-r1.png')} alt="" width="22" height="22" /> : selected.id === 'lifecity-attendance' ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m20 0v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /><circle cx="9" cy="7" r="4" /></svg> : selected.id === 'gbppimentel-dev' ? <img src={asset('brand/triangle-logo.png')} alt="" width="22" height="22" /> : <span aria-hidden="true">✦</span>}
               <motion.span key={selected.id} initial={reducedMotion ? false : { opacity: 0, y: 3 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : .35 }}>{selected.title}</motion.span>
             </span><span aria-hidden="true">01 — {pad(shown.length)}</span></div>
           <div className="project-collection__gallery">
@@ -270,12 +271,12 @@ export default function Projects() {
             </motion.div>
           </section>
         </div>
-        <section ref={detailsRef} id={detailsId} className={'project-case-study accent-' + (notes.accent || 'blue') + (notes.id === 'lifecity-attendance' ? ' project-case-study--lifecity' : notes.id === 'gbppimentel-dev' ? ' project-case-study--portfolio' : '')} aria-labelledby={notesHeadingId} data-project-id={selected.id} data-notes-id={notes.id}>
+        <section ref={detailsRef} id={detailsId} className={'project-case-study accent-' + (notes.accent || 'blue') + (notes.id === 'salt-and-light' ? ' project-case-study--salt' : notes.id === 'lifecity-attendance' ? ' project-case-study--lifecity' : notes.id === 'gbppimentel-dev' ? ' project-case-study--portfolio' : '')} aria-labelledby={notesHeadingId} data-project-id={selected.id} data-notes-id={notes.id}>
           <div className="project-case-study__bar"><span>PROJECT NOTES</span><motion.span key={notes.id}
             initial={reducedMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: reducedMotion ? 0 : .4 }}>
             {pad(selectedIndex + 1)} / {pad(projects.length)}</motion.span></div>
           <ProjectNotesTransition projectId={notes.id} accent={notes.accent || 'blue'} reducedMotion={reducedMotion} onReady={setReadyProjectId}>
-            {notes.id === 'lifecity-attendance' ? <LifeCityProjectNotes project={notes} headingId={notesHeadingId} reducedMotion={reducedMotion} /> : notes.id === 'gbppimentel-dev' ? <PortfolioProjectNotes project={notes} headingId={notesHeadingId} reducedMotion={reducedMotion} /> : <>
+            {notes.id === 'salt-and-light' ? <SaltLightProjectNotes project={notes} headingId={notesHeadingId} reducedMotion={reducedMotion} /> : notes.id === 'lifecity-attendance' ? <LifeCityProjectNotes project={notes} headingId={notesHeadingId} reducedMotion={reducedMotion} /> : notes.id === 'gbppimentel-dev' ? <PortfolioProjectNotes project={notes} headingId={notesHeadingId} reducedMotion={reducedMotion} /> : <>
             <div className="project-case-study__overview">
               <div className="project-case-study__intro">
                 <span className="project-case-study__category">{notes.category}</span>
@@ -311,4 +312,4 @@ export default function Projects() {
     </div>
   </section>;
 }
-// END OF FILE: PORTFOLIO-SELF-CASE-STUDY-R4
+// END OF FILE: PORTFOLIO-SALT-LIGHT-R1 | Projects.jsx
