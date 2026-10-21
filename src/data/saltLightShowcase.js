@@ -1,4 +1,4 @@
-// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R2 | Actual Salt & Light screens and feature chapters
+// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R6 | Actual Salt & Light screens and feature chapters
 // These are supplied app captures. Visible account progress is example app state,
 // not project usage, performance, or success metrics.
 const imageRoot = 'images/projects/salt-light-r2/';
@@ -76,57 +76,372 @@ export const saltShowcaseScreens = [
     caption: 'Skills connect character choices to everyday progress, with unlocked abilities gathered below.',
     group: 'character', layout: 'desktop', width: 1008, height: 456,
   },
+
+  {
+    "id": "achievement-collection",
+    "label": "Achievement Collection",
+    "src": "images/projects/salt-light-r6/achievement-collection.png",
+    "alt": "Salt & Light mobile achievement collection with search, category filters, unlocked milestones, and progress bars.",
+    "caption": "Search achievements, filter by category, and see each milestone’s unlock state and progress.",
+    "group": "character",
+    "layout": "phone",
+    "width": 494,
+    "height": 892
+  },
+  {
+    "id": "welcome-mobile",
+    "label": "Mobile Welcome",
+    "src": "images/projects/salt-light-r6/welcome-mobile.png",
+    "alt": "Salt & Light mobile welcome screen with a green introduction stacked above its Google sign-in card.",
+    "caption": "The mobile welcome keeps the introduction and Google sign-in in a single-column layout.",
+    "group": "welcome",
+    "layout": "phone",
+    "width": 511,
+    "height": 939
+  },
 ];
 
 export const saltFeatureChapters = [
   {
-    id: 'quests', label: 'Quests', icon: 'target', tone: 'mint',
-    title: 'Give everyday goals a little adventure.',
-    description: 'A goal can be a small daily habit, a longer commitment, or a bigger challenge. The calendar keeps the next action clear while completed work contributes to character growth.',
-    screenIds: ['goals', 'dashboard'],
-    highlights: ['Daily, Weekly, Elite & Boss Fight goals', 'Due dates, calendar views & task archive', 'XP and Faith connect actions to progression'],
+    "id": "overview",
+    "label": "Overview",
+    "icon": "screen",
+    "tone": "mint",
+    "title": "A Clear Place to Begin.",
+    "emphasis": "Begin.",
+    "description": "The dashboard brings today’s priorities and longer-term progress together. Check your character’s level, see the goals ahead, and review recent activity before choosing the next action in your day.",
+    "screenIds": [
+      "dashboard"
+    ],
+    "highlights": [
+      "Character level and XP progress",
+      "Active goals, completed goals, and today’s completions",
+      "Today’s priorities and recent reward activity"
+    ],
+    "closingLine": "See where you are, then decide what comes next."
   },
   {
-    id: 'devotion', label: 'Devotion', icon: 'book', tone: 'gold',
-    title: 'Make room for daily reflection.',
-    description: 'Passage selection, journaling, and a monthly view form one connected reflection flow. Rewards and streak feedback sit alongside the entry, rather than getting in its way.',
-    screenIds: ['devotion', 'devotion-calendar', 'devotion-tour'],
-    highlights: ['Bible passage selection & preview', 'A journal with monthly progress', 'Streaks, Faith rewards & PNG exports'],
+    "id": "quests",
+    "label": "Quests",
+    "icon": "target",
+    "tone": "gold",
+    "title": "Give Everyday Goals a Little Adventure.",
+    "emphasis": "Adventure.",
+    "description": "Turn intentions into clear, manageable quests. Daily and Weekly goals support everyday plans, while Elite and Boss Fight categories make room for longer commitments and bigger personal challenges. Finished tasks contribute to character growth.",
+    "screenIds": [
+      "goals"
+    ],
+    "highlights": [
+      "Daily, Weekly, Elite & Boss Fight goals",
+      "Dates, calendar views, editing, and a task archive",
+      "Copy daily goals to chosen dates or weekly goals to another date",
+      "Complete goals to earn XP, with character bonuses where applicable"
+    ],
+    "closingLine": "A finished task becomes another step in your character’s journey."
   },
   {
-    id: 'character', label: 'Character', icon: 'layers', tone: 'lilac',
-    title: 'Progress that becomes your own.',
-    description: 'Levels open job paths, equipment adds bonuses, and skill points unlock useful abilities. Clear requirements make the connection between daily effort and character choices visible.',
-    screenIds: ['equipment', 'jobs', 'skills'],
-    highlights: ['Equipment with job requirements', 'Tiered job paths & level gates', 'Skills and bonuses that carry forward'],
+    "id": "devotion",
+    "label": "Devotion",
+    "icon": "book",
+    "tone": "gold",
+    "title": "Make Room for the Word—and Your Response.",
+    "emphasis": "Your Response.",
+    "description": "Select a book, chapter, verses, and translation to automatically load the matching Bible passage beside your reflection. Save the entry, revisit it in the monthly calendar, and earn rewards shaped by streaks and character bonuses.",
+    "screenIds": [
+      "devotion",
+      "devotion-calendar"
+    ],
+    "highlights": [
+      "Automatic Bible passage preview in your selected translation",
+      "Write reflections and edit the current day’s entry",
+      "Revisit past entries through the monthly calendar",
+      "Devotion streaks, XP and Faith rewards, and PNG exports"
+    ],
+    "closingLine": "Keep a record of what you read and what you want to carry into daily life."
   },
   {
-    id: 'milestones', label: 'Milestones', icon: 'shield', tone: 'rose',
-    title: 'See the bigger journey taking shape.',
-    description: 'Achievements collect progress across goals, devotion, levels, and character choices. Search, categories, rarity, and progress states help make the next milestone easy to find.',
-    screenIds: ['achievements'],
-    highlights: ['Searchable achievement collection', 'Categories, rarity & progress states', 'Active skill bonuses in one place'],
+    "id": "character",
+    "label": "Character",
+    "icon": "layers",
+    "tone": "lilac",
+    "title": "Build a Character with a Story behind It.",
+    "emphasis": "Story",
+    "description": "Completed goals and devotion feed a character with levels, resources, and choices of its own. Job paths, equipment, and unlocked skills connect individual actions to an ongoing progression system, with requirements visible before each decision.",
+    "screenIds": [
+      "equipment",
+      "jobs",
+      "skills"
+    ],
+    "highlights": [
+      "Level and XP progress, Faith, and Skill Points",
+      "Job choices, equipped items, and active abilities",
+      "Achievement progress and an exportable profile card"
+    ],
+    "closingLine": "Progress opens choices, and those choices influence the next steps.",
+    "views": {
+      "equipment": {
+        "title": "Give Your Progress Something to Equip.",
+        "emphasis": "Equip.",
+        "description": "Browse equipment by tier, requirements, costs, and bonuses. Free items become available when their requirements are met; other items use earned XP, Faith, or both. Equip a combination that suits your character.",
+        "highlights": [
+          "Visible costs, bonuses, and job requirements",
+          "Clear owned, locked, and equipped states",
+          "Up to six equipped items, with equip and unequip controls"
+        ],
+        "closingLine": "Earn resources, compare the choices, then make them part of your build."
+      },
+      "jobs": {
+        "title": "Choose the Path You Want to Grow Into.",
+        "emphasis": "Grow Into.",
+        "description": "Begin as a Seeker and explore paths such as Warrior, Scholar, and Devotee. A tiered job tree makes level gates, prerequisite paths, and each job’s bonuses visible before you make a change.",
+        "highlights": [
+          "A tiered tree of character job paths",
+          "Visible level gates and prerequisite jobs",
+          "Job-specific bonuses and a record of reached jobs"
+        ],
+        "closingLine": "Choose a direction with a clear view of what it unlocks."
+      },
+      "skills": {
+        "title": "Unlock Abilities That Shape Everyday Rewards.",
+        "emphasis": "Everyday Rewards.",
+        "description": "Spend Skill Points on abilities associated with available job paths. Skills can add bonuses to goal completion, on-time actions, and devotion. Unlocked skills remain part of your character when you change jobs.",
+        "highlights": [
+          "Skills grouped by job path with visible point costs",
+          "Clear locked and unlocked states",
+          "An active-abilities summary and skill carryover between jobs"
+        ],
+        "closingLine": "Build on the abilities you have already earned."
+      }
+    }
   },
   {
-    id: 'connections', label: 'Connections', icon: 'users', tone: 'mint',
-    title: 'A personal journey, with room for others.',
-    description: 'Public IDs make it possible to find another character and send a friend request. Incoming requests live in Mail, with a navigation badge that stays aligned as requests are handled.',
-    screenIds: ['onboarding'],
-    highlights: ['Find characters by public ID', 'Send, accept & decline friend requests', 'A shared refresh keeps the request badge in sync'],
+    "id": "milestones",
+    "label": "Milestones",
+    "icon": "shield",
+    "tone": "rose",
+    "title": "Recognize the Milestones along the Way.",
+    "emphasis": "Milestones",
+    "description": "Achievements bring progress from across the app into one collection. Explore milestones for goals, levels, devotion, Faith, equipment, skills, and job progression, with unfinished achievements showing what remains before the next unlock.",
+    "screenIds": [
+      "achievements",
+      "achievement-collection"
+    ],
+    "highlights": [
+      "Searchable achievement collection",
+      "Categories, rarity labels, and locked or unlocked states",
+      "Progress toward unfinished milestones and overall completion"
+    ],
+    "closingLine": "See what you have accomplished—and what you might work toward next."
   },
   {
-    id: 'feedback', label: 'Feedback', icon: 'spark', tone: 'gold',
-    title: 'Give ideas and issues a clear home.',
-    description: 'The app includes a dedicated feedback and bug-report form. Its category, subject, and message fields give people a straightforward way to explain what they need.',
-    screenIds: ['feedback'],
-    highlights: ['A dedicated feedback & bug-report screen', 'Category, subject & message fields', 'A compact form that fits the mobile layout'],
+    "id": "connections",
+    "label": "Connections",
+    "icon": "users",
+    "tone": "mint",
+    "title": "A Personal Journey, with Room for Others.",
+    "emphasis": "Room for Others.",
+    "description": "Find another character through a public ID and preview their profile before sending a friend request. Incoming and outgoing requests, accepted friends, and Mail keep the different stages of a connection easy to follow.",
+    "screenIds": [
+      "onboarding"
+    ],
+    "highlights": [
+      "Copy your public ID and search for another character",
+      "Preview a character’s job, level, and equipment count",
+      "Accept or decline requests and manage accepted friends"
+    ],
+    "closingLine": "Keep your own journey while staying connected to other characters."
   },
   {
-    id: 'everywhere', label: 'Web & mobile', icon: 'screen', tone: 'lilac',
-    title: 'From your browser to your home screen.',
-    description: 'Salt & Light adapts to a desktop workspace or a phone’s smaller screen. As an installable web app, it can also be added to the home screen on Android and iOS.',
-    screenIds: ['welcome', 'goals'],
-    highlights: ['Responsive desktop & mobile layouts', 'Installable on Android & iOS', 'Google sign-in & mobile bottom navigation'],
+    "id": "feedback",
+    "label": "Feedback",
+    "icon": "message",
+    "tone": "gold",
+    "title": "Give Ideas and Issues a Clear Home.",
+    "emphasis": "Clear Home.",
+    "description": "A dedicated feedback form keeps a category, subject, and message together. Report a bug, suggest an improvement, or explain what you need through a compact layout that fits the mobile experience.",
+    "screenIds": [
+      "feedback"
+    ],
+    "highlights": [
+      "Bug reports, suggestions, and feature ideas",
+      "Category, subject, and message fields",
+      "A compact form suited to the mobile layout"
+    ],
+    "closingLine": "A clear place to share the next improvement."
   },
+  {
+    "id": "everywhere",
+    "label": "Web & Mobile",
+    "icon": "phone",
+    "tone": "lilac",
+    "title": "From Your Browser to Your Home Screen.",
+    "emphasis": "Home Screen.",
+    "description": "Salt & Light adapts from a desktop workspace to a compact phone layout. Bottom navigation keeps the main workspaces within reach, while home-screen installation provides a standalone web-app experience on Android and iOS.",
+    "screenIds": [
+      "welcome",
+      "welcome-mobile"
+    ],
+    "highlights": [
+      "Responsive desktop, tablet, and phone layouts",
+      "Mobile access to Dashboard, Goals, Devotion, Mail, and Character",
+      "Installable web app on Android and iOS",
+      "Google sign-in and saved account progress"
+    ],
+    "closingLine": "The same connected journey, on the screen you have with you."
+  }
 ];
-// END OF FILE: PORTFOLIO-SALT-LIGHT-R2 | saltLightShowcase.js
+
+// Implementation stories verified against the Salt & Light application source.
+export const saltBuildStories = [
+  {
+    "id": "shared-progression",
+    "icon": "bolt",
+    "tone": "gold",
+    "title": "One Reward Engine. Different Character Choices.",
+    "summary": "Goals and devotion call shared reward calculations. Each activity’s base reward is combined with the current job, equipped items, and unlocked skills, with on-time completion and devotion streaks contributing where relevant.",
+    "steps": [
+      "Complete an activity",
+      "Apply character bonuses",
+      "Record progress"
+    ],
+    "tools": [
+      {
+        "technology": "javascript",
+        "role": "Shared XP and Faith functions apply job bonuses, item passives, and skill modifiers to completed actions."
+      },
+      {
+        "technology": "react",
+        "role": "The character hook connects reward results to level progress, Skill Points, equipment, and active abilities."
+      },
+      {
+        "technology": "date-fns",
+        "role": "Date comparisons identify on-time goals, while devotion dates determine the current streak."
+      }
+    ],
+    "detail": "Goal completion awards XP; Faith bonuses depend on character choices. Devotion has its own XP and Faith rewards."
+  },
+  {
+    "id": "optimistic-goals",
+    "icon": "target",
+    "tone": "mint",
+    "title": "Immediate Feedback, with a Way Back.",
+    "summary": "Creating, completing, or deleting a goal updates the visible list before the request finishes. The previous cache is retained for rollback, and successful changes refresh the related goal and activity records.",
+    "steps": [
+      "Update the visible list",
+      "Save the change",
+      "Refresh or roll back"
+    ],
+    "tools": [
+      {
+        "technology": "react-query",
+        "role": "Goal mutations snapshot cached lists, apply optimistic changes, restore the snapshot on failure, and invalidate affected queries after success."
+      },
+      {
+        "technology": "framer-motion",
+        "role": "Animated goal forms and list transitions soften the interface changes around planning and completion."
+      }
+    ],
+    "detail": "The dashboard uses the same cache-first completion pattern so finishing a goal feels consistent across both workspaces."
+  },
+  {
+    "id": "personal-records",
+    "icon": "users",
+    "tone": "lilac",
+    "title": "Personal Records, Connected Requests.",
+    "summary": "Supabase restores the signed-in session and handles Google sign-in. Goals, devotion, and character records carry user identity, while friend requests share refresh signals so Mail and the navigation badge stay aligned.",
+    "steps": [
+      "Restore the session",
+      "Load personal records",
+      "Keep requests in sync"
+    ],
+    "tools": [
+      {
+        "technology": "supabase",
+        "role": "Auth manages sessions and Google sign-in; database queries and public-profile RPCs support saved progress and friend discovery."
+      },
+      {
+        "technology": "postgresql",
+        "role": "Characters, goals, devotion entries, activity, and friendships are stored as related application records."
+      },
+      {
+        "technology": "react-router",
+        "role": "Protected routes wait for authentication before opening the user’s main workspaces."
+      }
+    ],
+    "detail": "Accepted and declined requests dispatch a shared refresh event; returning to the window also refreshes the pending count."
+  },
+  {
+    "id": "scripture-preview",
+    "icon": "book",
+    "tone": "gold",
+    "title": "Scripture inside the Reflection Flow.",
+    "summary": "The devotion form turns a book, chapter, and verse range into a passage request using the selected translation. A reading preview sits beside the reflection, with a search fallback when a direct lookup has no content.",
+    "steps": [
+      "Choose a passage",
+      "Preview the reading",
+      "Save the reflection"
+    ],
+    "tools": [
+      {
+        "technology": "api-bible",
+        "role": "Passage and search endpoints retrieve the selected scripture text using the chosen Bible translation."
+      },
+      {
+        "technology": "react",
+        "role": "Dependent book, chapter, and verse controls reset together and manage passage loading, preview, and error states."
+      }
+    ],
+    "detail": "The app remembers the user’s preferred available translation for future passage previews."
+  },
+  {
+    "id": "image-exports",
+    "icon": "screen",
+    "tone": "rose",
+    "title": "Keep a Copy outside the App.",
+    "summary": "The character profile and a selected devotion entry can be downloaded as PNG images. Each export captures the designed view, giving users a readable keepsake of their character or reflection rather than a raw record dump.",
+    "steps": [
+      "Choose a profile or entry",
+      "Render the designed view",
+      "Download a PNG"
+    ],
+    "tools": [
+      {
+        "technology": "html2canvas",
+        "role": "The export action renders the character card or devotion view to a canvas at double scale, then downloads a PNG."
+      },
+      {
+        "technology": "react",
+        "role": "Export refs target the intended profile card or selected calendar entry without capturing the whole application screen."
+      }
+    ],
+    "detail": "The image-rendering library is loaded when an export is requested."
+  },
+  {
+    "id": "app-delivery",
+    "icon": "phone",
+    "tone": "mint",
+    "title": "One Web App, Room to Install.",
+    "summary": "Responsive layouts switch from a desktop workspace to phone-sized navigation. PWA configuration supplies the manifest, app icons, standalone display, and service-worker updates, while separate Capacitor projects provide a foundation for Android and iOS packaging.",
+    "steps": [
+      "Use it in the browser",
+      "Add it to the home screen",
+      "Open the standalone web app"
+    ],
+    "tools": [
+      {
+        "technology": "pwa",
+        "role": "The Vite PWA setup configures home-screen installation, standalone display, icons, and automatic service-worker updates."
+      },
+      {
+        "technology": "tailwind",
+        "role": "Responsive classes switch desktop navigation to compact phone headers, bottom navigation, and safe-area spacing."
+      },
+      {
+        "technology": "capacitor",
+        "role": "The configuration and included Android and iOS projects can package the built web interface for native projects."
+      }
+    ],
+    "detail": "Home-screen installation is available through the browser. Android and iOS project files support a separate native packaging workflow."
+  }
+];
+// END OF FILE: PORTFOLIO-SALT-LIGHT-R6 | saltLightShowcase.js

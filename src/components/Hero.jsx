@@ -1,5 +1,6 @@
-// CHANGE VERSION: PORTFOLIO-HERO-PROJECTS-R3 | 2026-10-20 | Complete Hero.jsx
+// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R6 | Centered hero 3 with replaying elastic braces
 import { useEffect, useRef, useState } from 'react';
+import { motion } from 'motion/react';
 import MorphNumber from './MorphNumber';
 import SocialLinks from './SocialLinks';
 import TerminalText from './TerminalText';
@@ -205,7 +206,11 @@ export default function Hero({ onActiveSlideChange }) {
             <Background number={3} />
             <HeroPlayground number={3} />
             <div className="container hero-copy hero-copy-three">
-              <div key="hero-three-systems-frame-r1" className="hero-three-frame" data-swiper-parallax="-220">
+              <div className="hero-three-parallax-shell" data-swiper-parallax="-220" data-brace-visit={slideThreeVisit}>
+              <motion.div key={'hero-three-frame-' + slideThreeVisit} className="hero-three-frame"
+                initial={{ '--hero-brace-spread': '0px' }}
+                animate={{ '--hero-brace-spread': slide === 2 && !reduced ? ['0px', '22px', '22px', '-3px', '4px', '-1px', '0px'] : '0px' }}
+                transition={slide === 2 && !reduced ? { duration: 2.65, delay: .18, times: [0, .3, .65, .83, .9, .96, 1], ease: [.22, 1, .36, 1] } : { duration: 0 }}>
               <p className="hero-eyebrow">Built for business.</p>
               <div className="hero-three-frame-body">
               <div className="hero-three-code" role="group" aria-label="Ideas into working systems. ERP workflows and practical solutions.">
@@ -229,6 +234,7 @@ export default function Hero({ onActiveSlideChange }) {
                 <span className="hero-three-brace hero-three-brace-close" aria-hidden="true">{'}'}</span>
               </div>
               </div>
+              </motion.div>
               </div>
               <PrintDetails number={3} />
               <BlurText key={slideThreeVisit} active={slide === 2} text="NetSuite Workflows & Practical Solutions" className="hero-three-byline" />
@@ -259,4 +265,4 @@ export default function Hero({ onActiveSlideChange }) {
       {!reduced && <div className="hero-slide-timer" aria-hidden="true"><span ref={progressRef} className="hero-slide-timer-fill" /></div>}
     </header>;
 }
-// END OF FILE: PORTFOLIO-HERO-PROJECTS-R3 | Hero.jsx
+// END OF FILE: PORTFOLIO-SALT-LIGHT-R6 | Hero.jsx

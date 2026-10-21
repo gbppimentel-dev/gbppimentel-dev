@@ -1,4 +1,4 @@
-// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R2 | Salt & Light's real desktop and mobile experience
+// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R9 | Salt & Light's real desktop and mobile experience
 import { saltShowcaseScreens } from './data/saltLightShowcase.js';
 const portfolioHeartFeedback = {
   approach: 'Keep the portfolio deployable as static files, with heart feedback handled entirely in the browser for the current visit.',
@@ -27,20 +27,20 @@ export const menuSocialLinks = [
 // URLs stay empty until you provide the real destination. No fake links are shown.
 export const projects = [
   {
-    id: 'salt-and-light', title: 'Salt & Light', category: 'Web & mobile app',
-    description: 'Everyday goals. Daily reflection. A character that grows with you.',
+    id: 'salt-and-light', title: 'Salt & Light', category: 'Web & Mobile App',
+    description: 'Everyday goals, daily reflections, & a character that grows with you.',
     status: 'Web · Android · iOS', accent: 'amber', artwork: 'images/slide02.png',
-    screenshot: 'images/projects/salt-light-r2/equipment.png',
+    screenshot: 'images/projects/salt-light-r2/welcome.png',
     liveUrl: 'https://salt-light.vercel.app/', liveLabel: 'Open Salt & Light',
     sourceUrl: 'https://github.com/gbppimentel-dev/salt-light',
-    details: 'A Christian life tracker that connects intentional habits, devotion, and RPG progression. Built for desktop and mobile, and installable on Android and iOS as a progressive web app.',
+    details: 'A Christian personal growth app that brings goal planning, devotion journaling, and RPG progression together. Complete meaningful actions, earn rewards, and develop a character through levels, job paths, equipment, and skills.',
     technologies: ['react', 'vite', 'javascript', 'html', 'css', 'tailwind', 'shadcn', 'framer-motion', 'react-query', 'supabase', 'postgresql', 'react-router', 'lucide', 'date-fns', 'html2canvas', 'pwa', 'capacitor', 'api-bible', 'vercel'],
     caseStudy: {
-      role: 'Application development & interface design',
-      focus: 'Faith-centered productivity & RPG progression',
-      scope: 'Responsive web app & installable PWA',
-      challenge: 'Bring task planning, daily reflection, and long-term growth into one place. Make progress feel rewarding while keeping the everyday actions clear: plan a goal, complete it, reflect, and return.',
-      approach: 'Organise goals, character development, devotion, and connections into distinct workspaces. Use Supabase for sessions and records, React Query for cached server state, and shared progression rules to connect completed actions with XP and Faith. Keep date copying explicit and give failed updates a clear recovery path.',
+      role: 'Application Development, Maintenance, & Interface Design',
+      focus: 'Personal Growth & Daily Planning',
+      scope: 'Responsive Web & Mobile · Installable PWA',
+      challenge: 'I struggle to stay in a routine, and I often feel lost about what to do next. My love of games has always drawn me to quests and challenges, so I wondered: what if I brought that same motivation into everyday life? Salt & Light grew from that question, with room to get things done and deepen my faith along the way.',
+      approach: 'I wanted each meaningful action to give something back. Rewards, character growth, and visible feedback turn everyday effort into progress I can see. The experience works as a solo journey, with room to add friends and share it with others along the way.',
       features: [
         'Daily, Weekly, Elite, and Boss Fight goals with due dates, calendar views, and an archive',
         'XP, Faith, levels, jobs, equipment, and unlockable character skills',
@@ -53,7 +53,7 @@ export const projects = [
       ],
       featureDetails: [
         { title: 'Everyday goals, turned into quests', tag: 'GOALS / PLANNING', description: 'Plan Daily, Weekly, Elite, and Boss Fight goals, choose due dates, review calendar views, and keep completed tasks in an archive. Copy a goal to chosen dates when needed.' },
-        { title: 'A character that grows with the work', tag: 'CHARACTER / PROGRESSION', description: 'Completed goals contribute XP and Faith. Levels, job paths, equipment, and unlockable skills give that progress a character of its own, with shared rules for rewards and requirements.' },
+        { title: 'A character that grows with the work', tag: 'CHARACTER / PROGRESSION', description: 'Completed goals contribute XP, with Faith bonuses available through character abilities. Levels, job paths, equipment, and unlockable skills give that progress a character of its own, with shared rules for rewards and requirements.' },
         { title: 'A place for daily reflection', tag: 'DEVOTION / JOURNAL', description: 'Choose a Bible passage, write a reflection, and revisit entries in a monthly calendar. Streaks and Faith rewards add feedback, while image exports make selected entries easy to keep.' },
         { title: 'Milestones beyond a single task', tag: 'ACHIEVEMENTS / PROGRESS', description: 'Browse achievements across goals, devotion, character levels, equipment, and skills. Search, categories, rarity labels, and progress bars help make the next milestone clear.' },
         { title: 'Find people through a public ID', tag: 'FRIENDS / CONNECTIONS', description: 'Look up another character, send a request, and browse accepted friends. Relationship checks recognise both sides of a connection so the same friendship is handled consistently.' },
@@ -61,28 +61,7 @@ export const projects = [
         { title: 'An app you can come back to', tag: 'WEB / ANDROID / iOS', description: 'Google sign-in leads into a responsive app with a compact mobile navigation. Install it on Android or iOS through the browser to keep it on your home screen. The source also includes Capacitor packaging configuration.' },
         { title: 'A place for ideas and issues', tag: 'FEEDBACK / SUPPORT', description: 'A dedicated feedback and bug-report form brings category, subject, and message fields together in the mobile layout.' },
       ],
-      technologyNotes: [
-        { technology: 'react', role: 'Reusable app screens, component state, and shared character and authentication hooks.' },
-        { technology: 'vite', role: 'Local development and production bundling for the React application.' },
-        { technology: 'javascript', role: 'Progression rules, entity adapters, date handling, and interaction logic.' },
-        { technology: 'html', role: 'Semantic page structure, forms, navigation, and accessible controls.' },
-        { technology: 'css', role: 'Shared green-and-gold design tokens, typography, and theme styling.' },
-        { technology: 'tailwind', role: 'Responsive layouts, card styling, spacing, and interactive state classes.' },
-        { technology: 'shadcn', role: 'Customisable UI components built on Radix primitives, including tabs, dialogs, and inputs.' },
-        { technology: 'framer-motion', role: 'Page transitions, character and goal feedback, and animated state changes.' },
-        { technology: 'react-query', role: 'Server-state caching, query refreshes, mutations, and optimistic updates.' },
-        { technology: 'supabase', role: 'Account sessions, Google sign-in, persistent app records, and database RPC calls.' },
-        { technology: 'postgresql', role: 'Relational records for characters, goals, devotion entries, and friendships.' },
-        { technology: 'react-router', role: 'Protected app routes and navigation between the main workspaces.' },
-        { technology: 'lucide', role: 'Consistent icons for goals, character tools, devotion, and navigation.' },
-        { technology: 'date-fns', role: 'Calendar boundaries, date comparisons, due dates, and readable date labels.' },
-        { technology: 'html2canvas', role: 'PNG exports of rendered character profiles and devotion views.' },
-        { technology: 'pwa', role: 'Manifest, service worker registration, automatic updates, and standalone display configuration.' },
-        { technology: 'capacitor', role: 'Included Android and iOS project configuration for packaging the web application.' },
-        { technology: 'api-bible', role: 'Bible translation selection and passage lookups within the devotion flow.' },
-        { technology: 'vercel', role: 'Hosting for the live web application.' },
-      ],
-      outcome: 'A deployed app bringing goals, devotion, character development, achievements, and friend requests into one connected experience. Its source includes installable PWA support and native project configuration, alongside the web interface.',
+      outcome: 'I built this for people like me who struggle to focus and keep a routine. I want Salt & Light to make it easier to begin, see progress, and find a reason to keep going. The purpose is to help and motivate, while making room for faith and personal growth.',
       screens: saltShowcaseScreens,
     },
   },
@@ -218,4 +197,4 @@ export const contact = {
   email: '', // Your public contact email; leave empty to use LinkedIn instead.
   linkedin: 'https://www.linkedin.com/in/glenn-bernard-pimentel-2b3461265/',
 };
-// END OF FILE: PORTFOLIO-SALT-LIGHT-R2 | data.js
+// END OF FILE: PORTFOLIO-SALT-LIGHT-R9 | data.js

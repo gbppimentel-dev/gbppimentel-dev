@@ -1,0 +1,62 @@
+/* CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R6 | Compact label pairs on elastic tabs adapted from React Bits RubberSegment */
+#projects .salt-study .rubber-segment {
+  --rs-track:#ededf1; --rs-thumb:#fff; --rs-ink:#5f6d65; --rs-ink-active:#1c6538;
+  --rs-radius:13px; --rs-inset:6px; --rs-thumb-radius:7px;
+  position:relative; isolation:isolate; display:flex; flex-wrap:wrap; align-items:stretch;
+  gap:6px; width:100%; min-width:0; padding:var(--rs-inset); border:0;
+  border-radius:var(--rs-radius); background:var(--rs-track); color:var(--rs-ink);
+  touch-action:pan-y; user-select:none; -webkit-user-select:none; -webkit-tap-highlight-color:transparent;
+}
+#projects .salt-study .rubber-segment__thumb {
+  position:absolute; z-index:0; top:0; left:0; min-width:0; min-height:0;
+  border:0; border-radius:var(--rs-thumb-radius); background:var(--rs-thumb);
+  box-shadow:0 3px 8px #273b2510; pointer-events:none; will-change:transform,width,height;
+}
+#projects .salt-study button.rubber-segment__item {
+  appearance:none; -webkit-appearance:none; position:relative; z-index:1;
+  display:flex; align-items:center; justify-content:center; flex:1 1 auto; gap:8px;
+  min-width:0; min-height:44px; height:auto; margin:0; padding:11px 13px;
+  border:0; border-radius:var(--rs-thumb-radius); background:transparent;
+  color:var(--rs-ink); font:500 14px/1.5 'Salt Inter',Inter,system-ui,sans-serif;
+  text-align:center; text-transform:none; letter-spacing:normal; box-shadow:none; transform:none;
+  cursor:pointer; outline:none; transition:color .2s ease; overflow:visible;
+}
+#projects .salt-study button.rubber-segment__item::before,
+#projects .salt-study button.rubber-segment__item::after { content:none; }
+#projects .salt-study .rubber-segment[data-equal]>.rubber-segment__item { flex-basis:0; }
+#projects .salt-study .rubber-segment__item[aria-selected='true'] { color:var(--rs-ink-active); }
+#projects .salt-study .rubber-segment__item>.sls-icon { width:18px; height:18px; flex:none; }
+#projects .salt-study .rubber-segment__label { display:block; min-width:0; overflow-wrap:normal; word-break:normal; }
+#projects .salt-study .rubber-segment__label strong { display:block; font-size:15px; line-height:1.5; font-weight:600; }
+#projects .salt-study .rubber-segment__label small { display:block; margin-top:4px; color:#637468; font-size:12px; line-height:1.5; font-weight:400; }
+#projects .salt-study .rubber-segment__item[aria-selected='true'] small { color:#52755b; }
+#projects .salt-study button.rubber-segment__item:focus-visible { outline:3px solid #c59a24; outline-offset:2px; }
+#projects .salt-study .rubber-segment[aria-disabled='true'] { opacity:.5; pointer-events:none; }
+#projects .salt-study .rubber-segment__item:disabled { cursor:default; opacity:.5; }
+#projects .salt-study .rubber-segment[data-draggable] .rubber-segment__item[aria-selected='true'] { cursor:grab; }
+#projects .salt-study .rubber-segment[data-held],
+#projects .salt-study .rubber-segment[data-held] .rubber-segment__item { cursor:grabbing; }
+#projects .salt-study .rubber-segment--sections { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); }
+#projects .salt-study .rubber-segment--sections>.rubber-segment__item { min-height:82px; padding:12px 10px; gap:9px; text-align:left; }
+#projects .salt-study .rubber-segment--sections>.rubber-segment__item>.sls-icon { width:19px; height:19px; }
+#projects .salt-study .rubber-segment--sections .rubber-segment__label strong { line-height:1.25; }
+#projects .salt-study .rubber-segment--sections .rubber-segment__label small { margin-top:2px; line-height:1.35; }
+#projects .salt-study .rubber-segment--features { display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); }
+#projects .salt-study .rubber-segment--features>.rubber-segment__item { padding:10px 8px; }
+#projects .salt-study .rubber-segment--views { justify-content:center; }
+#projects .salt-study .rubber-segment--views>.rubber-segment__item { font-size:13px; min-height:44px; padding:10px; }
+@media (hover:hover) and (pointer:fine) {
+  #projects .salt-study button.rubber-segment__item:not([aria-selected='true']):hover { color:#375b42; }
+}
+@media (max-width:1150px) {
+  #projects .salt-study .rubber-segment--features { grid-template-columns:repeat(4,minmax(0,1fr)); }
+}
+@media (max-width:900px) {
+  #projects .salt-study .rubber-segment--sections>.rubber-segment__item { flex-direction:column; gap:5px; text-align:center; }
+  #projects .salt-study .rubber-segment--sections .rubber-segment__label small { display:none; }
+}
+@media (prefers-reduced-motion:reduce) {
+  #projects .salt-study .rubber-segment__thumb { will-change:auto; }
+  #projects .salt-study button.rubber-segment__item { transition:none; }
+}
+/* END OF FILE: PORTFOLIO-SALT-LIGHT-R6 | RubberSegment.css */

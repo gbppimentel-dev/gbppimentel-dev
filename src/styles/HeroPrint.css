@@ -1,4 +1,4 @@
-/* CHANGE VERSION: PORTFOLIO-REFINE-R4 | 2026-10-20 | Content-sized hero 3 frame */
+/* CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R6 | Centered hero 3 and elastic brace reveal */
 /* The existing photographic heroes become ink-and-paper compositions, like the ID. */
 
 #home.header.hero-print {
@@ -915,4 +915,57 @@
   #home.header.hero-print .slide-three .hero-three-brace { font-size: clamp(78px, 16vw, 125px); }
 }
 
-/* END OF FILE: PORTFOLIO-REFINE-R4 | HeroPrint.css */
+/* The third composition is centered in the viewport, rather than in the
+   asymmetric text lane used by the other slides. The controls keep their lane. */
+#home.header.hero-print .slide-inner.slide-three {
+  padding-inline: clamp(42px, 7.6vw, 146px);
+}
+#home.header.hero-print .slide-three .hero-copy-three {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+}
+#home.header.hero-print .hero-three-parallax-shell {
+  width: fit-content;
+  max-width: 100%;
+}
+#home.header.hero-print .hero-three-frame {
+  --hero-brace-spread: 0px;
+}
+/* A single animated distance expands both sides equally. Text and its hidden
+   final-word sizers stay in place; only the braces and frame edges travel. */
+#home.header.hero-print .hero-three-frame-body {
+  padding-inline: calc(clamp(20px, 2.1vw, 32px) + var(--hero-brace-spread));
+}
+#home.header.hero-print .slide-three .hero-three-brace-open {
+  transform: translateX(calc(-1 * var(--hero-brace-spread)));
+}
+#home.header.hero-print .slide-three .hero-three-brace-close {
+  transform: translateX(var(--hero-brace-spread));
+}
+#home.header.hero-print .slide-three .hero-three-byline {
+  justify-content: center;
+  margin-inline: auto;
+  text-align: center;
+}
+#home.header.hero-print .slide-three .hero-three-byline-copy {
+  justify-content: center;
+}
+#home.header.hero-print .slide-three .hero-three-actions {
+  justify-content: center;
+}
+@media (max-width: 767px) {
+  #home.header.hero-print .slide-inner.slide-three { padding-inline: 27px; }
+  #home.header.hero-print .hero-three-frame-body {
+    padding-inline: calc(13px + var(--hero-brace-spread));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #home.header.hero-print .hero-three-frame { --hero-brace-spread: 0px !important; }
+  #home.header.hero-print .slide-three .hero-three-brace { transform: none; }
+}
+
+/* END OF FILE: PORTFOLIO-SALT-LIGHT-R6 | HeroPrint.css */

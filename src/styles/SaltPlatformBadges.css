@@ -1,10 +1,10 @@
-/* CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R2 | Platform badges shared by Salt's collection and case study */
+/* CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R3 | Platform badges shared by Salt's collection and case study */
 #projects .salt-platform-badges { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 8px; vertical-align: middle; }
-#projects .salt-platform-badge { --salt-platform-eye: #f5f7f6; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 29px; padding: 5px 10px; border: 1px solid #dce4df; border-radius: 8px; background: #f5f7f6; color: #34533e; font: 500 11px/1.4 'Salt Inter', Inter, ui-sans-serif, system-ui, sans-serif; white-space: nowrap; }
-#projects .salt-platform-badge > svg { display: block; flex: none; width: 15px; height: 15px; }
+#projects .salt-platform-badge { --salt-platform-eye: #f5f7f6; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 35px; padding: 7px 11px; border: 0; border-radius: 8px; background: #f5f7f6; color: #34533e; font: 500 14px/1.4 'Salt Inter', Inter, ui-sans-serif, system-ui, sans-serif; white-space: nowrap; }
+#projects .salt-platform-badge > svg { display: block; flex: none; width: 17px; height: 17px; }
 #projects .salt-platform-badge--android > svg { color: #2c7846; }
-#projects .salt-platform-badge--ios > svg { width: 14px; }
+#projects .salt-platform-badge--ios > svg { width: 16px; }
 #projects .salt-platform-badges--compact { gap: 6px; }
-#projects .salt-platform-badges--compact .salt-platform-badge { min-height: 25px; padding: 4px 8px; border-color: #d4e2d7; border-radius: 6px; background: #ffffffbd; font-size: 10px; }
-#projects .salt-platform-badges--compact .salt-platform-badge > svg { width: 13px; height: 13px; }
-/* END OF FILE: PORTFOLIO-SALT-LIGHT-R2 | SaltPlatformBadges.css */
+#projects .salt-platform-badges--compact .salt-platform-badge { min-height: 31px; padding: 6px 9px; border-radius: 6px; background: #ffffffbd; font-size: 12px; }
+#projects .salt-platform-badges--compact .salt-platform-badge > svg { width: 15px; height: 15px; }
+/* END OF FILE: PORTFOLIO-SALT-LIGHT-R3 | SaltPlatformBadges.css */

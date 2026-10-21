@@ -1,4 +1,4 @@
-/* CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R2 | Salt & Light's desktop and mobile collection */
+/* CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R7 | Salt & Light's desktop and mobile collection */
 #projects.portfolio-projects.project-showcase {
   --project-paper: #f2e9d6; --project-ink: #20222a; --project-accent: var(--brand-accent, var(--amber));
   position: relative; isolation: isolate; overflow: clip; box-sizing: border-box;
@@ -33,9 +33,8 @@
 .project-collection__bar > span:last-child { font: 500 10px/1 ui-monospace, monospace; letter-spacing: .03em; }
 .project-collection__gallery { padding: 18px 18px 23px; }
 #projects .project-toolkit { position: relative; min-width: 0; border-top: 1.5px solid #171b24; background: #20232d; color: var(--project-paper); }
-.project-toolkit__heading { display: flex; align-items: center; gap: 10px; min-height: 43px; padding: 13px 24px 0; }
-.project-toolkit__heading > span:first-child { flex: none; color: var(--project-accent); font: 700 8px/1.5 'Poppins', sans-serif; letter-spacing: .12em; }
-.project-toolkit__heading strong { color: #eee6d6; font: 400 11px/1.5 'Poppins', sans-serif; }
+.project-toolkit__heading { display: flex; align-items: center; gap: 10px; box-sizing: border-box; height: 44px; min-height: 44px; padding: 13px 24px 0; }
+.project-toolkit__label { display: inline-flex; align-items: center; flex: none; height: 27px; color: var(--collection-accent, var(--project-accent)); transition: color .8s ease; }
 .project-toolkit__mark { margin-left: auto; color: var(--project-accent); font-size: 18px; }
 .project-toolkit__body { min-width: 0; min-height: 79px; }
 #projects .project-toolkit__loop { display: flex; align-items: center; min-height: 79px; color: #f2e9d6; }
@@ -112,15 +111,18 @@
 #projects :is(button, a):focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; }
 #projects button:focus:not(:focus-visible) { outline: none; }
 
-/* The frame changes identity without moving the accordion's established edges. */
+/* Project identities share a compact header and the same border-free metrics.
+   Platform pills and project identities keep their layout when colors change. */
 #projects .project-collection {
+  border-width: 0;
   transition: background-color .8s ease, border-color .8s ease, border-radius .8s ease, box-shadow .8s ease;
 }
 #projects .project-collection__bar {
+  box-sizing: border-box; height: 46px; min-height: 46px; padding-block: 8px; border: 0;
   background: var(--collection-accent, var(--project-accent));
   transition: background-color .8s ease, border-color .8s ease, color .8s ease;
 }
-.project-collection__bar > span:first-child { flex: none; }
+.project-collection__platforms { flex: none; }
 #projects .project-collection__identity {
   display: inline-flex; align-items: center; justify-content: flex-end; gap: 9px;
   flex: 1; min-width: 0; min-height: 22px; font: 600 11px/1.4 'Poppins', sans-serif;
@@ -130,9 +132,9 @@
 .project-collection__identity > img { display: block; flex: none; width: 22px; height: 22px; object-fit: contain; }
 .project-collection__identity > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #projects .project-collection .project-toolkit {
+  border-top: 0;
   transition: background-color .8s ease, border-color .8s ease, color .8s ease;
 }
-#projects .project-collection .project-toolkit__heading > span:first-child,
 #projects .project-collection .project-toolkit__mark {
   color: var(--collection-accent, var(--project-accent)); transition: color .8s ease;
 }
@@ -151,7 +153,7 @@
 #projects .project-collection[data-collection-theme='lifecity'] .project-toolkit {
   background: #153f38; color: #f5f3ec; border-color: #d6e7df;
 }
-#projects .project-collection[data-collection-theme='lifecity'] .project-toolkit__heading > span:first-child,
+#projects .project-collection[data-collection-theme='lifecity'] .project-toolkit__label,
 #projects .project-collection[data-collection-theme='lifecity'] .project-toolkit__mark { color: #d8ebac; }
 
 /* The portfolio's own collection is an ink-and-paper frame with three accents. */
@@ -167,7 +169,7 @@
   background: #1c222e; border-color: #697484;
 }
 #projects .project-collection[data-collection-theme='gbp'] .project-collection__identity { color: #343d4c; }
-#projects .project-collection[data-collection-theme='gbp'] .project-toolkit__heading > span:first-child { color: #d9bb78; }
+#projects .project-collection[data-collection-theme='gbp'] .project-toolkit__label { color: #d9bb78; }
 #projects .project-collection[data-collection-theme='gbp'] .project-toolkit__mark { color: #d3a09a; }
 #projects .project-case-study.project-case-study--portfolio {
   border: 2px solid #e6dcc7; border-radius: 18px; background: #141820;
@@ -247,68 +249,71 @@
   #projects .project-filters button, #projects .project-filters button svg, #projects .project-links a,
   .project-links a > svg, .project-note--features, .project-collection__bar, .project-index-label, .projects-backdrop__glyph { transition: none; }
   #projects .project-collection, #projects .project-collection__bar, #projects .project-collection .project-toolkit,
-  #projects .project-collection .project-toolkit__heading > span:first-child, #projects .project-collection .project-toolkit__mark,
+  #projects .project-collection .project-toolkit__label, #projects .project-collection .project-toolkit__mark,
   #projects .project-collection__identity, .project-collection__identity > svg,
-  .project-tech-detail__emblem { transition: none; }
+  .project-tech-detail__emblem, #projects .project-collection .project-collection__platform { transition: none; }
 }
 /* Salt & Light's soft cards, forest green, and gold. Other project identities stay scoped. */
 #projects .project-collection[data-collection-theme='salt'] {
-  background: #f5f7f4; border-color: #d6e4d9; border-radius: 24px;
+  background: #f5f7f4; border: 0; border-radius: 24px;
   box-shadow: 0 6px 0 rgb(15 81 45 / .12), 0 20px 55px rgb(4 28 17 / .19);
 }
 #projects .project-collection[data-collection-theme='salt'] .project-collection__bar {
-  background: #ecf5ee; color: #235c3a; border-color: #d6e4d9;
+  background: #ecf5ee; color: #235c3a; border: 0; font-size: 12px;
   font-family: 'Salt Inter', Inter, ui-sans-serif, system-ui, sans-serif;
 }
 #projects .project-collection[data-collection-theme='salt'] .project-collection__identity {
   color: #166534; font-family: 'Salt Space', 'Space Grotesk', ui-sans-serif, sans-serif; font-size: 13px;
 }
 #projects .project-collection[data-collection-theme='salt'] .project-collection__identity > img { border-radius: 6px; }
-#projects .project-collection[data-collection-theme='salt'] .ag-panel {
-  border-color: #d5e3d8; box-shadow: 0 5px 13px rgb(16 70 37 / .14);
-  transition: border-color .8s ease, box-shadow .8s ease;
-}
+/* Image edges stay clean as the collection changes project identity.
+   Keyboard focus rings remain defined by AccordionGallery.css. */
+#projects .project-collection .ag-panel { border: 0; box-shadow: none; background: transparent; }
+/* Keep one rounded clipping edge. A second rounded frame over the dark panel
+   backing can leave a one-pixel charcoal seam at fractional viewport positions. */
+#projects .project-collection .ag-panel__frame { border-radius: 0; }
 #projects .project-collection[data-collection-theme='salt'] .project-toolkit {
-  background: #155334; color: #f7faf5; border-color: #d6e4d9;
+  background: #155334; color: #f7faf5; border: 0;
 }
-#projects .project-collection[data-collection-theme='salt'] .project-toolkit__heading > span:first-child,
+#projects .project-collection[data-collection-theme='salt'] .project-toolkit__label,
 #projects .project-collection[data-collection-theme='salt'] .project-toolkit__mark { color: #f9cc52; }
-#projects .project-collection[data-collection-theme='salt'] .project-toolkit__heading strong,
 #projects .project-collection[data-collection-theme='salt'] .project-tech-detail__copy :is(strong, p),
 #projects .project-collection[data-collection-theme='salt'] .logoloop__label { font-family: 'Salt Inter', Inter, ui-sans-serif, system-ui, sans-serif; }
 #projects .project-collection[data-collection-theme='salt'] .project-tech-detail__copy p { color: #d3e5d8; }
 #projects .project-case-study.project-case-study--salt {
-  border: 1px solid #d6e4d9; border-radius: 24px; background: #f6f7f9;
+  border: 0; border-radius: 24px; background: #f6f7f9;
   box-shadow: 0 18px 58px rgb(2 25 13 / .2);
 }
 #projects .project-case-study--salt > .project-case-study__bar {
-  background: #166534; color: #f9fdf8; border-color: #14532d;
+  background: #166534; color: #f9fdf8; border: 0; font-size: 12px;
   font-family: 'Salt Inter', Inter, ui-sans-serif, system-ui, sans-serif;
 }
-@media (prefers-reduced-motion: reduce) {
-  #projects .project-collection[data-collection-theme='salt'] .ag-panel { transition: none; }
+/* The real welcome screen stands alone, without a decorative phone overlay. */
+#projects .project-collection__platforms { display: inline-flex; align-items: center; justify-content: flex-start; gap: 6px; height: 28px; }
+#projects .project-collection__platform {
+  --salt-platform-eye: #f7f8f4; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  box-sizing: border-box; min-height: 28px; padding: 5px 9px; border: 0; border-radius: 6px;
+  background: #ffffffbd; color: inherit; font: 500 12px/1.4 'Salt Inter', Inter, ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: normal; text-transform: none; white-space: nowrap;
+  transition: background-color .8s ease, color .8s ease;
 }
-/* The Salt preview pairs the real equipment screen with its real mobile Goals
-   view. It is decorative; the panel button retains the full accessible label. */
-#projects .project-collection__platform-strip { overflow: hidden; background: #f0f5ef; color: #55705e; }
-#projects .project-collection__platform-strip > div { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 20px; padding: 12px 25px; border-bottom: 1px solid #dce6dc; }
-#projects .project-collection__platform-strip > div > span { font: 400 11px/1.6 'Salt Inter', Inter, ui-sans-serif, system-ui, sans-serif; }
-#projects .project-collection__platform-strip b { color: #28553a; font-weight: 600; }
+#projects .project-collection__platform > svg { display: block; flex: none; width: 15px; height: 15px; }
+#projects .project-collection__platform--ios > svg { width: 14px; }
 #projects .project-collection[data-collection-theme='salt'] .project-collection__gallery { background: radial-gradient(circle, #cddbcf80 .7px, transparent .9px) 0 0/15px 15px, #f5f7f4; }
-#projects .ag-panel--amber .ag-panel__frame::after { content: ''; position: absolute; top: 23px; right: 25px; width: clamp(111px, 10.5vw, 146px); aspect-ratio: 407/840; border: 5px solid #24372b; border-radius: 17px; background: #f6f6f8 url('../../public/images/projects/salt-light-r2/goals.png') center/100% 100% no-repeat; box-shadow: 0 12px 30px #06190e55, 0 0 0 1px #ffffff91; opacity: 0; transform: translate(12px, 7px) rotate(4deg); transition: opacity .65s ease, transform .85s cubic-bezier(.22,1,.36,1); pointer-events: none; }
-#projects .ag-panel--amber.ag-panel--active .ag-panel__frame::after { opacity: 1; transform: none; }
-#projects .ag-panel--amber .ag-panel__frame::after { box-sizing: content-box; }
 #projects .ag-panel--amber .ag-panel__media { background: #f6f6f9; }
 #projects .ag-panel--amber .ag-panel__media img { width: min(100%, calc(var(--ag-expanded-label-width, 100%) + 65px)); margin-inline: auto; object-fit: contain; background: #f6f6f9; }
-@media (max-width: 1100px) {
-  #projects .project-collection__platform-strip > div { padding-inline: 19px; }
-  #projects .ag-panel--amber .ag-panel__frame::after { right: 18px; top: 28px; width: 111px; }
+/* A single forest-green surface joins the tools, loop and hover explanation. */
+#projects .project-collection[data-collection-theme='salt'] .project-tech-detail {
+  border: 0; background: transparent;
 }
-@media (max-width: 767px) {
-  #projects .project-collection__platform-strip > div { padding-inline: 16px; }
-  #projects .ag-panel--amber .ag-panel__frame::after { width: 90px; top: 15px; right: 15px; border-width: 4px; border-radius: 13px; }
+#projects .project-collection[data-collection-theme='salt'] .project-tech-detail__copy strong { font-size: 15px; }
+#projects .project-collection[data-collection-theme='salt'] .project-tech-detail__copy p { font-size: 15px; line-height: 1.65; }
+#projects .project-collection[data-collection-theme='salt'] .project-toolkit__heading { padding-top: 17px; }
+/* The collection themes change colors; this shared label uses the same bundled
+   Poppins face and weight in every project. */
+#projects .project-collection[data-collection-theme] .project-toolkit__label {
+  font: normal 600 12px/18px 'Poppins', sans-serif; letter-spacing: .08em;
 }
-@media (prefers-reduced-motion: reduce) {
-  #projects .ag-panel--amber .ag-panel__frame::after { transition: none; transform: none; }
-}
-/* END OF FILE: PORTFOLIO-SALT-LIGHT-R2 | ProjectGallery.css */
+#projects .project-collection[data-collection-theme='salt'] .logoloop__label { font-size: 14px; }
+#projects .project-case-study--salt > .project-case-study__bar > span:last-child { color: #f9df8b; font-size: 12px; }
+/* END OF FILE: PORTFOLIO-SALT-LIGHT-R7 | ProjectGallery.css */
