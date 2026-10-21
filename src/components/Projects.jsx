@@ -1,4 +1,4 @@
-// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R1 | Salt & Light joins the project-native case studies
+// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R2 | Salt & Light's web and mobile collection
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, useIsPresent } from 'motion/react';
 import { projects } from '../data';
@@ -10,6 +10,7 @@ import ProjectsBackdrop from './ProjectsBackdrop';
 import LifeCityProjectNotes from './LifeCityProjectNotes';
 import PortfolioProjectNotes from './PortfolioProjectNotes';
 import SaltLightProjectNotes from './SaltLightProjectNotes';
+import SaltPlatformBadges from './SaltPlatformBadges';
 import '../styles/ProjectGallery.css';
 
 const pad = value => String(value).padStart(2, '0');
@@ -33,6 +34,7 @@ function ProjectIcon({ name = 'arrow', className = '' }) {
     code: <><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-2-14-4 18" /></>,
     grid: <><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></>,
     screen: <><rect x="3" y="4" width="18" height="13" rx="2" /><path d="M8 21h8M12 17v4" /></>,
+    devices: <><path d="M13 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v2M6 21h7m-3-4v4" /><rect x="15" y="9" width="7" height="12" rx="1.5" /><path d="M18 18h1" /></>,
     check: <path d="m5 12 4 4L19 6" />,
   };
   return <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">{paths[name] || paths.arrow}</svg>;
@@ -244,7 +246,7 @@ export default function Projects() {
       <div className="project-showcase__toolbar">
         <div className="project-filters" role="group" aria-label="Filter projects">
           {categoryOptions.map(value => <button key={value} type="button" aria-pressed={category === value} onClick={() => filter(value)}>
-            <ProjectIcon name={value === 'All' ? 'grid' : 'code'} /><span>{value === 'All' ? 'All work' : value}</span><small>{pad(value === 'All' ? projects.length : projects.filter(project => project.category === value).length)}</small>
+            <ProjectIcon name={value === 'All' ? 'grid' : value === 'Web & mobile app' ? 'devices' : 'code'} /><span>{value === 'All' ? 'All work' : value}</span><small>{pad(value === 'All' ? projects.length : projects.filter(project => project.category === value).length)}</small>
           </button>)}
         </div>
         <span className="project-showcase__count" aria-live="polite"><b>{pad(shown.length)}</b> {shown.length === 1 ? 'project' : 'projects'}</span>
@@ -257,6 +259,13 @@ export default function Projects() {
               {selected.id === 'salt-and-light' ? <img src={asset('images/projects/salt-light-icon-r1.png')} alt="" width="22" height="22" /> : selected.id === 'lifecity-attendance' ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m20 0v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /><circle cx="9" cy="7" r="4" /></svg> : selected.id === 'gbppimentel-dev' ? <img src={asset('brand/triangle-logo.png')} alt="" width="22" height="22" /> : <span aria-hidden="true">✦</span>}
               <motion.span key={selected.id} initial={reducedMotion ? false : { opacity: 0, y: 3 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : .35 }}>{selected.title}</motion.span>
             </span><span aria-hidden="true">01 — {pad(shown.length)}</span></div>
+          <AnimatePresence initial={false}>
+            {selected.id === 'salt-and-light' && <motion.div className="project-collection__platform-strip" key="salt-platforms"
+              initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: reducedMotion ? 0 : .42, ease: [.22, 1, .36, 1] }}>
+              <div><span><b>Built for the browser.</b> Ready for your home screen.</span><SaltPlatformBadges compact /></div>
+            </motion.div>}
+          </AnimatePresence>
           <div className="project-collection__gallery">
             <AccordionGallery items={galleryItems} defaultIndex={0} expandRatio={0.7} height={450}
               duration={1} ease="power3.inOut" tilt={2} gap={14} radius={14} detailsId={detailsId}
@@ -312,4 +321,4 @@ export default function Projects() {
     </div>
   </section>;
 }
-// END OF FILE: PORTFOLIO-SALT-LIGHT-R1 | Projects.jsx
+// END OF FILE: PORTFOLIO-SALT-LIGHT-R2 | Projects.jsx

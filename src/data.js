@@ -1,4 +1,5 @@
-// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R1 | Salt & Light case study from the uploaded app
+// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R2 | Salt & Light's real desktop and mobile experience
+import { saltShowcaseScreens } from './data/saltLightShowcase.js';
 const portfolioHeartFeedback = {
   approach: 'Keep the portfolio deployable as static files, with heart feedback handled entirely in the browser for the current visit.',
   feature: 'An animated header heart with a smooth thank-you response, without accounts or a saved count',
@@ -26,18 +27,18 @@ export const menuSocialLinks = [
 // URLs stay empty until you provide the real destination. No fake links are shown.
 export const projects = [
   {
-    id: 'salt-and-light', title: 'Salt & Light', category: 'Web development',
+    id: 'salt-and-light', title: 'Salt & Light', category: 'Web & mobile app',
     description: 'Everyday goals. Daily reflection. A character that grows with you.',
-    status: 'Live web application', accent: 'amber', artwork: 'images/slide02.png',
-    screenshot: 'images/projects/salt-light-login-r1.png',
+    status: 'Web · Android · iOS', accent: 'amber', artwork: 'images/slide02.png',
+    screenshot: 'images/projects/salt-light-r2/equipment.png',
     liveUrl: 'https://salt-light.vercel.app/', liveLabel: 'Open Salt & Light',
     sourceUrl: 'https://github.com/gbppimentel-dev/salt-light',
-    details: 'A Christian life tracker that connects intentional habits, devotion, and RPG progression in one app, with friends, achievements, and an installable web experience.',
+    details: 'A Christian life tracker that connects intentional habits, devotion, and RPG progression. Built for desktop and mobile, and installable on Android and iOS as a progressive web app.',
     technologies: ['react', 'vite', 'javascript', 'html', 'css', 'tailwind', 'shadcn', 'framer-motion', 'react-query', 'supabase', 'postgresql', 'react-router', 'lucide', 'date-fns', 'html2canvas', 'pwa', 'capacitor', 'api-bible', 'vercel'],
     caseStudy: {
       role: 'Application development & interface design',
       focus: 'Faith-centered productivity & RPG progression',
-      scope: 'React web app, Supabase integration & PWA',
+      scope: 'Responsive web app & installable PWA',
       challenge: 'Bring task planning, daily reflection, and long-term growth into one place. Make progress feel rewarding while keeping the everyday actions clear: plan a goal, complete it, reflect, and return.',
       approach: 'Organise goals, character development, devotion, and connections into distinct workspaces. Use Supabase for sessions and records, React Query for cached server state, and shared progression rules to connect completed actions with XP and Faith. Keep date copying explicit and give failed updates a clear recovery path.',
       features: [
@@ -47,7 +48,8 @@ export const projects = [
         'Searchable achievements with categories, rarity, and progress states',
         'Friend discovery through public IDs and consistent relationship checks',
         'A friend-request inbox with a synchronised navigation badge',
-        'Google sign-in, installable PWA support, and native packaging configuration',
+        'Google sign-in, responsive mobile layouts, and Android and iOS home-screen installation',
+        'A dedicated feedback and bug-report form with categories, subject, and message fields',
       ],
       featureDetails: [
         { title: 'Everyday goals, turned into quests', tag: 'GOALS / PLANNING', description: 'Plan Daily, Weekly, Elite, and Boss Fight goals, choose due dates, review calendar views, and keep completed tasks in an archive. Copy a goal to chosen dates when needed.' },
@@ -56,7 +58,8 @@ export const projects = [
         { title: 'Milestones beyond a single task', tag: 'ACHIEVEMENTS / PROGRESS', description: 'Browse achievements across goals, devotion, character levels, equipment, and skills. Search, categories, rarity labels, and progress bars help make the next milestone clear.' },
         { title: 'Find people through a public ID', tag: 'FRIENDS / CONNECTIONS', description: 'Look up another character, send a request, and browse accepted friends. Relationship checks recognise both sides of a connection so the same friendship is handled consistently.' },
         { title: 'An inbox that stays in sync', tag: 'MAIL / FEEDBACK', description: 'Accept or decline incoming friend requests from Mail. A shared refresh event keeps the navigation badge aligned with those actions and updates it when the app regains focus.' },
-        { title: 'An app you can come back to', tag: 'AUTH / DELIVERY', description: 'Google sign-in leads into a responsive, route-based app. Its manifest and service worker support installation as a PWA; the source also includes Android and iOS packaging configuration through Capacitor.' },
+        { title: 'An app you can come back to', tag: 'WEB / ANDROID / iOS', description: 'Google sign-in leads into a responsive app with a compact mobile navigation. Install it on Android or iOS through the browser to keep it on your home screen. The source also includes Capacitor packaging configuration.' },
+        { title: 'A place for ideas and issues', tag: 'FEEDBACK / SUPPORT', description: 'A dedicated feedback and bug-report form brings category, subject, and message fields together in the mobile layout.' },
       ],
       technologyNotes: [
         { technology: 'react', role: 'Reusable app screens, component state, and shared character and authentication hooks.' },
@@ -80,11 +83,7 @@ export const projects = [
         { technology: 'vercel', role: 'Hosting for the live web application.' },
       ],
       outcome: 'A deployed app bringing goals, devotion, character development, achievements, and friend requests into one connected experience. Its source includes installable PWA support and native project configuration, alongside the web interface.',
-      screens: [
-        { label: 'Welcome', src: 'images/projects/salt-light-login-r1.png', alt: 'Salt & Light sign-in screen from the uploaded build, with its green welcome panel and Google sign-in option.', caption: 'The welcome screen, captured from the uploaded local build. No sign-in or account creation was performed.' },
-        { label: 'Character creation', src: 'images/projects/salt-light-character-setup-r1.png', alt: 'Salt & Light character creation component with its wizard illustration, name field, and start button.', caption: 'Character creation: a read-only local component preview from the app source, without creating a character.' },
-        { label: 'Devotion calendar', src: 'images/projects/salt-light-devotion-calendar-r1.png', alt: 'Salt & Light monthly devotion calendar in its empty state, rendered from the actual component.', caption: 'The devotion calendar: an empty-state local component preview, with no personal journal records.' },
-      ],
+      screens: saltShowcaseScreens,
     },
   },
   {
@@ -219,4 +218,4 @@ export const contact = {
   email: '', // Your public contact email; leave empty to use LinkedIn instead.
   linkedin: 'https://www.linkedin.com/in/glenn-bernard-pimentel-2b3461265/',
 };
-// END OF FILE: PORTFOLIO-SALT-LIGHT-R1 | data.js
+// END OF FILE: PORTFOLIO-SALT-LIGHT-R2 | data.js

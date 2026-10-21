@@ -1,4 +1,4 @@
-/* CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R1 | Salt & Light collection identity */
+/* CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R2 | Salt & Light's desktop and mobile collection */
 #projects.portfolio-projects.project-showcase {
   --project-paper: #f2e9d6; --project-ink: #20222a; --project-accent: var(--brand-accent, var(--amber));
   position: relative; isolation: isolate; overflow: clip; box-sizing: border-box;
@@ -288,4 +288,27 @@
 @media (prefers-reduced-motion: reduce) {
   #projects .project-collection[data-collection-theme='salt'] .ag-panel { transition: none; }
 }
-/* END OF FILE: PORTFOLIO-SALT-LIGHT-R1 | ProjectGallery.css */
+/* The Salt preview pairs the real equipment screen with its real mobile Goals
+   view. It is decorative; the panel button retains the full accessible label. */
+#projects .project-collection__platform-strip { overflow: hidden; background: #f0f5ef; color: #55705e; }
+#projects .project-collection__platform-strip > div { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 20px; padding: 12px 25px; border-bottom: 1px solid #dce6dc; }
+#projects .project-collection__platform-strip > div > span { font: 400 11px/1.6 'Salt Inter', Inter, ui-sans-serif, system-ui, sans-serif; }
+#projects .project-collection__platform-strip b { color: #28553a; font-weight: 600; }
+#projects .project-collection[data-collection-theme='salt'] .project-collection__gallery { background: radial-gradient(circle, #cddbcf80 .7px, transparent .9px) 0 0/15px 15px, #f5f7f4; }
+#projects .ag-panel--amber .ag-panel__frame::after { content: ''; position: absolute; top: 23px; right: 25px; width: clamp(111px, 10.5vw, 146px); aspect-ratio: 407/840; border: 5px solid #24372b; border-radius: 17px; background: #f6f6f8 url('../../public/images/projects/salt-light-r2/goals.png') center/100% 100% no-repeat; box-shadow: 0 12px 30px #06190e55, 0 0 0 1px #ffffff91; opacity: 0; transform: translate(12px, 7px) rotate(4deg); transition: opacity .65s ease, transform .85s cubic-bezier(.22,1,.36,1); pointer-events: none; }
+#projects .ag-panel--amber.ag-panel--active .ag-panel__frame::after { opacity: 1; transform: none; }
+#projects .ag-panel--amber .ag-panel__frame::after { box-sizing: content-box; }
+#projects .ag-panel--amber .ag-panel__media { background: #f6f6f9; }
+#projects .ag-panel--amber .ag-panel__media img { width: min(100%, calc(var(--ag-expanded-label-width, 100%) + 65px)); margin-inline: auto; object-fit: contain; background: #f6f6f9; }
+@media (max-width: 1100px) {
+  #projects .project-collection__platform-strip > div { padding-inline: 19px; }
+  #projects .ag-panel--amber .ag-panel__frame::after { right: 18px; top: 28px; width: 111px; }
+}
+@media (max-width: 767px) {
+  #projects .project-collection__platform-strip > div { padding-inline: 16px; }
+  #projects .ag-panel--amber .ag-panel__frame::after { width: 90px; top: 15px; right: 15px; border-width: 4px; border-radius: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #projects .ag-panel--amber .ag-panel__frame::after { transition: none; transform: none; }
+}
+/* END OF FILE: PORTFOLIO-SALT-LIGHT-R2 | ProjectGallery.css */
