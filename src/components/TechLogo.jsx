@@ -1,4 +1,4 @@
-// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R1 | Verified Salt & Light technology emblems
+// CHANGE VERSION: PORTFOLIO-LIFECITY-R2 | Verified app tools and native browser capabilities
 
 // Lightweight, code-drawn technology emblems. Labels keep every tool identifiable.
 // Add an entry here and its ID to a project's technologies array in data.js.
@@ -32,6 +32,8 @@ export const technologyCatalog = {
   'date-fns': { label: 'date-fns', color: '#efbddf', glyph: 'date', description: 'Formats dates and helps build calendars, due dates, and comparisons between days.' },
   html2canvas: { label: 'html2canvas', color: '#a9dfcc', glyph: 'canvas', description: 'Renders a visible interface into an image for downloadable profile cards and journal views.' },
   pwa: { label: 'PWA', color: '#cbb8f4', glyph: 'pwa', description: 'Adds an installable web-app experience through a manifest, service worker, and standalone display settings.' },
+  'web-apis': { label: 'Browser APIs', color: '#96d4c5', glyph: 'browser', description: 'Provides built-in browser capabilities such as camera access, fullscreen views, canvas image generation, and local preferences.' },
+  'web-manifest': { label: 'Web App Manifest', color: '#c6b1e5', glyph: 'pwa', description: 'Defines an app’s name, icons, start screen, and standalone presentation for home-screen installation on supported browsers.' },
   capacitor: { label: 'Capacitor', color: '#91c5ef', glyph: 'capacitor', description: 'Packages a web application inside native Android and iOS project targets.' },
   'api-bible': { label: 'API.Bible', color: '#f2d287', glyph: 'bible', description: 'Provides Bible translations and passage content for an application to display.' },
 };
@@ -65,6 +67,7 @@ function Emblem({ glyph }) {
     case 'router': return <><circle cx="6" cy="7" r="3" /><circle cx="26" cy="25" r="3" /><circle cx="6" cy="25" r="3" /><path d="M9 7h7a5 5 0 0 1 5 5v8m-12 5h7a5 5 0 0 0 5-5V12M6 10v12" /></>;
     case 'date': return <><rect x="4" y="6" width="24" height="23" rx="4" /><path d="M10 3v6m12-6v6M4 13h24m-17 5h4m-4 5h4m6-5h2m-2 5h2" /></>;
     case 'canvas': return <><rect x="3" y="4" width="26" height="20" rx="3" /><path d="M11 29h10m-5-5v5M8 9h5v5H8Zm10 5 8 4-4 1-1 4Z" /><path d="M17 9h7" /></>;
+    case 'browser': return <><rect x="3" y="4" width="26" height="24" rx="4" /><path d="M3 11h26m-21-4h.1m4 0h.1m-2 9-4 4 4 4m12-8 4 4-4 4m-4-10-4 12" /></>;
     case 'pwa': return <><rect x="3" y="5" width="21" height="21" rx="3" /><path d="M3 11h21m-15-3h.1m3 0h.1" /><rect x="18" y="14" width="11" height="16" rx="2" /><path d="m21 21 2 2 3-4m-3 8h1" /></>;
     case 'capacitor': return <><path d="m9 3 20 20-6 6L3 9Zm14 0 6 6L9 29l-6-6Z" /><path d="m12 6 14 14M6 12l14 14" /></>;
     case 'bible': return <><path d="M4 6c5-3 9-2 12 1 3-3 7-4 12-1v22c-5-3-9-2-12 1-3-3-7-4-12-1Z" /><path d="M16 7v22M9 10v9m-3-6h6m8-2h4m-4 5h4m-4 5h4" /></>;
@@ -78,4 +81,4 @@ export default function TechLogo({ technology, className = '' }) {
     <Emblem glyph={entry?.glyph} />
   </svg>;
 }
-// END OF FILE: PORTFOLIO-SALT-LIGHT-R1 | TechLogo.jsx
+// END OF FILE: PORTFOLIO-LIFECITY-R2 | TechLogo.jsx

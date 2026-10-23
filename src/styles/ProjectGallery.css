@@ -1,4 +1,4 @@
-/* CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R7 | Salt & Light's desktop and mobile collection */
+/* CHANGE VERSION: PORTFOLIO-LIFECITY-R2 | App-native LifeCity collection with shared stable dimensions */
 #projects.portfolio-projects.project-showcase {
   --project-paper: #f2e9d6; --project-ink: #20222a; --project-accent: var(--brand-accent, var(--amber));
   position: relative; isolation: isolate; overflow: clip; box-sizing: border-box;
@@ -316,4 +316,20 @@
 }
 #projects .project-collection[data-collection-theme='salt'] .logoloop__label { font-size: 14px; }
 #projects .project-case-study--salt > .project-case-study__bar > span:last-child { color: #f9df8b; font-size: 12px; }
-/* END OF FILE: PORTFOLIO-SALT-LIGHT-R7 | ProjectGallery.css */
+
+
+/* LifeCity keeps the same shared collection dimensions and label typography,
+   while its mint surface, native app mark and teal tools adapt to the portal. */
+#projects .project-collection[data-collection-theme='lifecity'] { border:0; border-radius:24px; background:#f3f9f6; box-shadow:0 18px 58px #062c2630; }
+#projects .project-collection[data-collection-theme='lifecity'] .project-collection__bar { border:0; background:#e2f2ec; color:#315b53; }
+#projects .project-collection[data-collection-theme='lifecity'] .project-collection__identity>img { border-radius:7px; }
+#projects .project-collection[data-collection-theme='lifecity'] .project-collection__gallery { background:radial-gradient(circle,#87b5a82b .7px,transparent .9px) 0 0/17px 17px,linear-gradient(110deg,#f0f8f4,#f6f3fb); }
+#projects .ag-panel--blue .ag-panel__media { background:#f2f8f5; }
+#projects .ag-panel--blue .ag-panel__media img { width:min(100%,calc(var(--ag-expanded-label-width,100%) + 65px)); margin-inline:auto; object-fit:contain; background:#f2f8f5; }
+#projects .ag-panel--blue .ag-panel__overlay { background:linear-gradient(180deg,#123e3405 30%,#123e38e8 100%),color-mix(in srgb,var(--ag-overlay) calc(var(--ag-dim) * 75%),transparent); }
+#projects .project-collection[data-collection-theme='lifecity'] .project-toolkit { border:0; background:#144d45; }
+#projects .project-collection[data-collection-theme='lifecity'] .project-tech-detail { border:0; background:transparent; }
+#projects .project-collection[data-collection-theme='lifecity'] .project-tech-detail__copy strong { font-size:15px; }
+#projects .project-collection[data-collection-theme='lifecity'] .project-tech-detail__copy p { font-size:15px; line-height:1.65; }
+#projects .project-collection[data-collection-theme='lifecity'] .logoloop__label { font-size:14px; }
+/* END OF FILE: PORTFOLIO-LIFECITY-R2 | ProjectGallery.css */

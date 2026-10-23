@@ -1,5 +1,6 @@
-// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R9 | Salt & Light's real desktop and mobile experience
+// CHANGE VERSION: PORTFOLIO-LIFECITY-R2 | Verified LifeCity desktop and mobile case-study content
 import { saltShowcaseScreens } from './data/saltLightShowcase.js';
+import { lifeCityScreens } from './data/lifeCityShowcase.js';
 const portfolioHeartFeedback = {
   approach: 'Keep the portfolio deployable as static files, with heart feedback handled entirely in the browser for the current visit.',
   feature: 'An animated header heart with a smooth thank-you response, without accounts or a saved count',
@@ -66,39 +67,32 @@ export const projects = [
     },
   },
   {
-    id: 'lifecity-attendance', title: 'LifeCity Attendance', category: 'Web development',
-    description: 'Member records, QR check-in, and attendance reporting for the LifeCity community.',
-    status: 'Live web application', accent: 'blue', artwork: 'images/slide01.png',
-    screenshot: 'images/projects/lifecity-attendance-welcome-r1.png',
-    liveUrl: 'https://lifecity-attendance.vercel.app/',
+    id: 'lifecity-attendance', title: 'LifeCity Attendance', category: 'Web & Mobile App',
+    description: 'Member records, QR check-in, and a clearer picture of every gathering.',
+    status: 'Live Web App', accent: 'blue', artwork: 'images/slide01.png',
+    screenshot: 'images/projects/lifecity-r2/welcome-desktop.png',
+    liveUrl: 'https://lifecity-attendance.vercel.app/', liveLabel: 'Open LifeCity',
     sourceUrl: 'https://github.com/gbppimentel-dev/lifecity-attendance',
-    details: 'An end-to-end attendance workflow with guest browsing, member self-service, and dedicated administrator and owner workspaces.',
-    technologies: ['react', 'typescript', 'vite', 'supabase', 'postgresql', 'html5-qrcode', 'qrcode-react', 'papaparse', 'lucide', 'html', 'css', 'vercel'],
+    details: 'A responsive church attendance app with guest access, member self-service, service management, camera scanning, and administrative reporting. Desktop tools and compact mobile workspaces share the same connected records.',
+    technologies: ['react', 'typescript', 'javascript', 'vite', 'supabase', 'postgresql', 'html5-qrcode', 'qrcode-react', 'papaparse', 'lucide', 'html', 'css', 'web-apis', 'web-manifest', 'vercel'],
     caseStudy: {
-      role: 'Application development', focus: 'Attendance & member management', scope: 'React app & Supabase integration',
-      challenge: 'Bring registration, service check-in, and attendance history into one connected workflow. Members need a simple way to access their QR ID, while the church team needs clear tools for maintaining records and preparing reports.',
-      approach: 'Build role-specific React and TypeScript workspaces around Supabase Auth, PostgreSQL, and Realtime. Pair camera scanning with manual check-in, review imported data before saving, and validate complete report exports across every page of results.',
+      role: 'Application Development, Maintenance, & Interface Design',
+      focus: 'Community Attendance & Member Management',
+      scope: 'Responsive Web & Mobile · Home-Screen Support',
+      challenge: 'I wanted our church’s attendance process to be easier to manage, from welcoming someone new to checking them in at a service. Member records, personal QR IDs, and attendance history need to stay connected, while members and the church team each get a clear place to work.',
+      approach: 'I built separate journeys for guests, members, administrators, and the owner, connected through the same records. Check-in supports both a camera and a manual fallback. Imports are reviewed before saving, account-link requests are handled explicitly, and reports gather every matching row before export.',
       features: [
-        'Camera QR scanning, manual check-in, and a fullscreen kiosk',
-        'Member profiles, personal QR codes, and downloadable PNG IDs',
-        'Service management, attendance history, and live dashboard updates',
-        'CSV import validation, duplicate review, and complete report exports',
-        'Google sign-in with member, administrator, and owner workspaces',
-        'Reviewed account linking, profile change requests, and feedback tickets',
+        'QR camera scanning, manual check-in, duplicate feedback, and a fullscreen kiosk',
+        'Member profiles, ministries and churches, private QR tokens, and downloadable PNG IDs',
+        'Service scheduling, three-hour live status, attendance history, and realtime dashboard refreshes',
+        'Reviewed CSV imports with mapping, validation, and duplicate checks',
+        'Complete member and attendance exports with progress, cancellation, and count validation',
+        'Google sign-in, member self-service, reviewed account linking, and role-specific workspaces',
+        'Responsive desktop and phone layouts, appearance controls, and motion preferences',
+        'Feedback tickets with owner review and clear identity-display choices',
       ],
-      outcome: 'A deployed web app connecting member records, service check-in, and attendance reporting in one place. Members can access their own information, while the church team has dedicated tools for day-to-day administration.',
-      screens: [
-        {
-          src: 'images/projects/lifecity-attendance-welcome-r1.png',
-          alt: 'LifeCity Attendance welcome screen with community illustrations, Google sign-in, and guest access.',
-          caption: 'The welcome experience: Google sign-in for members and a guest route to explore public gatherings.',
-        },
-        {
-          src: 'images/projects/lifecity-attendance-stack-r1.png',
-          alt: 'LifeCity Attendance technology index with a selected React entry and an explanation of its role in the application.',
-          caption: 'Under the hood: an interactive technology index explaining the tools and platform features behind the app.',
-        },
-      ],
+      outcome: 'LifeCity Attendance brings member profiles, gatherings, QR check-in, and reporting into one responsive web app. Members can access their own QR and attendance, while the church team manages day-to-day records. The goal is a dependable tool that keeps the focus on the people behind each check-in.',
+      screens: lifeCityScreens,
     },
   },
   {
@@ -197,4 +191,4 @@ export const contact = {
   email: '', // Your public contact email; leave empty to use LinkedIn instead.
   linkedin: 'https://www.linkedin.com/in/glenn-bernard-pimentel-2b3461265/',
 };
-// END OF FILE: PORTFOLIO-SALT-LIGHT-R9 | data.js
+// END OF FILE: PORTFOLIO-LIFECITY-R2 | data.js

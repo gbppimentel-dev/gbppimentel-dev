@@ -1,4 +1,4 @@
-// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R9 | Personal motivation and an interactive engineering workbench
+// CHANGE VERSION: PORTFOLIO-LIFECITY-R2 | Salt App Tour resets above its complete section intro
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion, useIsPresent } from 'motion/react';
@@ -290,15 +290,15 @@ function FeatureScene({ chapter, chapterScreens, selected, onOpen, reducedMotion
 
 function FeatureJournal({ reducedMotion, instanceId, onOpen }) {
   const [selected, setSelected] = useState(0);
-  const navRef = useRef(null);
-  const resetView = useTabScrollReset(navRef, reducedMotion);
+  const introRef = useRef(null);
+  const resetView = useTabScrollReset(introRef, reducedMotion);
   const chapter = saltFeatureChapters[selected];
   const chapterScreens = chapter.screenIds.map(id => screensById[id]).filter(Boolean);
   const panelId = 'salt-feature-panel-' + instanceId;
   const select = (_, index) => { setSelected(index); resetView(); };
-  return <div className="sls-feature-journal">
+  return <div ref={introRef} className="sls-feature-journal">
     <div className="sls-panel-heading"><span className="sls-kicker"><SaltIcon name="spark" />EXPLORE THE APP</span><h4>Small Actions. A Bigger Journey.</h4><p>Plan with purpose, reflect each day, and grow through the actions you complete.</p></div>
-    <div ref={navRef} className="sls-feature-index-host"><RubberSegment className="sls-feature-index rubber-segment--features" aria-label="Salt and Light features"
+    <div className="sls-feature-index-host"><RubberSegment className="sls-feature-index rubber-segment--features" aria-label="Salt and Light features"
       value={chapter.id} onChange={select} draggable={false}
       items={saltFeatureChapters.map((item, index) => ({ value: item.id, label: item.label, icon: <SaltIcon name={item.icon} />, id: 'salt-feature-' + instanceId + '-' + index, panelId }))} />
     </div>
@@ -479,4 +479,4 @@ export default function SaltLightProjectNotes({ project, headingId, reducedMotio
     <ScreenshotViewer screen={viewerScreen} onClose={closeViewer} onChange={setViewerScreen} />
   </div>;
 }
-// END OF FILE: PORTFOLIO-SALT-LIGHT-R9 | SaltLightProjectNotes.jsx
+// END OF FILE: PORTFOLIO-LIFECITY-R2 | SaltLightProjectNotes.jsx

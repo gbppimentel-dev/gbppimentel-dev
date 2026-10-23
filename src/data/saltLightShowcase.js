@@ -1,4 +1,4 @@
-// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R6 | Actual Salt & Light screens and feature chapters
+// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R8 | Actual Salt & Light screens and feature chapters
 // These are supplied app captures. Visible account progress is example app state,
 // not project usage, performance, or success metrics.
 const imageRoot = 'images/projects/salt-light-r2/';
@@ -256,8 +256,8 @@ export const saltFeatureChapters = [
     "label": "Feedback",
     "icon": "message",
     "tone": "gold",
-    "title": "Give Ideas and Issues a Clear Home.",
-    "emphasis": "Clear Home.",
+    "title": "Feedback & Bug Reports.",
+    "emphasis": "Feedback",
     "description": "A dedicated feedback form keeps a category, subject, and message together. Report a bug, suggest an improvement, or explain what you need through a compact layout that fits the mobile experience.",
     "screenIds": [
       "feedback"
@@ -444,4 +444,4 @@ export const saltBuildStories = [
     "detail": "Home-screen installation is available through the browser. Android and iOS project files support a separate native packaging workflow."
   }
 ];
-// END OF FILE: PORTFOLIO-SALT-LIGHT-R6 | saltLightShowcase.js
+// END OF FILE: PORTFOLIO-SALT-LIGHT-R8 | saltLightShowcase.js
