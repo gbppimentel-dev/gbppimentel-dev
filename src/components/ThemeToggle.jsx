@@ -10,9 +10,7 @@ export default function ThemeToggle() {
     const sync = event => {
       if (event.key !== THEME_STORAGE_KEY && event.key !== null) return;
       const next = normalizeTheme(event.newValue);
-      document.documentElement.dataset.theme = next;
-      setTheme(next);
-      window.dispatchEvent(new Event('portfolio-theme-change'));
+      setTheme(applyTheme(next, { animate: false, persist: false }));
     };
     window.addEventListener('storage', sync);
     return () => window.removeEventListener('storage', sync);

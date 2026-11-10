@@ -1,5 +1,8 @@
 // CHANGE VERSION: NETSUITE-CROSSHAIR-R1 | 2026-10-20 | Scoped React Bits Crosshair
 import { useEffect, useRef } from 'react';
+import { createCrosshairMutationFilter } from '../utils/crosshairActivity';
+import { subscribeAdaptiveAccent } from '../utils/adaptiveColors';
+import { renderPixelRatio } from '../utils/renderBudget';
 
 const LINE_STYLES = ['solid', 'dashed', 'dotted'];
 const EFFECTS = ['lock', 'glitch', 'none'];
@@ -35,7 +38,7 @@ const toRgb = (ctx, value) => {
 /** `viewport` keeps a long scoped page's bitmap viewport-sized and clips its
  * drawing to the visible host. It does not create a page-height canvas. */
 export default function Crosshair({
-  color = '#ffffff', containerRef = null, viewport = false, enabled = true,
+  color = '#ffffff', adaptiveColor = false, containerRef = null, viewport = false, enabled = true,
   thickness = 1, opacity = 0.85, lineStyle = 'solid', gap = 0, fade = 0,
   smoothing = 0.35, showCoordinates = true, targetEffect = 'lock',
   targetSelector = 'a, button, [data-crosshair-target]', clickPulse = true,
@@ -45,13 +48,15 @@ export default function Crosshair({
   const wakeRef = useRef(null);
   const settingsRef = useRef(null);
   settingsRef.current = {
-    color, enabled, thickness: number(thickness, 1, 0.5, 8), opacity: number(opacity, 0.85, 0, 1),
+    color: adaptiveColor ? 'var(--brand-accent, #ffffff)' : color, enabled, thickness: number(thickness, 1, 0.5, 8), opacity: number(opacity, 0.85, 0, 1),
     lineStyle: LINE_STYLES.includes(lineStyle) ? lineStyle : 'solid', gap: number(gap, 0, 0, 200),
     fade: number(fade, 0, 0, 1), smoothing: number(smoothing, 0.35, 0, 1), showCoordinates,
     targetEffect: EFFECTS.includes(targetEffect) ? targetEffect : 'lock', targetSelector, clickPulse, hideCursor,
   };
 
   useEffect(() => { wakeRef.current?.(); });
+  // Palette frames repaint the canvas without scheduling React renders.
+  useEffect(() => adaptiveColor ? subscribeAdaptiveAccent(() => wakeRef.current?.()) : undefined, [adaptiveColor]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -70,13 +75,17 @@ export default function Crosshair({
     let last = 0;
     let alive = true;
     let inkSource = '';
+    let firstPosition = false;
+    let pendingPulses = [];
+    let renders = 0;
+    let inputs = 0;
     let ink = { r: 255, g: 255, b: 255, a: 1 };
     const size = { w: 0, h: 0, dpr: 1 };
     let canvasBox = { left: 0, top: 0, width: 0, height: 0 };
     let hostBox = null;
     let bounds = { left: 0, top: 0, right: 0, bottom: 0 };
     const state = {
-      x: 0, y: 0, tx: 0, ty: 0, clientX: 0, clientY: 0, inside: false, seen: false,
+      x: 0, y: 0, tx: 0, ty: 0, clientX: 0, clientY: 0, inside: false, seen: false, pointerPresent: false,
       presence: 0, glitch: 0, target: null, pointerElement: null,
       lock: { x: 0, y: 0, w: 0, h: 0, alpha: 0 }, pulses: [],
     };
@@ -91,6 +100,7 @@ export default function Crosshair({
     const stop = () => {
       cancelAnimationFrame(raf); raf = 0;
       state.inside = false; state.seen = false; state.presence = 0;
+      state.pointerPresent = false; pendingPulses = []; firstPosition = false;
       state.target = null; state.lock.alpha = 0; state.glitch = 0; state.pulses = [];
       hiddenCursor(false); clear();
     };
@@ -112,8 +122,7 @@ export default function Crosshair({
     const liveTarget = target => {
       if (!target?.isConnected || (host && !host.contains(target))) return false;
       if (target.closest('[hidden], [inert], [aria-hidden="true"], [disabled], [aria-disabled="true"]')) return false;
-      const box = target.getBoundingClientRect();
-      return box.width > 0 && box.height > 0;
+      return true;
     };
     const pick = element => {
       if (settingsRef.current.targetEffect === 'none' || !(element instanceof Element)) return null;
@@ -131,11 +140,12 @@ export default function Crosshair({
       if (next && settingsRef.current.targetEffect === 'glitch' && !reduced) state.glitch = 1;
     };
     const syncPoint = () => {
-      if (!getBounds() || !pointInside()) { state.inside = false; state.target = null; hiddenCursor(false); return; }
+      if (!state.pointerPresent || !pointInside()) { state.inside = false; state.target = null; hiddenCursor(false); return; }
       const element = atPointer();
       // A menu, loader, header or floating control is not part of this scope.
       if (host && element && !host.contains(element)) { state.inside = false; state.target = null; hiddenCursor(false); return; }
-      if (state.inside) retarget(element || state.pointerElement);
+      state.inside = true;
+      retarget(element || state.pointerElement);
     };
 
     const rgba = alpha => `rgba(${ink.r}, ${ink.g}, ${ink.b}, ${clamp(alpha * ink.a, 0, 1)})`;
@@ -194,7 +204,7 @@ export default function Crosshair({
       ctx.moveTo(x + arm, y + h); ctx.lineTo(x, y + h); ctx.lineTo(x, y + h - arm);
       ctx.stroke();
     };
-    const draw = () => {
+    const draw = targetBox => {
       const s = settingsRef.current;
       ctx.setTransform(size.dpr, 0, 0, size.dpr, 0, 0); ctx.clearRect(0, 0, size.w, size.h);
       ctx.save(); ctx.beginPath(); ctx.rect(bounds.left, bounds.top, Math.max(0, bounds.right - bounds.left), Math.max(0, bounds.bottom - bounds.top)); ctx.clip();
@@ -216,9 +226,8 @@ export default function Crosshair({
       if (state.lock.alpha > 0.001) {
         const { x, y, w, h, alpha } = state.lock;
         ctx.globalAlpha = alpha * s.opacity; brackets(x, y, w, h);
-        if (s.showCoordinates && liveTarget(state.target)) {
-          const box = state.target.getBoundingClientRect();
-          tag(`${Math.round(box.width)} × ${Math.round(box.height)}`, x + w / 2, y + h + 8, 'center');
+        if (s.showCoordinates && targetBox) {
+          tag(`${Math.round(targetBox.width)} × ${Math.round(targetBox.height)}`, x + w / 2, y + h + 8, 'center');
         }
       }
       for (const pulse of state.pulses) {
@@ -227,6 +236,10 @@ export default function Crosshair({
         ctx.beginPath(); ctx.arc(pulse.x, pulse.y, 3 + 30 * eased, 0, Math.PI * 2); ctx.stroke();
       }
       ctx.restore(); ctx.globalAlpha = 1;
+      if (import.meta.env.DEV) {
+        canvas.dataset.crosshairRenders = String(++renders);
+        canvas.dataset.crosshairInputs = String(inputs);
+      }
     };
     const tick = now => {
       raf = 0;
@@ -234,12 +247,25 @@ export default function Crosshair({
       const s = settingsRef.current;
       const dt = Math.min(0.05, Math.max(0.001, (now - last) / 1000)); last = now;
       syncPoint(); updateInk();
+      if (firstPosition) {
+        firstPosition = false;
+        state.x = state.tx; state.y = state.ty;
+        Object.assign(state.lock, { x: state.x - 10, y: state.y - 10, w: 20, h: 20 });
+      }
+      for (const point of pendingPulses) {
+        const x = point.x - canvasBox.left, y = point.y - canvasBox.top;
+        if (x >= bounds.left && x <= bounds.right && y >= bounds.top && y <= bounds.bottom) state.pulses.push({ x, y, age: 0 });
+      }
+      pendingPulses = [];
+      if (state.pulses.length > 12) state.pulses.splice(0, state.pulses.length - 12);
       const follow = reduced || s.smoothing === 0 ? 1 : 1 - Math.exp(-dt / (0.008 + s.smoothing * 0.16));
       state.x = approach(state.x, state.tx, follow); state.y = approach(state.y, state.ty, follow);
       const wanted = state.inside ? 1 : 0;
       state.presence = approach(state.presence, wanted, reduced ? 1 : 1 - Math.exp(-dt / (wanted ? 0.12 : 0.25)), 0.002);
-      const lock = state.lock; const locked = s.targetEffect === 'lock' && state.inside && liveTarget(state.target) ? state.target : null;
-      const box = locked?.getBoundingClientRect();
+      const lock = state.lock;
+      let locked = s.targetEffect === 'lock' && state.inside && liveTarget(state.target) ? state.target : null;
+      let box = locked?.getBoundingClientRect();
+      if (box && (!box.width || !box.height)) { locked = null; box = null; state.target = null; }
       const goal = box ? { x: box.left - canvasBox.left - 6, y: box.top - canvasBox.top - 6, w: box.width + 12, h: box.height + 12 } : { x: state.x - 10, y: state.y - 10, w: 20, h: 20 };
       const snap = reduced ? 1 : 1 - Math.exp(-dt / 0.085);
       for (const property of ['x', 'y', 'w', 'h']) lock[property] = approach(lock[property], goal[property], snap);
@@ -247,51 +273,51 @@ export default function Crosshair({
       lock.alpha = approach(lock.alpha, shown, reduced ? 1 : 1 - Math.exp(-dt / (shown ? 0.08 : 0.14)), 0.002);
       state.glitch = reduced ? 0 : Math.max(0, state.glitch - dt / 0.5);
       state.pulses = reduced ? [] : state.pulses.filter(pulse => (pulse.age += dt) < 0.55);
-      hiddenCursor(state.inside && s.hideCursor); draw();
+      hiddenCursor(state.inside && s.hideCursor); draw(box);
       const settling = Math.abs(state.tx - state.x) > 0.05 || Math.abs(state.ty - state.y) > 0.05 || state.presence !== wanted || lock.alpha !== shown
         || (locked && ['x', 'y', 'w', 'h'].some(property => Math.abs(goal[property] - lock[property]) > 0.1)) || state.glitch > 0 || state.pulses.length > 0;
       if (settling && alive) raf = requestAnimationFrame(tick);
     };
     const wake = () => {
-      if (!allowed() || !getBounds()) { stop(); return; }
-      if (!state.inside && !state.presence && !state.lock.alpha && !state.pulses.length) { clear(); return; }
+      if (!allowed()) { stop(); return; }
+      if (!state.pointerPresent && !state.presence && !state.lock.alpha && !state.pulses.length && !pendingPulses.length) { clear(); return; }
       if (raf) return;
       last = performance.now(); raf = requestAnimationFrame(tick);
     };
     const resize = () => {
       if (!alive) return;
       const rect = canvas.getBoundingClientRect();
-      size.w = Math.max(0, rect.width); size.h = Math.max(0, rect.height); size.dpr = number(window.devicePixelRatio, 1, 1, 2);
+      size.w = Math.max(0, rect.width); size.h = Math.max(0, rect.height);
+      // A viewport overlay must not allocate an unbounded high-DPI bitmap.
+      size.dpr = renderPixelRatio(size.w, size.h, window.devicePixelRatio || 1, 1.5);
       const width = Math.max(1, Math.round(size.w * size.dpr)); const height = Math.max(1, Math.round(size.h * size.dpr));
       if (canvas.width !== width) canvas.width = width;
       if (canvas.height !== height) canvas.height = height;
       wake();
     };
-    const leave = () => { state.inside = false; state.target = null; hiddenCursor(false); wake(); };
+    const leave = () => { state.pointerPresent = false; state.inside = false; state.target = null; hiddenCursor(false); wake(); };
     const onMove = event => {
       if (event.pointerType === 'touch') { stop(); return; }
       if (!allowed() || event.isPrimary === false) return;
+      if (import.meta.env.DEV) inputs++;
       state.clientX = event.clientX; state.clientY = event.clientY; state.pointerElement = event.target;
-      if (!getBounds() || !pointInside()) { leave(); return; }
-      const element = atPointer() || event.target;
-      if (host && !host.contains(element)) { leave(); return; }
-      if (!state.seen) {
-        state.seen = true; state.x = state.tx; state.y = state.ty;
-        Object.assign(state.lock, { x: state.x - 10, y: state.y - 10, w: 20, h: 20 });
-      }
-      state.inside = true; retarget(element); wake();
+      // Raw pointer events can arrive several times per painted frame. Keep the
+      // latest coordinates and do bounds, hit testing and lock measurement once.
+      if (!state.seen) { state.seen = true; firstPosition = true; }
+      state.pointerPresent = true;
+      wake();
     };
     const onDown = event => {
       if (event.button !== 0 || event.isPrimary === false || event.pointerType === 'touch') return;
       onMove(event);
-      if (!state.inside || !settingsRef.current.clickPulse || reduced) return;
-      state.pulses.push({ x: state.tx, y: state.ty, age: 0 });
-      if (state.pulses.length > 12) state.pulses.shift();
+      if (!settingsRef.current.clickPulse || reduced) return;
+      pendingPulses.push({ x: event.clientX, y: event.clientY });
+      if (pendingPulses.length > 12) pendingPulses.shift();
       wake();
     };
     const onUp = event => { if (event.pointerType && event.pointerType !== 'mouse') leave(); };
     const onWindowOut = event => { if (!event.relatedTarget) leave(); };
-    const onScroll = () => { if (state.seen) { syncPoint(); wake(); } };
+    const onScroll = () => { if (state.seen) wake(); };
     const onMotion = () => {
       reduced = !!motionQuery?.matches;
       if (reduced) { state.pulses = []; state.glitch = 0; }
@@ -299,7 +325,7 @@ export default function Crosshair({
     };
     const onPointerPreference = () => { fine = pointerQuery ? pointerQuery.matches : true; if (!fine) stop(); else resize(); };
     const onVisibility = () => { if (document.hidden) stop(); };
-    const onMutation = () => { if (state.seen) { syncPoint(); wake(); } };
+    const onMutation = () => { if (state.seen) wake(); };
     const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(resize);
     observer?.observe(canvas); if (host) observer?.observe(host);
     const intersection = host && typeof IntersectionObserver !== 'undefined' ? new IntersectionObserver(entries => {
@@ -307,8 +333,11 @@ export default function Crosshair({
       if (!intersecting) stop(); else resize();
     }) : null;
     intersection?.observe(host);
-    const mutation = host && typeof MutationObserver !== 'undefined' ? new MutationObserver(onMutation) : null;
-    mutation?.observe(host, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden', 'inert', 'aria-hidden', 'class', 'style', 'disabled'] });
+    const relevantMutation = createCrosshairMutationFilter({ host, canvas, selector: () => settingsRef.current.targetSelector });
+    const mutation = host && typeof MutationObserver !== 'undefined' ? new MutationObserver(records => {
+      if (relevantMutation(records)) onMutation();
+    }) : null;
+    mutation?.observe(host, { childList: true, subtree: true, attributes: true, attributeOldValue: true, attributeFilter: ['hidden', 'inert', 'aria-hidden', 'class', 'style', 'disabled'] });
     // Menus/loaders can cover a stationary pointer after the animation settles.
     // Observe their semantic visibility changes, excluding animated style writes
     // (for example the site's independent custom cursor transform).
@@ -324,7 +353,7 @@ export default function Crosshair({
     if (host) host.addEventListener('pointerleave', leave); else document.addEventListener('pointerout', onWindowOut);
     wakeRef.current = () => {
       if (!settingsRef.current.enabled) stop();
-      else { syncPoint(); wake(); }
+      else wake();
     };
     resize();
     return () => {
@@ -343,7 +372,7 @@ export default function Crosshair({
     <canvas ref={canvasRef} aria-hidden="true" className={className} data-crosshair="" style={{
       position: viewport || !containerRef ? 'fixed' : 'absolute', inset: 0,
       width: viewport ? '100vw' : '100%', height: viewport ? '100vh' : '100%',
-      pointerEvents: 'none', zIndex: 3, color, mixBlendMode: blendMode, ...style,
+      pointerEvents: 'none', zIndex: 3, color: adaptiveColor ? 'var(--brand-accent, #ffffff)' : color, mixBlendMode: blendMode, ...style,
     }} />
   </>;
 }

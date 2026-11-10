@@ -1,4 +1,5 @@
 /* CHANGE VERSION: ADAPTIVE-COLORS-R1 | One interruptible color clock for CSS, canvas and WebGL */
+import { createPaintClock } from './renderBudget.js';
 export const ADAPTIVE_COLOR_DURATION = 1100;
 export const ADAPTIVE_COLOR_INTERVAL = 5500;
 
@@ -35,7 +36,7 @@ const cssColor = channels => `rgb(${channels.map(value => Math.round(Math.min(25
 const sameColor = (a, b) => a.every((value, index) => Math.abs(value - b[index]) < 0.001);
 
 /** A new target continues from the currently displayed color, including rapid clicks. */
-export function createColorTransition({ initial, onUpdate, duration = ADAPTIVE_COLOR_DURATION }) {
+export function createColorTransition({ initial, onUpdate, duration = ADAPTIVE_COLOR_DURATION, fps = 30 }) {
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
   let current = rgbChannels(initial);
   let target = [...current];
@@ -43,6 +44,7 @@ export function createColorTransition({ initial, onUpdate, duration = ADAPTIVE_C
   let frame = 0;
   let started = 0;
   let disposed = false;
+  const paintClock = createPaintClock(fps);
   const paint = () => onUpdate(cssColor(current));
   const finish = () => {
     cancelAnimationFrame(frame);
@@ -55,8 +57,12 @@ export function createColorTransition({ initial, onUpdate, duration = ADAPTIVE_C
     if (disposed) return;
     const progress = Math.min(1, Math.max(0, (now - started) / duration));
     const eased = progress * progress * (3 - 2 * progress);
-    current = from.map((value, index) => value + (target[index] - value) * eased);
-    paint();
+    // Inherited color changes invalidate styles and repaint SVG/canvas accents.
+    // Share a decorative paint budget even on high-refresh displays.
+    if (progress === 1 || paintClock.due(now)) {
+      current = from.map((value, index) => value + (target[index] - value) * eased);
+      paint();
+    }
     if (progress < 1) frame = requestAnimationFrame(tick);
     else current = [...target];
   };
@@ -77,6 +83,7 @@ export function createColorTransition({ initial, onUpdate, duration = ADAPTIVE_C
       target = next;
       if (document.hidden || preference.matches || duration <= 0 || sameColor(current, target)) { finish(); return; }
       started = performance.now();
+      paintClock.reset();
       frame = requestAnimationFrame(tick);
     },
     finish() { if (!disposed) finish(); },

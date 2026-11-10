@@ -7,29 +7,29 @@
       "gzipBytes": 1794
     },
     {
-      "file": "assets/index-DY13hVm2.js",
-      "bytes": 234849,
-      "gzipBytes": 72658
+      "file": "assets/index-Clv8-A-p.js",
+      "bytes": 236138,
+      "gzipBytes": 73131
     },
     {
-      "file": "assets/index-CDeRQWE6.css",
-      "bytes": 319721,
-      "gzipBytes": 57004
+      "file": "assets/index-CBsPtvmE.css",
+      "bytes": 323520,
+      "gzipBytes": 57614
     }
   ],
   "initialGzipBytes": {
-    "javascript": 72658,
-    "css": 58798
+    "javascript": 73131,
+    "css": 59408
   },
   "appStartupAssets": [
     {
-      "file": "assets/App-DOgNQCoC.js",
-      "bytes": 405573,
-      "gzipBytes": 133685
+      "file": "assets/App-CbZqGBB9.js",
+      "bytes": 409708,
+      "gzipBytes": 135316
     }
   ],
   "appStartupGzipBytes": {
-    "javascript": 133685,
+    "javascript": 135316,
     "css": 0
   },
   "startupAssets": [
@@ -39,24 +39,24 @@
       "gzipBytes": 1794
     },
     {
-      "file": "assets/index-DY13hVm2.js",
-      "bytes": 234849,
-      "gzipBytes": 72658
+      "file": "assets/index-Clv8-A-p.js",
+      "bytes": 236138,
+      "gzipBytes": 73131
     },
     {
-      "file": "assets/index-CDeRQWE6.css",
-      "bytes": 319721,
-      "gzipBytes": 57004
+      "file": "assets/index-CBsPtvmE.css",
+      "bytes": 323520,
+      "gzipBytes": 57614
     },
     {
-      "file": "assets/App-DOgNQCoC.js",
-      "bytes": 405573,
-      "gzipBytes": 133685
+      "file": "assets/App-CbZqGBB9.js",
+      "bytes": 409708,
+      "gzipBytes": 135316
     }
   ],
   "startupGzipBytes": {
-    "javascript": 206343,
-    "css": 58798
+    "javascript": 208447,
+    "css": 59408
   },
   "startupBudgetBytes": {
     "javascript": 250000,

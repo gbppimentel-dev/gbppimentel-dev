@@ -27,6 +27,7 @@ import "./styles/navigation-depth.css";
 import "./styles/themes.css";
 import "./styles/themes-pages.css";
 import "./styles/runtime-polish.css";
+import "./styles/theme-transition.css";
 
 const MotionProbe = import.meta.env.DEV && new URLSearchParams(location.search).has('motion-check')
   ? React.lazy(() => import('./dev/MotionProbe')) : null;

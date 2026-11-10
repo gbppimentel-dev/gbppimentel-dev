@@ -1,0 +1,33 @@
+/* One viewport snapshot wipes over the other; the live page keeps its state. */
+html[data-theme-transition='swipe']::view-transition { pointer-events: none; }
+html[data-theme-transition='swipe']::view-transition-group(root) { animation: none; }
+html[data-theme-transition='swipe']::view-transition-image-pair(root) { isolation: isolate; }
+html[data-theme-transition='swipe']::view-transition-old(root),
+html[data-theme-transition='swipe']::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  opacity: 1;
+}
+html[data-theme-transition='swipe']::view-transition-old(root) { z-index: 1; }
+html[data-theme-transition='swipe']::view-transition-new(root) {
+  z-index: 2;
+  animation: theme-swipe-light 650ms cubic-bezier(.22,.7,.2,1) both;
+}
+html[data-theme-transition='swipe'][data-theme-direction='dark']::view-transition-new(root) { animation-name: theme-swipe-dark; }
+@keyframes theme-swipe-light { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
+@keyframes theme-swipe-dark { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0); } }
+
+/* Older browsers fade a bounded set of surfaces instead of animating every
+   node, canvas, or animation-owned transform in the application. */
+html[data-theme-transition='fade'] body { transition: background-color 360ms ease; }
+html[data-theme-transition='fade'] :is(.about-technical__panel,.contact-inquiry__intro,.inquiry-form,.sub-footer),
+html[data-theme-transition='fade'] .navbar.site-navbar::before {
+  transition: background-color 360ms ease,color 360ms ease,border-color 360ms ease;
+}
+html[data-theme-transition='fade'] :is(.slide-art,.section-art,.contact-art) { transition: filter 360ms ease,opacity 360ms ease; }
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme-transition]::view-transition-old(root),
+  html[data-theme-transition]::view-transition-new(root) { animation: none; }
+  html[data-theme-transition='fade'] :is(body,.about-technical__panel,.contact-inquiry__intro,.inquiry-form,.sub-footer,.slide-art,.section-art,.contact-art),
+  html[data-theme-transition='fade'] .navbar.site-navbar::before { transition: none; }
+}

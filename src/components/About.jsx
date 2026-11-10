@@ -1,8 +1,8 @@
-import { Suspense, lazy, useContext, useEffect, useId, useRef, useState } from 'react';
+import { Component, Suspense, lazy, useCallback, useContext, useEffect, useId, useRef, useState } from 'react';
 import { asset } from '../utils/assets';
 import { aboutProfile } from '../data/aboutProfile';
 import useAnimationActivity, { AnimationActivityContext } from '../hooks/useAnimationActivity';
-import { getAdaptiveAccent, subscribeAdaptiveAccent } from '../utils/adaptiveColors';
+import { loadDecodedIdentityImage } from '../utils/identityReadiness';
 import TextLoop from './TextLoop';
 import BranchedMenu from './BranchedMenu';
 import '../styles/about-responsive.css';
@@ -10,7 +10,6 @@ import '../styles/about-technical.css';
 import '../styles/id-workbench.css';
 
 const loadLanyard = () => import('./Lanyard');
-const Lanyard = lazy(loadLanyard);
 const Crosshair = lazy(() => import('./Crosshair'));
 const ID_CARD_SIZE = 0.67;
 const ID_STRAP_WIDTH = 0.56;
@@ -33,24 +32,93 @@ function useAboutMedia(queryText) {
 function AboutCursor({ containerRef }) {
   const desktopPointer = useAboutMedia('(min-width: 1000px) and (hover: hover) and (pointer: fine)');
   const { active } = useAnimationActivity(containerRef, { enabled: desktopPointer, threshold: .05 });
-  const [color, setColor] = useState(() => getAdaptiveAccent() || '#d8b97c');
-  useEffect(() => active ? subscribeAdaptiveAccent(setColor) : undefined, [active]);
   // Reuse NetSuite's demand-rendered effect only while this scene is usable.
   // The canvas never receives pointer events, so card dragging stays native.
-  return active ? <Suspense fallback={null}><Crosshair containerRef={containerRef} viewport color={color}
+  return active ? <Suspense fallback={null}><Crosshair containerRef={containerRef} viewport adaptiveColor
     thickness={1} opacity={0.65} gap={14} fade={0.45} smoothing={0.3}
     targetEffect="lock" showCoordinates clickPulse hideCursor={false}
     className="about-crosshair" style={{ zIndex: 3, width: '100%' }} /></Suspense> : null;
 }
 
-function TouchIdentityCard() {
+function TouchIdentityCard({ artwork, recovery, onRetry }) {
   const [back, setBack] = useState(false);
-  return <div className="about-touch-id">
+  const [broken, setBroken] = useState({});
+  const source = artwork?.[back ? 'back' : 'front'];
+  const recoveryMessage = recovery || (Object.keys(broken).length ? 'Profile images unavailable.' : null);
+  return <div className={`about-touch-id${recoveryMessage ? ' about-touch-id--recovery' : ''}`}>
     <span className="about-touch-id__strap" aria-hidden="true"><span className="about-touch-id__weave">gbppimentel-dev</span></span>
     <button type="button" className="about-touch-id__card" aria-label={back ? 'Show the front of my identity card' : 'Show the back of my identity card'} aria-pressed={back} onClick={() => setBack(value => !value)}>
-      <img key={back ? 'back' : 'front'} className="about-touch-id__image" src={back ? ID_BACK : ID_FRONT} alt={back ? 'The back of Glenn Bernard Pimentel’s identity card' : 'Glenn Bernard Pimentel’s professional identity card'} width="1024" height="1440" loading="lazy" decoding="async" />
+      {source && !broken[source] ? <img key={source} className="about-touch-id__image" src={source} alt={back ? 'The back of Glenn Bernard Pimentel’s identity card' : 'Glenn Bernard Pimentel’s professional identity card'} width="1024" height="1440" decoding="async" onError={() => setBroken(value => ({ ...value, [source]: true }))} />
+        : <span className="about-touch-id__text"><small>PERSON / PROFILE</small><strong>Glenn Bernard<br />Pimentel<span>.</span></strong><span>{back ? 'React · application logic\nUI / UX · visual systems\nNetSuite · workflows' : 'Software engineer\nUI / UX designer\nNetSuite support'}</span></span>}
     </button>
-    <p className="about-touch-id__hint">Tap the card to flip it <span aria-hidden="true">↔</span></p>
+    <div className="about-touch-id__hint">Tap the card to flip it <span aria-hidden="true">↔</span>{recoveryMessage && <><small>{recoveryMessage}</small><button type="button" className="identity-retry" onClick={onRetry}>Retry {recoveryMessage === 'Showing card view.' ? 'interactive ID' : 'ID images'} <span aria-hidden="true">↻</span></button></>}</div>
+  </div>;
+}
+
+class IdentityBoundary extends Component {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  componentDidCatch(error) { this.props.onError(error); }
+  render() { return this.state.failed ? null : this.props.children; }
+}
+
+function IdentityLoading({ active }) {
+  return <div className="identity-loading" role="status" data-active={active}>
+    <div className="identity-loading__badge" aria-hidden="true"><i /><span><b /><b /><b /></span></div>
+    <strong>Preparing identity card</strong><span>Artwork, strap & hardware</span>
+  </div>;
+}
+
+function IdentityPresentation({ lightIdentity, enabled, active, strapColor, attempt, onRetry }) {
+  const [mode, setMode] = useState(lightIdentity ? 'flat' : 'three');
+  const [Renderer, setRenderer] = useState(null);
+  const [sceneStarted, setSceneStarted] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [artwork, setArtwork] = useState(null);
+  const [imageIssue, setImageIssue] = useState(false);
+  const [rendererIssue, setRendererIssue] = useState(false);
+  const finish = useCallback(() => setReady(true), []);
+  const fail = useCallback(() => { setReady(false); setRendererIssue(true); setMode('flat'); setRenderer(null); }, []);
+  useEffect(() => { if (Renderer && active) setSceneStarted(true); }, [Renderer, active]);
+  useEffect(() => {
+    if (!enabled || mode !== 'three') return undefined;
+    let cancelled = false, delay;
+    const start = () => {
+      // Opt-in development states make slow startup and retry reviewable.
+      if (import.meta.env.DEV && attempt === 0 && new URLSearchParams(location.search).get('id-check') === 'error') { fail(); return; }
+      loadLanyard().then(module => { if (!cancelled) setRenderer(() => module.default); }).catch(() => { if (!cancelled) fail(); });
+    };
+    if (import.meta.env.DEV && attempt === 0 && new URLSearchParams(location.search).get('id-check') === 'slow') delay = setTimeout(start, 2400);
+    else start();
+    return () => { cancelled = true; clearTimeout(delay); };
+  }, [enabled, mode, attempt, fail]);
+  useEffect(() => {
+    if (!enabled || !active || ready || mode !== 'three') return undefined;
+    const timeout = setTimeout(fail, 10000);
+    return () => clearTimeout(timeout);
+  }, [enabled, active, ready, mode, fail]);
+  useEffect(() => {
+    if (!enabled || mode !== 'flat') return undefined;
+    const abort = new AbortController();
+    Promise.allSettled([ID_FRONT, ID_BACK].map(url => loadDecodedIdentityImage(url, { signal: abort.signal, timeoutMs: 6000 }))).then(results => {
+      if (abort.signal.aborted) return;
+      setArtwork({ front: results[0].status === 'fulfilled' ? ID_FRONT : null, back: results[1].status === 'fulfilled' ? ID_BACK : null });
+      setImageIssue(results.some(result => result.status === 'rejected'));
+      setReady(true);
+    });
+    return () => abort.abort();
+  }, [enabled, mode]);
+  return <div className="about-id-presentation" data-id-ready={ready} data-id-mode={mode} aria-busy={!ready}>
+    <div className="identity-render" aria-hidden={!ready} inert={!ready}>
+      {mode === 'flat' && ready && <TouchIdentityCard artwork={artwork} onRetry={onRetry} recovery={imageIssue ? 'Profile images unavailable.' : rendererIssue ? 'Showing card view.' : null} />}
+      {mode === 'three' && Renderer && (active || sceneStarted) && <IdentityBoundary onError={fail}><Renderer
+        frontImage={ID_FRONT} backImage={ID_BACK} active={active} onReady={finish} onError={fail}
+        orientation="portrait" finish="matte" cardColor="#111a26" cornerRadius={0.22}
+        size={ID_CARD_SIZE} strapLength={0.54} strapColor={strapColor} adaptiveColor strapWidth={ID_STRAP_WIDTH}
+        metal="silver" gravity={0.82} damping={0.46} elasticity={0.42} breeze={0.06} intro={false} interactive extendTo=".about-studio-layout"
+      /></IdentityBoundary>}
+    </div>
+    {!ready && <IdentityLoading active={active} />}
   </div>;
 }
 
@@ -127,12 +195,14 @@ function LanyardId({ strapColor, active }) {
   const stageRef = useRef(null);
   const [nearViewport, setNearViewport] = useState(false);
   const [hasActivated, setHasActivated] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   const lightIdentity = useAboutMedia(LIGHT_ID_QUERY);
+  const activity = useAnimationActivity(stageRef, { enabled: active, threshold: .05 });
   useEffect(() => {
     // The loader/menu can cover this scene while it intersects the viewport.
     // Defer the initial Three import until the desktop card can be used.
-    if (active && nearViewport && !lightIdentity) setHasActivated(true);
-  }, [active, nearViewport, lightIdentity]);
+    if (active && nearViewport && activity.documentVisible) setHasActivated(true);
+  }, [active, nearViewport, activity.documentVisible]);
   useEffect(() => {
     const stage = stageRef.current;
     if (!stage) return undefined;
@@ -143,7 +213,6 @@ function LanyardId({ strapColor, active }) {
     observer.observe(stage);
     return () => observer.disconnect();
   }, []);
-  const fallback = <div className="about-id-loading"><img src={ID_FRONT} alt="Professional identity card preview" width="1024" height="1440" loading="lazy" decoding="async" /></div>;
   return <div className="about-centerpiece" style={{ '--about-strap-color': strapColor }}>
     <div className="identity-workbench" aria-hidden="true">
       <div className="identity-workbench__bar"><span>PERSON / PROFILE</span><span>PORTFOLIO</span></div>
@@ -157,12 +226,7 @@ function LanyardId({ strapColor, active }) {
       <div className="identity-workbench__footer"><span>DEVELOPMENT</span><span>DESIGN</span><span>ERP SUPPORT</span></div>
     </div>
     <div className="about-id-stage" ref={stageRef} role="group" aria-label="Interactive identity card">
-      {lightIdentity ? <TouchIdentityCard /> : <>{fallback}{hasActivated && <Suspense fallback={null}><Lanyard
-        frontImage={ID_FRONT} backImage={ID_BACK} active={active}
-        orientation="portrait" finish="matte" cardColor="#111a26" cornerRadius={0.22}
-        size={ID_CARD_SIZE} strapLength={0.54} strapColor={strapColor} adaptiveColor strapWidth={ID_STRAP_WIDTH}
-        metal="silver" gravity={0.82} damping={0.46} elasticity={0.42} breeze={0.06} intro={false} interactive extendTo=".about-studio-layout"
-      /></Suspense>}</>}
+      <IdentityPresentation key={`${lightIdentity}-${attempt}`} lightIdentity={lightIdentity} enabled={hasActivated} active={activity.active} strapColor={strapColor} attempt={attempt} onRetry={() => setAttempt(value => value + 1)} />
     </div>
   </div>;
 }

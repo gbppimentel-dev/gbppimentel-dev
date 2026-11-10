@@ -3,6 +3,8 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { getAdaptiveAccent, subscribeAdaptiveAccent } from '../utils/adaptiveColors';
 import { createPaintClock, renderPixelRatio } from '../utils/renderBudget';
+import { createIdentityReadiness, loadDecodedIdentityImage } from '../utils/identityReadiness';
+import { createPoseSettler } from '../utils/poseSettler';
 
 import './Lanyard.css';
 
@@ -204,18 +206,11 @@ const traceRoundedRect = (path, x, y, width, height, radius) => {
   path.bezierCurveTo(x, y + k, x + k, y, x + r, y);
 };
 
-const loadImage = (cache, url) => {
+const loadImage = (cache, url, signal) => {
   if (!url) return Promise.resolve(null);
   const cached = cache.get(url);
   if (cached) return cached;
-  const promise = new Promise(resolve => {
-    const image = new Image();
-    image.crossOrigin = 'anonymous';
-    image.decoding = 'async';
-    image.onload = () => resolve(image);
-    image.onerror = () => resolve(null);
-    image.src = url;
-  });
+  const promise = loadDecodedIdentityImage(url, { signal }).catch(error => { cache.delete(url); throw error; });
   cache.set(url, promise);
   return promise;
 };
@@ -726,9 +721,11 @@ const stepSimulation = (sim, dt, physics, time) => {
 
   if (grab) grab.from.copy(grab.target);
 
-  let energy = body.velocity.lengthSq() + body.angular.lengthSq() * 0.3;
-  for (let i = 1; i < JOINTS; i++) energy += velocities[i].lengthSq() * 0.05;
-  sim.calm = energy < 1e-3 ? sim.calm + dt : 0;
+  if (import.meta.env.DEV) {
+    let energy = body.velocity.lengthSq() + body.angular.lengthSq() * 0.3;
+    for (let i = 1; i < JOINTS; i++) energy += velocities[i].lengthSq() * 0.05;
+    sim.diagnosticEnergy = energy;
+  }
 };
 
 // Keep the original ID stage as a virtual camera frame while drawing a larger
@@ -764,12 +761,16 @@ const Lanyard = ({
   intro = true,
   className = '',
   extendTo = '',
+  onReady,
+  onError,
   style
 }) => {
   const containerRef = useRef(null);
   const settingsRef = useRef(null);
   const applyRef = useRef(null);
   const activityRef = useRef(null);
+  const callbacksRef = useRef(null);
+  callbacksRef.current = { onReady, onError };
 
   settingsRef.current = {
     frontImage,
@@ -817,10 +818,13 @@ const Lanyard = ({
     let renderer;
     try {
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-    } catch {
+    } catch (error) {
+      callbacksRef.current.onError?.(error);
       return undefined;
     }
     renderer.setClearColor(0x000000, 0);
+    let setupShaderError = null;
+    renderer.debug.onShaderError = () => { setupShaderError = new Error('Identity materials could not be prepared.'); };
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.NeutralToneMapping;
     renderer.toneMappingExposure = 1;
@@ -833,7 +837,16 @@ const Lanyard = ({
 
     const anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
     const scene = new THREE.Scene();
-    const environment = buildEnvironment(renderer);
+    let environment;
+    try {
+      environment = buildEnvironment(renderer);
+      if (setupShaderError) { environment.dispose(); throw setupShaderError; }
+    }
+    catch (error) {
+      renderer.dispose(); canvas.remove(); if (extended) viewport.remove();
+      callbacksRef.current.onError?.(error);
+      return undefined;
+    }
     scene.environment = environment.texture;
     const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 200);
     const keyLight = new THREE.DirectionalLight(0xffffff, 1.6);
@@ -843,6 +856,7 @@ const Lanyard = ({
     scene.add(keyLight, fillLight);
 
     const imageCache = new Map();
+    const imageAbort = new AbortController();
     const images = { front: null, back: null, strap: null };
     const frontCanvas = document.createElement('canvas');
     const backCanvas = document.createElement('canvas');
@@ -933,6 +947,7 @@ const Lanyard = ({
     let time = 0;
     let visible = false;
     let alive = true;
+    let ready = false;
     let placed = false;
     let hovering = false;
     let press = null;
@@ -945,8 +960,48 @@ const Lanyard = ({
     const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
     const frameInterval = 1000 / (coarsePointer || navigator.hardwareConcurrency <= 4 ? 30 : 60);
     const paintClock = createPaintClock(1000 / frameInterval);
+    const poseSettler = createPoseSettler();
+    const projectedPose = new Float64Array((JOINTS + 1 + 4 + 1) * 2);
+    const projectedPoint = new THREE.Vector3();
+    const samplePose = () => {
+      let index = 0;
+      const point = value => {
+        projectedPoint.copy(value).project(camera);
+        projectedPose[index++] = projectedPoint.x * view.width / 2;
+        projectedPose[index++] = projectedPoint.y * view.height / 2;
+      };
+      sim.nodes.forEach(point);
+      for (const x of [-.5, .5]) for (const y of [-.5, .5]) {
+        projectedPoint.set(x * layout.width, y * layout.height, 0).applyQuaternion(sim.body.quaternion).add(sim.body.position);
+        point(projectedPoint);
+      }
+      // Band twist can change its appearance while the centerline stays still.
+      const pixelsPerWorld = view.referenceHeight / (2 * camera.position.z * Math.tan(FOV * Math.PI / 360));
+      projectedPose[index++] = sim.twist * strapScale * pixelsPerWorld;
+      projectedPose[index] = 0;
+      return projectedPose;
+    };
     let breezeUntil = performance.now() + 1800;
     let lastHoverPick = 0;
+    let diagnosticDraws = 0;
+    const readiness = createIdentityReadiness({
+      onReady: () => {
+        ready = true;
+        container.dataset.lanyardReady = 'true';
+        canvas.style.opacity = '1';
+        callbacksRef.current.onReady?.();
+      },
+      onError: error => {
+        ready = false;
+        canvas.style.opacity = '0';
+        delete container.dataset.lanyardReady;
+        cancelAnimationFrame(raf); raf = 0;
+        callbacksRef.current.onError?.(error);
+      },
+    });
+    const onContextLost = event => { event.preventDefault(); readiness.fail(new Error('The identity renderer is unavailable.')); };
+    renderer.debug.onShaderError = () => readiness.fail(new Error('Identity materials could not be prepared.'));
+    canvas.addEventListener('webglcontextlost', onContextLost);
 
     const paintFaces = () => {
       const s = settingsRef.current;
@@ -975,12 +1030,13 @@ const Lanyard = ({
       const color = adaptiveTint ? '#ffffff' : s.strapColor;
       // Keep the woven texture neutral in adaptive mode. Theme frames only tint
       // its material, so they never repaint the canvas or re-upload its texture.
-      if (strapPaint?.image === image && strapPaint?.color === color && strapPaint?.adaptiveTint === adaptiveTint) return;
+      if (strapPaint?.image === image && strapPaint?.color === color && strapPaint?.adaptiveTint === adaptiveTint) { readiness.resource('strap'); return; }
       tileRatio = paintStrap(strapCanvas, image, parseColor(color, [0.07, 0.07, 0.07]));
       strapPaint = { image, color, adaptiveTint };
       weave.repeat.set(2, 2 * tileRatio);
       strapTexture.dispose();
       strapTexture.needsUpdate = true;
+      readiness.resource('strap');
       start();
     };
 
@@ -1045,10 +1101,12 @@ const Lanyard = ({
       const imageKey = `${s.frontImage}|${s.backImage}|${s.strapImage}`;
       if (imageKey !== applied.imageKey) {
         const token = ++imageToken;
+        readiness.reset(); ready = false;
+        canvas.style.opacity = '0'; delete container.dataset.lanyardReady;
         Promise.all([
-          loadImage(imageCache, s.frontImage),
-          loadImage(imageCache, s.backImage),
-          loadImage(imageCache, s.strapImage)
+          loadImage(imageCache, s.frontImage, imageAbort.signal),
+          loadImage(imageCache, s.backImage, imageAbort.signal),
+          loadImage(imageCache, s.strapImage, imageAbort.signal)
         ]).then(([front, back, strap]) => {
           if (!alive || token !== imageToken) return;
           images.front = front;
@@ -1056,7 +1114,8 @@ const Lanyard = ({
           images.strap = strap;
           paintFaces();
           repaintStrap();
-        });
+          readiness.resource('front'); readiness.resource('back');
+        }).catch(error => { if (alive && token === imageToken) readiness.fail(error); });
       }
       const faceKey = `${layoutKey}|${s.cardColor}|${s.imageFit}`;
       if (faceKey !== applied.faceKey) paintFaces();
@@ -1094,6 +1153,7 @@ const Lanyard = ({
       const physicsKey = `${s.gravity}|${s.damping}|${s.elasticity}|${s.breeze}`;
       wakePhysics ||= physicsKey !== applied.physicsKey;
       applied = { layoutKey, framingKey, imageKey, faceKey, physicsKey, strapColor: s.strapColor, adaptiveTint, strapScale };
+      readiness.resource('hardware');
       // Palette changes need one draw, not a new round of physical movement.
       if (wakePhysics) start();
       else if (visible && !document.hidden && !raf) render();
@@ -1181,16 +1241,15 @@ const Lanyard = ({
     };
 
     const render = (updateGeometry = true) => {
-      if (!alive || !visible || document.hidden || !settingsRef.current.active) return;
+      if (!alive || readiness.state === 'failed' || !visible || document.hidden || !settingsRef.current.active) return;
       cardGroup.position.copy(sim.body.position);
       cardGroup.quaternion.copy(sim.body.quaternion);
       if (updateGeometry) updateBand();
-      renderer.render(scene, camera);
-      // Keep the shared image fallback until an actual textured frame exists.
-      if (images.front) {
-        container.dataset.lanyardReady = 'true';
-        canvas.style.opacity = '1';
-      }
+      try { renderer.render(scene, camera); }
+      catch (error) { readiness.fail(error); return; }
+      if (import.meta.env.DEV) canvas.dataset.lanyardRenders = String(++diagnosticDraws);
+      // The complete card, woven band and hardware reveal as one painted scene.
+      readiness.frame();
     };
 
     const physics = () => {
@@ -1222,7 +1281,7 @@ const Lanyard = ({
 
     const tick = now => {
       raf = 0;
-      if (!alive || !visible || document.hidden || !settingsRef.current.active) return;
+      if (!alive || readiness.state === 'failed' || !visible || document.hidden || !settingsRef.current.active) return;
       if (!paintClock.due(now)) { raf = requestAnimationFrame(tick); return; }
       const dt = Math.min(1 / 30, Math.max(1 / 240, (now - last) / 1000));
       last = now;
@@ -1234,14 +1293,23 @@ const Lanyard = ({
         sim.grab = null;
         placeHanging(sim, layout, false);
       }
+      const resting = poseSettler.sample(samplePose(), dt, !sim.grab && current.breeze === 0);
+      sim.calm = poseSettler.calm;
+      if (import.meta.env.DEV) {
+        canvas.dataset.lanyardCalm = sim.calm.toFixed(3);
+        canvas.dataset.lanyardEnergy = String(sim.diagnosticEnergy);
+        canvas.dataset.lanyardStep = poseSettler.step.toFixed(3);
+        canvas.dataset.lanyardTravel = poseSettler.travel.toFixed(3);
+        canvas.dataset.lanyardSettle = poseSettler.reason;
+      }
       render();
-      const resting = sim.calm > .8 && !sim.grab && current.breeze === 0;
-      if (visible && !resting) raf = requestAnimationFrame(tick);
+      if (readiness.state !== 'failed' && visible && !resting) raf = requestAnimationFrame(tick);
     };
 
     const start = () => {
-      if (raf || !visible || !alive || document.hidden || !settingsRef.current.active) return;
+      if (raf || readiness.state === 'failed' || !visible || !alive || document.hidden || !settingsRef.current.active) return;
       sim.calm = 0;
+      poseSettler.reset();
       last = performance.now();
       paintClock.reset();
       breezeUntil = last + 1100;
@@ -1292,7 +1360,7 @@ const Lanyard = ({
 
     const captureTarget = extended ? surface : canvas;
     const onPointerDown = event => {
-      if (!settingsRef.current.active || !settingsRef.current.interactive || event.button > 0 || activePointerId !== null || !visible || !pointerInsideSurface(event)) return;
+      if (!ready || !settingsRef.current.active || !settingsRef.current.interactive || event.button > 0 || activePointerId !== null || !visible || !pointerInsideSurface(event)) return;
       // A fresh gesture on an uncovered control is unrelated to the ID's click.
       suppressClickUntil = 0;
       toPointer(event);
@@ -1316,7 +1384,7 @@ const Lanyard = ({
     };
 
     const onPointerMove = event => {
-      if (!settingsRef.current.active || !settingsRef.current.interactive || !visible || document.hidden) return;
+      if (!ready || !settingsRef.current.active || !settingsRef.current.interactive || !visible || document.hidden) return;
       if (sim.grab && event.pointerId !== activePointerId) return;
       if (!sim.grab) {
         if (event.pointerType === 'touch' || !pointerInsideSurface(event)) {
@@ -1431,6 +1499,8 @@ const Lanyard = ({
 
     return () => {
       alive = false;
+      readiness.dispose(); imageAbort.abort();
+      canvas.removeEventListener('webglcontextlost', onContextLost);
       unsubscribeAccent();
       cancelAnimationFrame(raf);
       applyRef.current = null;

@@ -1,0 +1,222 @@
+{
+  "date": "2026-11-10",
+  "metric": "requestAnimationFrame callback cadence, not GPU presentation FPS",
+  "limits": "Desktop browser samples on this computer. Different IAB and Chrome viewport sizes. No causal browser-setting or hardware diagnosis; no demonstrated overall FPS gain.",
+  "idWorkEvidence": {
+    "beforeSleepFix": {
+      "durationMs": 12016,
+      "draws": 631,
+      "note": "Intermediate fixed-cursor/App pass; ID physics still failed to sleep."
+    },
+    "after": {
+      "durationMs": 12016,
+      "draws": 45,
+      "calmSeconds": 0.816,
+      "note": "Only adaptive color redraws while physics stayed asleep."
+    }
+  },
+  "iabClean": {
+    "durationMs": 12016,
+    "frames": 641,
+    "averageFps": 53.35,
+    "medianFrameMs": 16.7,
+    "p95FrameMs": 33.4,
+    "framesOver34ms": 28,
+    "longTasks": 11,
+    "longTaskMs": 636,
+    "viewport": [
+      1280,
+      720
+    ],
+    "visible": true,
+    "metric": "requestAnimationFrame cadence, not presented GPU frames",
+    "bypassArtworkFilters": false,
+    "slowAnimationFrames": [
+      {
+        "durationMs": 54,
+        "blockingMs": 2,
+        "styleAndLayoutMs": 46,
+        "scripts": []
+      }
+    ],
+    "canvasWork": {
+      "before": [
+        {
+          "name": "tech-text-canvas",
+          "width": 1021,
+          "height": 154,
+          "draws": 0
+        },
+        {
+          "name": "about-crosshair",
+          "width": 1270,
+          "height": 720,
+          "draws": 353
+        },
+        {
+          "name": "lanyard-canvas",
+          "width": 1168,
+          "height": 553,
+          "draws": 439
+        }
+      ],
+      "after": [
+        {
+          "name": "tech-text-canvas",
+          "width": 1021,
+          "height": 154,
+          "draws": 0
+        },
+        {
+          "name": "about-crosshair",
+          "width": 1270,
+          "height": 720,
+          "draws": 398
+        },
+        {
+          "name": "lanyard-canvas",
+          "width": 1168,
+          "height": 553,
+          "draws": 484
+        }
+      ]
+    },
+    "scene": "#about",
+    "canvases": [
+      {
+        "width": 1021,
+        "height": 154
+      },
+      {
+        "width": 1270,
+        "height": 720
+      },
+      {
+        "width": 1168,
+        "height": 553
+      }
+    ]
+  },
+  "chromePortfolio": {
+    "durationMs": 12216,
+    "frames": 291,
+    "averageFps": 23.82,
+    "medianFrameMs": 33.3,
+    "p95FrameMs": 33.5,
+    "framesOver34ms": 11,
+    "longTasks": 1,
+    "longTaskMs": 58,
+    "viewport": [
+      1920,
+      911
+    ],
+    "visible": true,
+    "metric": "requestAnimationFrame cadence, not presented GPU frames",
+    "bypassArtworkFilters": false,
+    "slowAnimationFrames": [
+      {
+        "durationMs": 1026,
+        "blockingMs": 0,
+        "styleAndLayoutMs": 36,
+        "scripts": []
+      },
+      {
+        "durationMs": 1025,
+        "blockingMs": 0,
+        "styleAndLayoutMs": 33,
+        "scripts": []
+      },
+      {
+        "durationMs": 81,
+        "blockingMs": 0,
+        "styleAndLayoutMs": 2,
+        "scripts": []
+      },
+      {
+        "durationMs": 76,
+        "blockingMs": 0,
+        "styleAndLayoutMs": 43,
+        "scripts": []
+      },
+      {
+        "durationMs": 65,
+        "blockingMs": 0,
+        "styleAndLayoutMs": 32,
+        "scripts": []
+      }
+    ],
+    "canvasWork": {
+      "before": [
+        {
+          "name": "tech-text-canvas",
+          "width": 1132,
+          "height": 191,
+          "draws": 0
+        },
+        {
+          "name": "about-crosshair",
+          "width": 1832,
+          "height": 874,
+          "draws": 0
+        },
+        {
+          "name": "lanyard-canvas",
+          "width": 1360,
+          "height": 725,
+          "draws": 63
+        }
+      ],
+      "after": [
+        {
+          "name": "tech-text-canvas",
+          "width": 1132,
+          "height": 191,
+          "draws": 0
+        },
+        {
+          "name": "about-crosshair",
+          "width": 1832,
+          "height": 874,
+          "draws": 0
+        },
+        {
+          "name": "lanyard-canvas",
+          "width": 1360,
+          "height": 725,
+          "draws": 71
+        }
+      ]
+    },
+    "scene": "#about",
+    "canvases": [
+      {
+        "width": 1132,
+        "height": 191
+      },
+      {
+        "width": 1832,
+        "height": 874
+      },
+      {
+        "width": 1360,
+        "height": 725
+      }
+    ]
+  },
+  "chromeControl": {
+    "durationMs": 12032.6,
+    "frames": 332,
+    "averageFps": 27.59,
+    "medianFrameMs": 33.3,
+    "p95FrameMs": 33.5,
+    "framesOver34ms": 9,
+    "viewport": [
+      1920,
+      911
+    ],
+    "devicePixelRatio": 1,
+    "visible": true,
+    "hiddenDuringSample": false
+  },
+  "control": "Same Chrome window/origin, 1920x911. Minimal .local/frame-control.html with one 64px moving box; no portfolio, React, image, or WebGL code."
+}

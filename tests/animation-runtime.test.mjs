@@ -159,3 +159,18 @@ test('interrupting a color transition starts from the visible color', t => {
   color.destroy();
   assert.equal(browser.frames.size, 0);
 });
+
+test('shared color updates stay near30Hz and still paint the final color on high-refresh displays', t => {
+  const browser = browserFixture(t);
+  for (const refresh of [60, 144]) {
+    browser.tick(0);
+    const paints = [];
+    const color = createColorTransition({ initial: '#000000', onUpdate: value => paints.push(value), duration: 1000 });
+    color.to('#ffffff');
+    for (let frame = 0; frame <= refresh; frame++) browser.tick(frame * 1000 / refresh);
+    assert.ok(paints.length <= 33, `${refresh}Hz must not multiply inherited style/canvas writes`);
+    assert.equal(paints.at(-1), 'rgb(255, 255, 255)');
+    assert.equal(browser.frames.size, 0);
+    color.destroy();
+  }
+});

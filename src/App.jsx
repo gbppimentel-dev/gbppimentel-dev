@@ -1,5 +1,5 @@
 /* CHANGE VERSION: ABOUT-PROFILE-R2 | 2026-10-20 | Complete App.jsx */
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -45,9 +45,7 @@ const readPage = () => {
 export default function App() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [heroCovered, setHeroCovered] = useState(false);
-  const [paletteIndex, setPaletteIndex] = useState(0);
   const paletteIndexRef = useRef(0);
-  paletteIndexRef.current = paletteIndex;
   const [page, setPage] = useState(readPage);
   const [navigationTarget, setNavigationTarget] = useState(readTarget);
   const [loaderVisible, setLoaderVisible] = useState(true);
@@ -61,6 +59,17 @@ export default function App() {
     reduced: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   }));
   const accentTransition = useRef(null);
+  const retargetPalette = useCallback(() => {
+    const index = paletteIndexRef.current;
+    const target = getComputedStyle(document.documentElement).getPropertyValue(slideBrandColors[index]).trim() || slideStrapColors[index];
+    accentTransition.current?.to(target);
+  }, []);
+  const selectPalette = useCallback(index => {
+    // The shared CSS/canvas clock owns this value; no React content uses it.
+    // Keeping it in a ref avoids reconciling every mounted scene on timer ticks.
+    paletteIndexRef.current = Number.isInteger(index) && index >= 0 && index < slideBrandColors.length ? index : 0;
+    retargetPalette();
+  }, [retargetPalette]);
 
   useEffect(() => {
     // Let the lightweight HTML loader paint before any scene is mounted. Its
@@ -121,25 +130,20 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const retarget = () => {
-      const index = paletteIndex >= 0 && paletteIndex < slideBrandColors.length ? paletteIndex : 0;
-      const target = getComputedStyle(document.documentElement).getPropertyValue(slideBrandColors[index]).trim() || slideStrapColors[index];
-      accentTransition.current?.to(target);
-    };
-    retarget();
-    window.addEventListener('portfolio-theme-change', retarget);
-    return () => window.removeEventListener('portfolio-theme-change', retarget);
-  }, [paletteIndex]);
+    retargetPalette();
+    window.addEventListener('portfolio-theme-change', retargetPalette);
+    return () => window.removeEventListener('portfolio-theme-change', retargetPalette);
+  }, [retargetPalette]);
 
   useEffect(() => {
-    if (page === 'home' && !heroCovered) setPaletteIndex(activeSlide);
-  }, [activeSlide, heroCovered, page]);
+    if (page === 'home' && !heroCovered) selectPalette(activeSlide);
+  }, [activeSlide, heroCovered, page, selectPalette]);
 
   useEffect(() => {
     if (loaderVisible || mobileMenuOpen) accentTransition.current?.finish();
     if (!documentVisible || reducedMotion || loaderVisible || mobileMenuOpen || (page === 'home' && !heroCovered)) return undefined;
-    return startAdaptiveColorCycle({ initialIndex: paletteIndexRef.current, onChange: setPaletteIndex });
-  }, [documentVisible, reducedMotion, loaderVisible, mobileMenuOpen, page, heroCovered]);
+    return startAdaptiveColorCycle({ initialIndex: paletteIndexRef.current, onChange: selectPalette });
+  }, [documentVisible, reducedMotion, loaderVisible, mobileMenuOpen, page, heroCovered, selectPalette]);
 
   useEffect(() => {
     document.body.classList.add("page-loaded");
