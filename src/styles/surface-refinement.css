@@ -1,0 +1,261 @@
+/* Surface styling only. The original palette, type, layout, and animated
+   components remain owned by their existing styles and React components. */
+
+/* Keep the hero compositions and moving frames; remove their print finish. */
+#home.header.hero-print .hero-print-title-sheet,
+#home.header.hero-print .hero-workbench-backdrop,
+#home.header.hero-print .hero-three-frame {
+  border: 1px solid rgb(147 174 198 / .28);
+  border-radius: 14px;
+  outline: none;
+  box-shadow: none;
+  background: rgb(20 24 33 / .8);
+}
+#home.header.hero-print .hero-print-title-sheet::before,
+#home.header.hero-print .hero-workbench-backdrop::after,
+#home.header.hero-print .hero-three-frame::before,
+#home.header.hero-print .hero-eyebrow::before,
+#home.header.hero-print .hero-print-details,
+#home.header.hero-print .hero-play-registration { display: none; }
+
+/* Remove the looping arrow artwork, keeping the pointer-responsive texture. */
+#home.header.hero-print .hero-play-orbit { display: none; }
+#home.header.hero-print .hero-play-dots {
+  inset: 9% -3% 5% -3%;
+  background: radial-gradient(circle, var(--print-tone) 1px, transparent 1.5px) 0 0 / 18px 18px;
+  mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
+  opacity: .16;
+}
+#home.header.hero-print .hero-play-halo {
+  border-color: rgb(242 239 232 / .12);
+  border-width: 1px;
+  background: repeating-linear-gradient(-28deg, transparent 0 22px, rgb(242 239 232 / .025) 22px 23px), color-mix(in srgb, var(--print-tone) 5%, transparent);
+}
+#home.header.hero-print .hero-playground-3 .hero-play-halo {
+  border-style: solid;
+  background-color: rgb(216 185 124 / .03);
+}
+
+#home.header.hero-print .hero-print-title-sheet > .hero-eyebrow,
+#home.header.hero-print .hero-workbench-content > .hero-eyebrow,
+#home.header.hero-print .hero-three-frame > .hero-eyebrow {
+  padding-left: 26px;
+  border-bottom: 1px solid rgb(147 174 198 / .2);
+  border-radius: 13px 13px 0 0;
+  background: transparent;
+  color: var(--brand-accent, var(--amber));
+  box-shadow: none;
+}
+#home.header.hero-print .hero-byline em {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--amber);
+}
+#home.header.hero-print .hero-terminal {
+  border-color: rgb(147 174 198 / .3);
+  border-left-color: var(--blue);
+  border-radius: 8px;
+  box-shadow: none;
+}
+#home.header.hero-print .slide-two .hero-rotating-row .text-rotate {
+  outline: none;
+}
+#home.header.hero-print .slide-three .hero-three-byline {
+  border: 1px solid rgb(216 185 124 / .28);
+  border-radius: 8px;
+  outline: none;
+  background: rgb(20 24 33 / .7);
+  color: var(--text);
+  box-shadow: none;
+}
+#home.header.hero-print .hero-resume {
+  border: 1px solid rgb(242 239 232 / .32);
+  border-radius: 8px;
+  outline: none;
+  box-shadow: none;
+}
+#home.header.hero-print .hero-resume:hover,
+#home.header.hero-print .hero-resume:active { box-shadow: none; }
+#home.header.hero-print .hero-resume:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 5px;
+}
+#home.header.hero-print .hero-carousel-nav {
+  border: 1px solid rgb(147 174 198 / .24);
+  border-radius: 28px;
+  outline: none;
+  background: rgb(20 21 27 / .78);
+  color: var(--text);
+  box-shadow: 0 8px 24px rgb(0 0 0 / .16);
+  backdrop-filter: blur(12px);
+}
+#home.header.hero-print .hero-carousel-nav button {
+  border-radius: 50%;
+  color: var(--muted);
+}
+#home.header.hero-print .hero-carousel-control {
+  transform: none;
+  font-size: 10px;
+  letter-spacing: .055em;
+}
+#home.header.hero-print .hero-carousel-nav button:hover,
+#home.header.hero-print .hero-carousel-nav button:active {
+  color: var(--brand-accent, var(--amber));
+  background: rgb(242 239 232 / .07);
+}
+#home.header.hero-print .hero-carousel-nav button:focus-visible {
+  outline: 2px solid var(--brand-accent, var(--amber));
+  outline-offset: 1px;
+  color: var(--text);
+  background: rgb(242 239 232 / .07);
+}
+
+/* The bento, folding skill branches, moving ribbon, and ID physics stay. */
+.about-profile--bento .about-centerpiece::before,
+.about-profile--bento .about-centerpiece::after { display: none; }
+.about-bento .magic-bento__card {
+  border: 1px solid rgb(20 21 27 / .3);
+  box-shadow: none;
+}
+.about-bento .magic-bento__card[data-card='identity'],
+.about-bento .magic-bento__card[data-card='skills'] {
+  background: var(--text);
+}
+.about-bento__cv,
+.about-bento__cv:hover { box-shadow: none; }
+.about-bento__skill-detail { border-top-style: solid; }
+
+/* A simple dark navigation list keeps the existing staggered entrance. */
+.staggered-menu .sm-panel {
+  border-left: 1px solid rgb(147 174 198 / .2);
+  background: var(--ink);
+  color: var(--text);
+  box-shadow: -18px 0 50px rgb(0 0 0 / .18);
+}
+.staggered-menu .sm-panel::after { display: none; }
+.staggered-menu .sm-panel::before { opacity: 0; }
+.staggered-menu .sm-panel-kicker { color: var(--muted); }
+.staggered-menu .sm-panel-kicker > span { display: none; }
+.staggered-menu .sm-directory-heading h2 { color: var(--text); }
+.staggered-menu .sm-directory-heading h2 > span { color: var(--brand-accent, var(--amber)); }
+.staggered-menu .sm-panel-list { gap: 0; }
+.staggered-menu .sm-panel-item {
+  padding-inline: 0;
+  border: 0;
+  border-bottom: 1px solid rgb(242 239 232 / .1);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  box-shadow: none;
+}
+.staggered-menu .sm-panel-item small {
+  border: 0;
+  background: transparent;
+  color: var(--item-accent);
+}
+.staggered-menu .sm-panel-item .sm-panel-itemDescription { color: var(--muted); }
+.staggered-menu .sm-panel-item:hover,
+.staggered-menu .sm-panel-item:focus-visible,
+.staggered-menu .sm-panel-item[aria-current='location'] {
+  background: transparent;
+  color: var(--item-accent);
+  box-shadow: none;
+}
+.staggered-menu .sm-panel-item:hover { transform: translateX(4px); }
+.staggered-menu .sm-panel-item:is(:hover, :focus-visible, [aria-current='location']) .sm-panel-itemLabel {
+  color: var(--item-accent);
+}
+.staggered-menu .sm-panel-item:is(:hover, :focus-visible, [aria-current='location']) .sm-panel-itemDescription {
+  color: var(--muted);
+}
+.staggered-menu .sm-panel-item:hover small { transform: none; background: transparent; }
+.staggered-menu .sm-panel-item:focus-visible { outline: 2px solid var(--item-accent); outline-offset: 4px; }
+.staggered-menu .sm-socials { border-top: 1px solid rgb(242 239 232 / .12); }
+.staggered-menu .sm-socials > p { color: var(--muted); }
+.staggered-menu .sm-personal-socials .sm-social-link,
+.staggered-menu .sm-personal-socials li:nth-child(2n) .sm-social-link {
+  border: 1px solid rgb(147 174 198 / .24);
+  background: var(--panel);
+  color: var(--muted);
+  box-shadow: none;
+}
+.staggered-menu .sm-personal-socials .sm-social-link:hover,
+.staggered-menu .sm-personal-socials .sm-social-link:focus-visible,
+.staggered-menu .sm-personal-socials li:nth-child(2n) .sm-social-link:hover,
+.staggered-menu .sm-personal-socials li:nth-child(2n) .sm-social-link:focus-visible {
+  border-color: var(--brand-accent, var(--amber));
+  background: var(--panel);
+  color: var(--brand-accent, var(--amber));
+  box-shadow: none;
+  transform: none;
+}
+.staggered-menu .sm-personal-socials .sm-social-link:focus-visible { outline-color: var(--brand-accent, var(--amber)); }
+.staggered-menu .sm-social-tooltip {
+  border-color: var(--line);
+  background: var(--panel);
+  color: var(--text);
+}
+.navbar.site-navbar.menu-is-open .nav-hamburger,
+.navbar.site-navbar.menu-is-open .nav-hamburger:hover {
+  border-color: rgb(147 174 198 / .24);
+  background: var(--panel);
+  color: var(--brand-accent, var(--amber));
+}
+.navbar.site-navbar.menu-is-open .nav-hamburger:focus-visible { outline-color: var(--brand-accent, var(--amber)); }
+
+/* The Contact scene keeps its scroll overlap, ribbon, and existing actions. */
+.footer.contact-section.contact-studio { --contact-paper: var(--text); }
+.contact-studio__card {
+  border: 1px solid rgb(20 21 27 / .3);
+  border-radius: 14px;
+  box-shadow: none;
+}
+.contact-studio__card::before,
+.contact-studio__card::after { display: none; }
+.contact-studio__title > em { font-family: inherit; font-style: normal; font-weight: inherit; }
+.contact-studio__actions { border-left-style: solid; }
+.contact-studio__actions .contact-studio__hello,
+.contact-studio__actions .contact-studio__hello:hover,
+.contact-studio__actions a:hover,
+.contact-studio__actions a:active { box-shadow: none; }
+
+/* Flatten the decorative stock/shadows while keeping each project's identity. */
+#projects .project-index-label,
+#projects .project-filters button,
+#projects .project-filters button:hover,
+#projects .project-filters button[aria-pressed='true'],
+#projects .project-case-study,
+#projects .project-collection[data-collection-theme='gbp'],
+#projects .accordion-gallery .ag-panel,
+#projects .project-note,
+#projects .portfolio-study .pps-action,
+#projects .portfolio-study .pps-action:hover,
+#projects .portfolio-study .pps-project-card,
+#projects .portfolio-study .pps-editor,
+#projects .portfolio-study .pps-screen-tab { box-shadow: none; }
+#projects .project-destination { border-left-style: solid; }
+#projects .project-screens-heading { border-top-style: solid; }
+#projects .portfolio-study .pps-project-card dl > div { border-bottom-style: solid; }
+
+/* The NetSuite content, tabs, accents, and panel animations are unchanged. */
+#netsuite.netsuite-page { --ns-paper: var(--text); }
+#netsuite .netsuite-note {
+  transform: none;
+  border-width: 1px;
+  border-radius: 14px;
+  box-shadow: none;
+}
+#netsuite .netsuite-focus__panel,
+#netsuite .netsuite-focus__tabs > button[aria-selected='true'],
+#netsuite .netsuite-focus__symbol,
+#netsuite .netsuite-page__button { box-shadow: none; }
+#netsuite .netsuite-focus__symbol { transform: none; }
+#netsuite .netsuite-note__top { border-bottom-style: solid; }
+#netsuite .netsuite-focus__note { border-top-style: solid; }
+#netsuite .netsuite-focus__points { border-left-style: solid; }
+
+.desktop-notice__poster,
+.desktop-notice__actions button { box-shadow: none; }
+.desktop-notice__poster { border: 1px solid rgb(147 174 198 / .3); border-radius: 14px; }
+.desktop-notice__address { border-top-style: solid; }

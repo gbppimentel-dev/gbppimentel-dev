@@ -1,0 +1,294 @@
+{
+  "images/about-me.png": {
+    "src": "images/optimized/about-me.webp",
+    "width": 1600,
+    "height": 900,
+    "mobile": "images/optimized/about-me-mobile.webp",
+    "mobileWidth": 768
+  },
+  "images/backside-bg.png": {
+    "src": "images/optimized/backside-bg.webp",
+    "width": 1600,
+    "height": 914,
+    "mobile": "images/optimized/backside-bg-mobile.webp",
+    "mobileWidth": 768
+  },
+  "images/menu-background.png": {
+    "src": "images/optimized/menu-background.webp",
+    "width": 1600,
+    "height": 900,
+    "mobile": "images/optimized/menu-background-mobile.webp",
+    "mobileWidth": 768
+  },
+  "images/profile-id-front-r6.svg": {
+    "src": "images/optimized/profile-id-front-r6.webp",
+    "width": 1024,
+    "height": 1440
+  },
+  "images/profile-portrait-r5.png": {
+    "src": "images/optimized/profile-portrait-r5.webp",
+    "width": 1024,
+    "height": 1000
+  },
+  "images/projects/gbppimentel-dev-about-r4.png": {
+    "src": "images/optimized/projects/gbppimentel-dev-about-r4.webp",
+    "width": 1440,
+    "height": 1000
+  },
+  "images/projects/gbppimentel-dev-creative-r4.png": {
+    "src": "images/optimized/projects/gbppimentel-dev-creative-r4.webp",
+    "width": 1440,
+    "height": 1000
+  },
+  "images/projects/gbppimentel-dev-hero-r4.png": {
+    "src": "images/optimized/projects/gbppimentel-dev-hero-r4.webp",
+    "width": 1440,
+    "height": 1000
+  },
+  "images/projects/gbppimentel-dev-menu-r4.png": {
+    "src": "images/optimized/projects/gbppimentel-dev-menu-r4.webp",
+    "width": 1440,
+    "height": 1000
+  },
+  "images/projects/lifecity-attendance-stack-r1.png": {
+    "src": "images/optimized/projects/lifecity-attendance-stack-r1.webp",
+    "width": 1440,
+    "height": 1000
+  },
+  "images/projects/lifecity-attendance-welcome-r1.png": {
+    "src": "images/optimized/projects/lifecity-attendance-welcome-r1.webp",
+    "width": 1440,
+    "height": 1000
+  },
+  "images/projects/lifecity-r2/app-icon.png": {
+    "src": "images/optimized/projects/lifecity-r2/app-icon.webp",
+    "width": 512,
+    "height": 512
+  },
+  "images/projects/lifecity-r2/appearance-settings.png": {
+    "src": "images/optimized/projects/lifecity-r2/appearance-settings.webp",
+    "width": 1301,
+    "height": 859
+  },
+  "images/projects/lifecity-r2/attendance-history.png": {
+    "src": "images/optimized/projects/lifecity-r2/attendance-history.webp",
+    "width": 1120,
+    "height": 913
+  },
+  "images/projects/lifecity-r2/attendance-records.png": {
+    "src": "images/optimized/projects/lifecity-r2/attendance-records.webp",
+    "width": 1202,
+    "height": 816
+  },
+  "images/projects/lifecity-r2/dashboard-desktop.png": {
+    "src": "images/optimized/projects/lifecity-r2/dashboard-desktop.webp",
+    "width": 1199,
+    "height": 868
+  },
+  "images/projects/lifecity-r2/dashboard-mobile.png": {
+    "src": "images/optimized/projects/lifecity-r2/dashboard-mobile.webp",
+    "width": 422,
+    "height": 839
+  },
+  "images/projects/lifecity-r2/feedback-desktop.png": {
+    "src": "images/optimized/projects/lifecity-r2/feedback-desktop.webp",
+    "width": 600,
+    "height": 714
+  },
+  "images/projects/lifecity-r2/feedback-mobile.png": {
+    "src": "images/optimized/projects/lifecity-r2/feedback-mobile.webp",
+    "width": 469,
+    "height": 878
+  },
+  "images/projects/lifecity-r2/feedback-workspace.png": {
+    "src": "images/optimized/projects/lifecity-r2/feedback-workspace.webp",
+    "width": 1287,
+    "height": 830
+  },
+  "images/projects/lifecity-r2/manual-checkin.png": {
+    "src": "images/optimized/projects/lifecity-r2/manual-checkin.webp",
+    "width": 754,
+    "height": 182
+  },
+  "images/projects/lifecity-r2/member-directory.png": {
+    "src": "images/optimized/projects/lifecity-r2/member-directory.webp",
+    "width": 1440,
+    "height": 1622
+  },
+  "images/projects/lifecity-r2/member-id-export.png": {
+    "src": "images/optimized/projects/lifecity-r2/member-id-export.webp",
+    "width": 1600,
+    "height": 1000
+  },
+  "images/projects/lifecity-r2/member-registration.png": {
+    "src": "images/optimized/projects/lifecity-r2/member-registration.webp",
+    "width": 1149,
+    "height": 772
+  },
+  "images/projects/lifecity-r2/member-space.png": {
+    "src": "images/optimized/projects/lifecity-r2/member-space.webp",
+    "width": 1120,
+    "height": 776
+  },
+  "images/projects/lifecity-r2/members-export.png": {
+    "src": "images/optimized/projects/lifecity-r2/members-export.webp",
+    "width": 1120,
+    "height": 1187
+  },
+  "images/projects/lifecity-r2/members-import.png": {
+    "src": "images/optimized/projects/lifecity-r2/members-import.webp",
+    "width": 1169,
+    "height": 528
+  },
+  "images/projects/lifecity-r2/records-export.png": {
+    "src": "images/optimized/projects/lifecity-r2/records-export.webp",
+    "width": 1167,
+    "height": 583
+  },
+  "images/projects/lifecity-r2/scanner-desktop.png": {
+    "src": "images/optimized/projects/lifecity-r2/scanner-desktop.webp",
+    "width": 812,
+    "height": 791
+  },
+  "images/projects/lifecity-r2/scanner-mobile.png": {
+    "src": "images/optimized/projects/lifecity-r2/scanner-mobile.webp",
+    "width": 424,
+    "height": 838
+  },
+  "images/projects/lifecity-r2/service-create-mobile.png": {
+    "src": "images/optimized/projects/lifecity-r2/service-create-mobile.webp",
+    "width": 415,
+    "height": 671
+  },
+  "images/projects/lifecity-r2/services-desktop.png": {
+    "src": "images/optimized/projects/lifecity-r2/services-desktop.webp",
+    "width": 1152,
+    "height": 839
+  },
+  "images/projects/lifecity-r2/welcome-desktop.png": {
+    "src": "images/optimized/projects/lifecity-r2/welcome-desktop.webp",
+    "width": 1600,
+    "height": 882
+  },
+  "images/projects/lifecity-r2/welcome-mobile.png": {
+    "src": "images/optimized/projects/lifecity-r2/welcome-mobile.webp",
+    "width": 424,
+    "height": 832
+  },
+  "images/projects/lifecity-r2/workspace-mobile.png": {
+    "src": "images/optimized/projects/lifecity-r2/workspace-mobile.webp",
+    "width": 426,
+    "height": 832
+  },
+  "images/projects/salt-light-character-setup-r1.png": {
+    "src": "images/optimized/projects/salt-light-character-setup-r1.webp",
+    "width": 1440,
+    "height": 1000
+  },
+  "images/projects/salt-light-devotion-calendar-r1.png": {
+    "src": "images/optimized/projects/salt-light-devotion-calendar-r1.webp",
+    "width": 1440,
+    "height": 1000
+  },
+  "images/projects/salt-light-icon-r1.png": {
+    "src": "images/optimized/projects/salt-light-icon-r1.webp",
+    "width": 192,
+    "height": 192
+  },
+  "images/projects/salt-light-login-r1.png": {
+    "src": "images/optimized/projects/salt-light-login-r1.webp",
+    "width": 1440,
+    "height": 1000
+  },
+  "images/projects/salt-light-r2/achievements.png": {
+    "src": "images/optimized/projects/salt-light-r2/achievements.webp",
+    "width": 405,
+    "height": 321
+  },
+  "images/projects/salt-light-r2/dashboard.png": {
+    "src": "images/optimized/projects/salt-light-r2/dashboard.webp",
+    "width": 443,
+    "height": 682
+  },
+  "images/projects/salt-light-r2/devotion-calendar.png": {
+    "src": "images/optimized/projects/salt-light-r2/devotion-calendar.webp",
+    "width": 408,
+    "height": 549
+  },
+  "images/projects/salt-light-r2/devotion-tour.png": {
+    "src": "images/optimized/projects/salt-light-r2/devotion-tour.webp",
+    "width": 466,
+    "height": 367
+  },
+  "images/projects/salt-light-r2/devotion.png": {
+    "src": "images/optimized/projects/salt-light-r2/devotion.webp",
+    "width": 573,
+    "height": 717
+  },
+  "images/projects/salt-light-r2/equipment.png": {
+    "src": "images/optimized/projects/salt-light-r2/equipment.webp",
+    "width": 882,
+    "height": 586
+  },
+  "images/projects/salt-light-r2/feedback.png": {
+    "src": "images/optimized/projects/salt-light-r2/feedback.webp",
+    "width": 446,
+    "height": 835
+  },
+  "images/projects/salt-light-r2/goals.png": {
+    "src": "images/optimized/projects/salt-light-r2/goals.webp",
+    "width": 407,
+    "height": 840
+  },
+  "images/projects/salt-light-r2/jobs.png": {
+    "src": "images/optimized/projects/salt-light-r2/jobs.webp",
+    "width": 1025,
+    "height": 880
+  },
+  "images/projects/salt-light-r2/onboarding.png": {
+    "src": "images/optimized/projects/salt-light-r2/onboarding.webp",
+    "width": 475,
+    "height": 353
+  },
+  "images/projects/salt-light-r2/skills.png": {
+    "src": "images/optimized/projects/salt-light-r2/skills.webp",
+    "width": 1008,
+    "height": 456
+  },
+  "images/projects/salt-light-r2/welcome.png": {
+    "src": "images/optimized/projects/salt-light-r2/welcome.webp",
+    "width": 1182,
+    "height": 691
+  },
+  "images/projects/salt-light-r6/achievement-collection.png": {
+    "src": "images/optimized/projects/salt-light-r6/achievement-collection.webp",
+    "width": 494,
+    "height": 892
+  },
+  "images/projects/salt-light-r6/welcome-mobile.png": {
+    "src": "images/optimized/projects/salt-light-r6/welcome-mobile.webp",
+    "width": 511,
+    "height": 939
+  },
+  "images/slide01.png": {
+    "src": "images/optimized/slide01.webp",
+    "width": 1600,
+    "height": 900,
+    "mobile": "images/optimized/slide01-mobile.webp",
+    "mobileWidth": 768
+  },
+  "images/slide02.png": {
+    "src": "images/optimized/slide02.webp",
+    "width": 1600,
+    "height": 900,
+    "mobile": "images/optimized/slide02-mobile.webp",
+    "mobileWidth": 768
+  },
+  "images/slide03.png": {
+    "src": "images/optimized/slide03.webp",
+    "width": 1600,
+    "height": 900,
+    "mobile": "images/optimized/slide03-mobile.webp",
+    "mobileWidth": 768
+  }
+}

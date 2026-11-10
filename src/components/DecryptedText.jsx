@@ -1,6 +1,7 @@
 // CHANGE VERSION: PORTFOLIO-POLISH-R12 | 2026-10-15 | Complete DecryptedText.jsx
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'motion/react';
+import useAnimationActivity from '../hooks/useAnimationActivity';
 
 const wrapperStyle = { display: 'inline-block', whiteSpace: 'pre-wrap' };
 const srOnlyStyle = {
@@ -60,6 +61,9 @@ export default function DecryptedText({
   const [isDecrypted, setIsDecrypted] = useState(animateOn !== 'click');
   const [hasAnimated, setHasAnimated] = useState(false);
   const containerRef = useRef(null);
+  const activity = useAnimationActivity(containerRef);
+  const activityRef = useRef(activity.active);
+  activityRef.current = activity.active;
   const intervalRef = useRef(null);
   const startTimerRef = useRef(null);
   const startAnimationRef = useRef(null);
@@ -81,7 +85,7 @@ export default function DecryptedText({
   }, [availableChars, text]);
 
   const startAnimation = useCallback(() => {
-    if (isAnimating) return;
+    if (isAnimating || !activityRef.current) return;
     window.clearTimeout(startTimerRef.current);
     window.clearInterval(intervalRef.current);
     const empty = new Set();
@@ -110,6 +114,10 @@ export default function DecryptedText({
   resetToPlainTextRef.current = resetToPlainText;
 
   useEffect(() => {
+    if (!activity.active && isAnimating) resetToPlainText();
+  }, [activity.active, isAnimating, resetToPlainText]);
+
+  useEffect(() => {
     setDisplayText(text);
     setRevealedIndices(new Set());
     setIsAnimating(false);
@@ -129,15 +137,16 @@ export default function DecryptedText({
       setHasAnimated(false);
       return undefined;
     }
+    if (!activity.active) return undefined;
     startTimerRef.current = window.setTimeout(
       () => startAnimationRef.current?.(),
       Math.max(0, Number(startDelay) || 0)
     );
     return () => window.clearTimeout(startTimerRef.current);
-  }, [replayKey, startDelay]);
+  }, [replayKey, startDelay, activity.active]);
 
   useEffect(() => {
-    if (!isAnimating) return undefined;
+    if (!isAnimating || !activity.active) return undefined;
     let step = 0;
     let iteration = 0;
     const delay = Math.max(12, Number(speed) || 50);
@@ -171,27 +180,12 @@ export default function DecryptedText({
     }, delay);
 
     return () => window.clearInterval(intervalRef.current);
-  }, [isAnimating, maxIterations, order, scramble, sequential, speed, text]);
+  }, [isAnimating, activity.active, maxIterations, order, scramble, sequential, speed, text]);
 
   useEffect(() => {
-    if ((animateOn !== 'view' && animateOn !== 'inViewHover') || hasAnimated) return undefined;
-    const node = containerRef.current;
-    if (!node) return undefined;
-    if (typeof IntersectionObserver === 'undefined') {
-      startAnimation();
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting)) {
-        startAnimation();
-        observer.disconnect();
-      }
-    }, { root: null, rootMargin: '0px', threshold: 0.1 });
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [animateOn, hasAnimated, startAnimation]);
+    if ((animateOn !== 'view' && animateOn !== 'inViewHover') || hasAnimated || !activity.active) return;
+    startAnimation();
+  }, [animateOn, hasAnimated, startAnimation, activity.active]);
 
   const handleClick = () => {
     if (animateOn !== 'click') return;

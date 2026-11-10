@@ -1,122 +1,47 @@
-// CHANGE VERSION: PORTFOLIO-SALT-LIGHT-R6 | Centered hero 3 with replaying elastic braces
+// Shared hero slides, stable two-line skills, and the systems approach panel.
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'motion/react';
 import MorphNumber from './MorphNumber';
 import SocialLinks from './SocialLinks';
 import TerminalText from './TerminalText';
 import TechText from './TechText';
 import SlideTwoText from './SlideTwoText';
 import HeroWorkbench from './HeroWorkbench';
-import DecryptedText from './DecryptedText';
-import BlurText from './BlurText';
-import { HERO_SLIDE_DELAY, useHeroPlayback } from '../utils/heroPlayback';
+import HeroSystems from './HeroSystems';
+import HeroAction from './HeroAction';
+import HeroScrollCue from './HeroScrollCue';
+import HeroBackdrop from './HeroBackdrop';
+import { HeroWindowBar, HeroWindowFooter } from './HeroWindowChrome';
+import { projects } from '../data';
+import { HERO_SLIDE_DELAY, isHeroCovered, useHeroPlayback } from '../utils/heroPlayback';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay, Parallax, A11y, Keyboard } from 'swiper/modules';
-import { asset } from '../utils/assets';
+import { asset, mobileAsset } from '../utils/assets';
 import '../styles/ScrollEffects.css';
 import '../styles/SlideThree.css';
 import '../styles/HeroPrint.css';
+import { AnimationActivityContext, useAnimationPreferences } from '../hooks/useAnimationActivity';
 
 function Background({ number }) {
-  return <div className="slide-art" data-swiper-parallax="-18%" aria-hidden="true" style={{ backgroundImage: 'url(' + asset('images/slide0' + number + '.png') + ')' }} />;
+  const source = `images/slide0${number}.png`;
+  return <picture className="slide-art" data-swiper-parallax="-18%" aria-hidden="true">
+    <source media="(max-width: 767px)" srcSet={mobileAsset(source)} />
+    <img src={asset(source)} alt="" fetchPriority={number === 1 ? 'high' : 'low'} loading={number === 1 ? 'eager' : 'lazy'} decoding="async" />
+  </picture>;
 }
 
-// Only these decorative layers respond to the pointer. Swiper and the text
-// effects keep sole ownership of the slide and copy transforms.
+// Static textures avoid full-screen pointer paint; Swiper and the text effects
+// keep sole ownership of the slide and copy transforms.
 function HeroPlayground({ number }) {
-  const decoration = useRef(null);
-  useEffect(() => {
-    const root = decoration.current;
-    const header = root?.closest('header');
-    if (!root || !header) return undefined;
-    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let frame = 0;
-    let x = 0;
-    let y = 0;
-    let targetX = 0;
-    let targetY = 0;
-    const paint = () => {
-      x += (targetX - x) * .085;
-      y += (targetY - y) * .085;
-      if (Math.abs(targetX - x) + Math.abs(targetY - y) < .002) {
-        x = targetX;
-        y = targetY;
-      }
-      root.style.setProperty('--hero-play-x', x.toFixed(4));
-      root.style.setProperty('--hero-play-y', y.toFixed(4));
-      frame = x !== targetX || y !== targetY ? window.requestAnimationFrame(paint) : 0;
-    };
-    const queue = () => { if (!frame) frame = window.requestAnimationFrame(paint); };
-    const reset = () => {
-      if (!x && !y && !targetX && !targetY) return;
-      targetX = 0;
-      targetY = 0;
-      queue();
-    };
-    const move = event => {
-      if (!finePointer.matches || reducedMotion.matches) return;
-      if (!root.closest('.swiper-slide')?.classList.contains('swiper-slide-active')) {
-        if (x || y || targetX || targetY) reset();
-        return;
-      }
-      const rect = header.getBoundingClientRect();
-      targetX = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width - .5) * 2));
-      targetY = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height - .5) * 2));
-      queue();
-    };
-    const preferencesChanged = () => {
-      if (finePointer.matches && !reducedMotion.matches) return;
-      window.cancelAnimationFrame(frame);
-      frame = 0;
-      x = y = targetX = targetY = 0;
-      root.style.setProperty('--hero-play-x', '0');
-      root.style.setProperty('--hero-play-y', '0');
-    };
-    header.addEventListener('pointermove', move, { passive: true });
-    header.addEventListener('pointerleave', reset, { passive: true });
-    finePointer.addEventListener('change', preferencesChanged);
-    reducedMotion.addEventListener('change', preferencesChanged);
-    return () => {
-      window.cancelAnimationFrame(frame);
-      header.removeEventListener('pointermove', move);
-      header.removeEventListener('pointerleave', reset);
-      finePointer.removeEventListener('change', preferencesChanged);
-      reducedMotion.removeEventListener('change', preferencesChanged);
-    };
-  }, []);
-  return <div ref={decoration} className={'hero-playground hero-playground-' + number} aria-hidden="true">
-    <div className="hero-play-halo" />
-    <div className="hero-play-dots" />
-    <svg className="hero-play-registration" viewBox="0 0 1200 800" preserveAspectRatio="none" focusable="false"><path d="M35 75V35h40m1050 0h40v40M35 725v40h40m1050 0h40v-40" /><path d="M15 55h40M35 15v40m1110 0h40m-20-40v40M15 745h40m-20 0v40m1110-40h40m-20 0v40" /></svg>
-    <svg className="hero-play-orbit" viewBox="0 0 600 420" focusable="false"><path d="M109 307C-34 120 414-68 532 72S248 406 165 295s212-164 231-61" /><path d="m379 222 20 15 9-23M76 151l12 9m-7-20 3 22m373-50 11 9m-7-20 3 22" /></svg>
+  return <div className={'hero-playground hero-playground-' + number} aria-hidden="true">
+    <div className="hero-play-halo" /><div className="hero-play-dots" />
   </div>;
 }
-
 function PrintDetails({ number }) {
   return <div className="hero-print-details" aria-hidden="true"><span className="hero-print-detail-mark">✦</span><span>gbppimentel-dev</span><span className="hero-print-detail-rule" /><span>{'0' + number + ' / 03'}</span></div>;
 }
 
-// The live glyphs share a slot sized by the finished word, so scrambling never
-// changes the line geometry, underline width, or the surrounding frame.
-function HeroDecryptWord({ text, wordClassName, ...props }) {
-  return <span className={'hero-decrypt-word ' + wordClassName}>
-    <span className="hero-decrypt-slot">
-      <span className="hero-decrypt-slot-sizer" aria-hidden="true">
-        {Array.from(text).map((char, index) => <span key={index} className="hero-decrypted-char">{char}</span>)}
-      </span>
-      <DecryptedText {...props} text={text} parentClassName="hero-three-decrypted hero-three-decrypted-inline hero-decrypt-slot-live" />
-    </span>
-  </span>;
-}
-
 const INTERLEAVE_OFFSET = 0.5;
 const HERO_TRANSITION_EASE = 'cubic-bezier(.42, 0, .58, 1)';
-const slideThreeIdeas = 'ideas';
-const slideThreeWorking = 'working';
-const slideThreeSystems = 'systems_';
-const slideThreeDecryptPalette = ['var(--amber)', 'var(--blue)', 'var(--lilac)', 'var(--sage)'];
-const slideThreeDecryptCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_/%*#$@!~[]{}<>+-=';
 
 function interleaveSlides(swiper) {
   const offset = swiper.width * INTERLEAVE_OFFSET;
@@ -150,22 +75,63 @@ function CarouselControl({ direction, label }) {
     </span></span></button>;
 }
 
-export default function Hero({ onActiveSlideChange }) {
+export default function Hero({ onActiveSlideChange, onCoveredChange, suspended = false }) {
   const { player, progressRef, reduced, paused } = useHeroPlayback();
+  const headerRef = useRef(null);
+  const swiperRef = useRef(null);
+  const { coarsePointer } = useAnimationPreferences();
+  const [covered, setCovered] = useState(false);
   const [slide, setSlide] = useState(0);
-  const [slideThreeVisit, setSlideThreeVisit] = useState(0);
 
-  return <header id="home" className="header hero-print" aria-label="Introduction">
+  useEffect(() => {
+    const swiper = swiperRef.current;
+    if (!swiper || swiper.destroyed) return;
+    if (covered || suspended) swiper.keyboard?.disable();
+    else swiper.keyboard?.enable();
+  }, [covered, suspended]);
+
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const hero = headerRef.current;
+      const navigationBottom = document.querySelector('.site-navbar')?.getBoundingClientRect().bottom ?? 0;
+      const scrollInset = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+      const overlay = document.getElementById('about') ?? document.querySelector('.landing-main');
+      const next = isHeroCovered({
+        fixed: Boolean(hero && getComputedStyle(hero).position === 'fixed'),
+        heroBottom: hero?.getBoundingClientRect().bottom,
+        overlayTop: overlay?.getBoundingClientRect().top,
+        headerInset: Math.max(0, scrollInset, navigationBottom + 16),
+      });
+      setCovered(next);
+      onCoveredChange?.(next);
+      player.setHold('offscreen', next || suspended);
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      player.setHold('offscreen', false);
+    };
+  }, [player, suspended, onCoveredChange]);
+
+
+  return <AnimationActivityContext.Provider value={!covered && !suspended}><header ref={headerRef} id="home" className="header hero-print" aria-label="Introduction" data-covered={covered || suspended}>
       <SocialLinks className="hero-socials" />
       <Swiper className="swiper-container"
         modules={[Navigation, Autoplay, Parallax, A11y, Keyboard]}
-        onSwiper={instance => { player.bind(instance); setSlide(instance.realIndex); if (instance.realIndex === 2) setSlideThreeVisit(1); onActiveSlideChange?.(instance.realIndex); }}
-        onRealIndexChange={instance => { player.reset(instance); setSlide(instance.realIndex); if (instance.realIndex === 2) setSlideThreeVisit(value => value + 1); onActiveSlideChange?.(instance.realIndex); }}
+        onSwiper={instance => { swiperRef.current = instance; if (covered || suspended) instance.keyboard?.disable(); player.bind(instance); setSlide(instance.realIndex); onActiveSlideChange?.(instance.realIndex); }}
+        onRealIndexChange={instance => { player.reset(instance); setSlide(instance.realIndex); onActiveSlideChange?.(instance.realIndex); }}
         onAutoplayTimeLeft={player.timeLeft}
-        loop speed={reduced ? 0 : 1250} parallax={!reduced} grabCursor
-        autoplay={{ enabled: true, delay: HERO_SLIDE_DELAY, disableOnInteraction: false, pauseOnMouseEnter: false }}
+        loop speed={reduced ? 0 : coarsePointer ? 650 : 1250} parallax={!reduced && !coarsePointer} grabCursor
+        autoplay={{ enabled: !reduced, delay: HERO_SLIDE_DELAY, disableOnInteraction: false, pauseOnMouseEnter: false }}
         navigation={{ nextEl: '.hero-next', prevEl: '.hero-prev', addIcons: false }}
-        keyboard={{ enabled: true, onlyInViewport: true }}
+        keyboard={{ enabled: !covered && !suspended, onlyInViewport: true }}
         onProgress={interleaveSlides}
         onTouchStart={clearInterleaveTransition}
         onSetTransition={setInterleaveTransition}
@@ -175,29 +141,42 @@ export default function Hero({ onActiveSlideChange }) {
         <SwiperSlide><div className="slide-inner slide-one">
             <Background number={1} />
             <HeroPlayground number={1} />
+            <HeroBackdrop number={1} />
             <div className="container hero-copy">
               <div className="hero-print-title-sheet">
-              <p className="hero-eyebrow">DEVELOPMENT + DESIGN + ERP SOLUTIONS</p>
+              <HeroWindowBar file="profile.jsx" language="React" />
               <div className="hero-print-title-body">
               <h1 className="brand-heading" data-swiper-parallax="-300"><TechText text="gbppimentel-dev." suffix="-dev." /></h1>
               <p className="hero-byline" data-swiper-parallax="-150">by <em>Glenn Bernard Pimentel</em></p>
               </div>
               </div>
+              <div className="hero-console">
+              <HeroWindowBar file="jshell" language="Java" />
               <p className="hero-code hero-terminal" data-swiper-parallax="-200"><span className="hero-terminal-accessible">{'System.out.println("software engineer, UI/UX, business consultant" );'}</span><TerminalText reduced={reduced}>
                 <span className="syntax-amber">System</span>.<span className="syntax-coral">out</span>.<span className="syntax-blue">println</span><span className="syntax-amber">{'('}</span><wbr />
                 <em className="hero-code-roles"><span className="syntax-amber">{'"'}</span><span className="syntax-coral">software engineer</span><span className="syntax-coral">, </span><span className="syntax-lilac hero-code-uiux">UI/UX</span><span className="syntax-lilac">, </span><span className="hero-code-ending"><span className="syntax-blue">business consultant</span><span className="syntax-amber">{'"'}</span><span className="syntax-amber hero-code-close">{' );'}</span></span></em></TerminalText>
               </p>
-              <a href={asset('Pimentel-Resume-IT.pdf')} target="_blank" rel="noopener noreferrer" className="hero-resume" aria-label="View resume (PDF, opens in a new tab)"><span className="hero-resume-face hero-resume-rest" aria-hidden="true"><span className="hero-resume-label">VIEW RESUME</span></span><span className="hero-resume-face hero-resume-hover" aria-hidden="true"><svg className="hero-resume-icon" viewBox="0 0 20 20" focusable="false"><path d="M11 3h6v6M17 3 9 11" /><path d="M15 11v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" /></svg><span className="hero-resume-label">OPEN PDF</span></span></a>
+              <div className="hero-console-output"><span aria-hidden="true">✓</span><span>React · JavaScript · HTML / CSS</span></div>
+              <div className="hero-panel-actions">
+                <div className="hero-footer-detail hero-resume-detail">
+                  <svg className="hero-footer-file" viewBox="0 0 28 32" aria-hidden="true" focusable="false"><path d="M17 2H5a2 2 0 0 0-2 2v24a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V10Z" /><path d="M17 2v8h8M8 17h12M8 22h8" /></svg>
+                  <span><strong>résumé<span>.pdf</span></strong><small>Skills &amp; experience</small></span>
+                </div>
+                <HeroAction href={asset('Pimentel-Resume-IT.pdf')} label="View resume" hoverLabel="Open PDF" ariaLabel="View resume (PDF, opens in a new tab)" external />
+              </div>
+              </div>
               <PrintDetails number={1} />
             </div>
           </div></SwiperSlide>
         <SwiperSlide><div className="slide-inner slide-two">
             <Background number={2} />
             <HeroPlayground number={2} />
+            <HeroBackdrop number={2} />
             <div className="container hero-copy">
-              <HeroWorkbench reduced={reduced}>
-              <p className="hero-eyebrow">Code meets creativity.</p>
+              <HeroWorkbench>
+              <HeroWindowBar file="skills.config" language="design + code" />
               <SlideTwoText reduced={reduced} />
+              <HeroWindowFooter label="Toolkit" skills={['React', 'UI / UX']}><HeroAction href="#about" label="About me" hoverLabel="Behind the work" ariaLabel="About Glenn Bernard Pimentel" /></HeroWindowFooter>
               </HeroWorkbench>
               <PrintDetails number={2} />
             </div>
@@ -205,51 +184,22 @@ export default function Hero({ onActiveSlideChange }) {
         <SwiperSlide><div className="slide-inner slide-three">
             <Background number={3} />
             <HeroPlayground number={3} />
+            <HeroBackdrop number={3} />
             <div className="container hero-copy hero-copy-three">
-              <div className="hero-three-parallax-shell" data-swiper-parallax="-220" data-brace-visit={slideThreeVisit}>
-              <motion.div key={'hero-three-frame-' + slideThreeVisit} className="hero-three-frame"
-                initial={{ '--hero-brace-spread': '0px' }}
-                animate={{ '--hero-brace-spread': slide === 2 && !reduced ? ['0px', '22px', '22px', '-3px', '4px', '-1px', '0px'] : '0px' }}
-                transition={slide === 2 && !reduced ? { duration: 2.65, delay: .18, times: [0, .3, .65, .83, .9, .96, 1], ease: [.22, 1, .36, 1] } : { duration: 0 }}>
-              <p className="hero-eyebrow">Built for business.</p>
-              <div className="hero-three-frame-body">
-              <div className="hero-three-code" role="group" aria-label="Ideas into working systems. ERP workflows and practical solutions.">
-                <span className="hero-three-brace hero-three-brace-open" aria-hidden="true">{'{'}</span>
-                <code className="hero-three-code-text">
-                  <span className="hero-three-line hero-three-line-primary">
-                    {reduced ? <span className="hero-three-ideas-word">{slideThreeIdeas}</span> :
-                      <HeroDecryptWord text={slideThreeIdeas} speed={165} sequential revealDirection="center" characters={slideThreeDecryptCharacters} encryptedPalette={slideThreeDecryptPalette} className="hero-decrypted-char" wordClassName="hero-three-ideas-word" encryptedClassName="hero-decrypted-encrypted" animateOn="manual" replayKey={slide === 2 ? slideThreeVisit : null} startDelay={0} />}
-                    <span className="hero-three-arrow" aria-hidden="true">→</span>
-                  </span>
-                  <span className="hero-three-line hero-three-line-accent">
-                    {reduced ? <>
-                      <span className="hero-three-working-word">{slideThreeWorking}</span>{' '}
-                      <span className="hero-three-systems-word">{slideThreeSystems}</span>
-                    </> : <>
-                      <HeroDecryptWord text={slideThreeWorking} speed={165} sequential revealDirection="center" characters={slideThreeDecryptCharacters} encryptedPalette={slideThreeDecryptPalette} className="hero-decrypted-char" wordClassName="hero-three-working-word" encryptedClassName="hero-decrypted-encrypted" animateOn="manual" replayKey={slide === 2 ? slideThreeVisit : null} startDelay={550} />{' '}
-                      <HeroDecryptWord text={slideThreeSystems} speed={165} sequential revealDirection="center" characters={slideThreeDecryptCharacters} encryptedPalette={slideThreeDecryptPalette} className="hero-decrypted-char" wordClassName="hero-three-systems-word" encryptedClassName="hero-decrypted-encrypted" animateOn="manual" replayKey={slide === 2 ? slideThreeVisit : null} startDelay={1300} />
-                    </>}
-                  </span>
-                </code>
-                <span className="hero-three-brace hero-three-brace-close" aria-hidden="true">{'}'}</span>
+              <div className="hero-three-parallax-shell" data-swiper-parallax="-220">
+              <div className="hero-three-frame">
+              <HeroWindowBar file="approach.md" language="NetSuite / ERP" />
+              <HeroSystems reduced={reduced} />
+              <div className="hero-panel-actions">
+                <div className="hero-footer-detail hero-project-detail">
+                  <span className="hero-project-count" aria-hidden="true">{String(projects.length).padStart(2, '0')}</span>
+                  <span><strong>{projects.length} case {projects.length === 1 ? 'study' : 'studies'}</strong><small>Web &amp; mobile</small></span>
+                </div>
+                <HeroAction href="#projects" label="Explore projects" hoverLabel="Take a look" ariaLabel="Explore projects" />
               </div>
               </div>
-              </motion.div>
               </div>
               <PrintDetails number={3} />
-              <BlurText key={slideThreeVisit} active={slide === 2} text="NetSuite Workflows & Practical Solutions" className="hero-three-byline" />
-              <div className="hero-three-actions" data-swiper-parallax="-100">
-                <a href="#projects" className="hero-resume hero-project-cta" aria-label="Explore projects">
-                  <span className="hero-resume-face hero-resume-rest" aria-hidden="true">
-                    <svg className="hero-resume-icon" viewBox="0 0 20 20" focusable="false"><path d="M3.5 10h12M10 4.5l5.5 5.5-5.5 5.5" /></svg>
-                    <span className="hero-resume-label">EXPLORE PORTFOLIO</span>
-                  </span>
-                  <span className="hero-resume-face hero-resume-hover" aria-hidden="true">
-                    <svg className="hero-resume-icon" viewBox="0 0 20 20" focusable="false"><circle cx="8.5" cy="8.5" r="5" /><path d="m12.2 12.2 4.3 4.3" /></svg>
-                    <span className="hero-resume-label">TAKE A LOOK!</span>
-                  </span>
-                </a>
-              </div>
             </div>
           </div></SwiperSlide>
         <div slot="container-end" className="hero-carousel-nav" role="group" aria-label="Slide controls">
@@ -260,9 +210,9 @@ export default function Hero({ onActiveSlideChange }) {
           </button>
           <CarouselControl direction="next" label="NEXT" />
         </div>
-        <div slot="container-end" className="hero-corner"><a href="#about" className="hero-scroll-mouse" aria-label="Scroll down to About me"><span className="scrolldown" aria-hidden="true"><span className="chevrons"><span className="chevrondown" /><span className="chevrondown" /></span></span></a><div className="hero-pagination" role="img" aria-label={'Slide ' + (slide + 1) + ' of 3'}><span aria-hidden="true"><MorphNumber value={slide + 1} /><span className="hero-pagination-total"> / 3</span></span></div></div>
+        <div slot="container-end" className="hero-corner"><HeroScrollCue /><div className="hero-pagination" role="img" aria-label={'Slide ' + (slide + 1) + ' of 3'}><span aria-hidden="true"><MorphNumber value={slide + 1} /><span className="hero-pagination-total"> / 3</span></span></div></div>
       </Swiper>
       {!reduced && <div className="hero-slide-timer" aria-hidden="true"><span ref={progressRef} className="hero-slide-timer-fill" /></div>}
-    </header>;
+    </header></AnimationActivityContext.Provider>;
 }
 // END OF FILE: PORTFOLIO-SALT-LIGHT-R6 | Hero.jsx

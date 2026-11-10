@@ -104,16 +104,17 @@ export const projects = [
     details: 'Development, design, and NetSuite experience brought together through an animated landing page, a tactile 3D identity card, and project-specific case studies.',
     technologies: ['react', 'vite', 'javascript', 'html', 'css', 'gsap', 'motion', 'swiper', 'three', 'github-pages', 'github-actions'],
     caseStudy: {
-      role: 'Development & interface design', focus: 'Creative portfolio & interaction design', scope: 'React frontend & static deployment',
+      role: 'Development & interface design', focus: 'Creative portfolio & interaction design', scope: 'Shared React frontend · Desktop, tablet & mobile',
       challenge: 'Present development, design, and NetSuite experience in one clear professional identity. Make the work easy to explore while giving the portfolio enough character to demonstrate the same care put into its projects.',
-      approach: 'Build the experience as focused React components around a shared paper-and-ink visual system. Use Swiper for the hero, GSAP and Motion for coordinated interactions, and Three.js for the identity card. ' + portfolioHeartFeedback.approach,
+      approach: 'Build the experience as shared React components around the same typography, artwork, and amber, coral, and blue palette. Use responsive layouts for every screen size, Swiper for the hero, GSAP and Motion for coordinated interactions, and a lazy-loaded Three.js identity card on desktop. ' + portfolioHeartFeedback.approach,
       features: [
         'Three hero slides with terminal typing, rotating words, decryption, and replaying text reveals',
-        'A draggable, flippable Three.js identity card with a simulated strap and adaptive colors',
-        'Continuous overlapping sections, animated ribbon separators, and a staggered navigation panel',
+        'A draggable Three.js identity card on desktop and a lightweight tap-to-flip card using the same artwork on mobile',
+        'Overlapping desktop sections, natural mobile scrolling, animated ribbon separators, and a staggered navigation panel',
         'An accordion project gallery with preview transitions, technology explanations, and individual case studies',
         'Shared amber, blue, and coral accents across loaders, controls, backgrounds, and the identity card',
         portfolioHeartFeedback.feature,
+        'Shared content across desktop, tablet, and phone, with optimized images and animations that pause when inactive',
       ],
       featureDetails: [
         {
@@ -122,15 +123,15 @@ export const projects = [
         },
         {
           title: 'An identity you can move', tag: 'THREE.JS / INTERACTION',
-          description: 'The ID can be dragged, released, and flipped. A custom strap and rigid-body simulation gives it weight, while its material colors follow the shared palette without resetting the movement.',
+          description: 'On desktop, the ID can be dragged, released, and flipped, with a simulated strap and adaptive colors. Phones use the same front and back artwork in a touch-flippable card, keeping the identity without downloading the 3D renderer.',
         },
         {
           title: 'Sections with a sense of depth', tag: 'SCROLL / NAVIGATION',
-          description: 'About and Contact move over the preceding section during continuous scrolling. Their animated ribbons stop below the fixed navigation, while the staggered menu leaves the underlying page available to explore.',
+          description: 'On desktop, About and Contact move over the preceding section during continuous scrolling. On phones, the same content follows a natural page flow. Animated ribbons and the staggered menu connect both layouts.',
         },
         {
           title: 'A collection of different worlds', tag: 'PROJECTS / CASE STUDIES',
-          description: 'Hovering the accordion previews a project and its tools; selecting it moves to the case study. The collection frame and dedicated notes can adopt the project’s own visual identity, supported by real build screenshots and direct links.',
+          description: 'Hover or tap to explore a project and its tools, then open its case study. The collection frame and dedicated notes can adopt the project’s own visual identity, supported by real build screenshots and direct links.',
         },
         {
           title: 'One palette, many small details', tag: 'VISUAL SYSTEM / FEEDBACK',
@@ -146,7 +147,7 @@ export const projects = [
         { technology: 'vite', role: 'Local development, production bundling, and deployment base paths.' },
         { technology: 'javascript', role: 'Interaction logic, animation controllers, and browser integrations.' },
         { technology: 'html', role: 'Semantic sections, accessible controls, and navigation landmarks.' },
-        { technology: 'css', role: 'The paper-and-ink identity, responsive layouts, and shared accent system.' },
+        { technology: 'css', role: 'Responsive layouts, the established visual identity, and the shared accent system.' },
         { technology: 'gsap', role: 'Accordion transitions and animated text-loop ribbons.' },
         { technology: 'motion', role: 'Layout transitions, rotating text, blur reveals, and project-note changes.' },
         { technology: 'swiper', role: 'Hero slide navigation, autoplay, parallax, and keyboard support.' },
@@ -158,7 +159,7 @@ export const projects = [
         platform: 'GitHub Pages', automation: 'GitHub Actions',
         description: 'The default branch triggers a production build and publishes its static output with the deployed base path. The portfolio and its header-heart interaction run without a backend connection.',
       },
-      outcome: 'A live desktop-first portfolio where the interface itself demonstrates the work: development, visual design, motion, and responsive interaction. Visitors can explore the projects, open the source, view the résumé, and start a professional conversation through LinkedIn.',
+      outcome: 'A responsive portfolio where the interface itself demonstrates the work: development, visual design, motion, and input-appropriate interaction. Visitors on desktop, tablet, and phone can explore the same projects, open the source, view the résumé, and start a professional conversation through LinkedIn.',
       screens: [
         {
           src: 'images/projects/gbppimentel-dev-hero-r4.png',

@@ -2,7 +2,9 @@
 // Adapted from the supplied React Bits LogoLoop component.
 'use client';
 
-import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { memo, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { AnimationActivityContext } from '../hooks/useAnimationActivity';
+import { createPaintClock } from '../utils/renderBudget';
 import '../styles/LogoLoop.css';
 
 const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
@@ -527,9 +529,11 @@ const createEngine = (root, track, config, setLayout) => {
     }
   };
 
+  const paintClock = createPaintClock(60);
   const frame = now => {
     st.raf = 0;
-    if (st.destroyed || !st.visible || !st.geo || st.period <= 0 || document.hidden || st.reduced) return;
+    if (st.destroyed || !st.visible || !st.geo || st.period <= 0 || document.hidden || st.reduced || !config.current.active) return;
+    if (!paintClock.due(now)) { st.raf = requestAnimationFrame(frame); return; }
     const cfg = config.current;
     const dt = st.last ? clamp((now - st.last) / 1000, 0, 0.1) : 0;
     st.last = now;
@@ -624,8 +628,9 @@ const createEngine = (root, track, config, setLayout) => {
   };
 
   const wake = () => {
-    if (st.raf || st.destroyed || !st.visible || document.hidden || st.reduced || !st.geo || st.period <= 0) return;
+    if (st.raf || st.destroyed || !st.visible || document.hidden || st.reduced || !st.geo || st.period <= 0 || !config.current.active) return;
     st.last = 0;
+    paintClock.reset();
     st.raf = requestAnimationFrame(frame);
   };
 
@@ -946,7 +951,8 @@ const createEngine = (root, track, config, setLayout) => {
     intersection?.disconnect();
   };
 
-  return { refresh, wake, destroy, state: st };
+  const suspend = () => { cancelAnimationFrame(st.raf); st.raf = 0; st.last = 0; };
+  return { refresh, wake, suspend, destroy, state: st };
 };
 
 export const LogoLoop = memo(
@@ -984,6 +990,7 @@ export const LogoLoop = memo(
     style
   }) => {
     const rootRef = useRef(null);
+    const parentActive = useContext(AnimationActivityContext);
     const trackRef = useRef(null);
     const engineRef = useRef(null);
     const [{ copies, primary }, setLayout] = useState({ copies: 3, primary: 1 });
@@ -996,6 +1003,7 @@ export const LogoLoop = memo(
     const vertical = direction === 'up' || direction === 'down';
     const config = useRef(null);
     config.current = {
+      active: parentActive,
       speed,
       dirSign: (vertical ? direction === 'up' : direction !== 'right') ? 1 : -1,
       hoverValue: hoverSpeed !== undefined ? hoverSpeed : pauseOnHover === false ? undefined : 0,
@@ -1047,6 +1055,11 @@ export const LogoLoop = memo(
     useEffect(() => {
       engineRef.current?.wake();
     });
+
+    useEffect(() => {
+      if (!parentActive) engineRef.current?.suspend();
+      else engineRef.current?.wake();
+    }, [parentActive]);
 
     const lists = useMemo(
       () =>
@@ -1112,13 +1125,17 @@ export const LogoLoop = memo(
                         {inner}
                       </a>
                     ) : onItemPreview && item.description ? (
-                      <span className="logoloop__content" role="img"
+                      <button type="button" className="logoloop__content"
                         aria-label={'About ' + (name || 'this technology')}
                         aria-describedby={activeItemId === item.id ? previewId : undefined}
+                        aria-expanded={activeItemId === item.id}
+                        aria-controls={previewId}
                         tabIndex={isPrimary ? 0 : -1}
-                        onFocus={() => onItemPreview(item)}>
+                        style={{ border: 0, padding: 0, background: 'transparent', color: 'inherit', font: 'inherit' }}
+                        onFocus={() => onItemPreview(item)}
+                        onClick={event => { if (!event.defaultPrevented) onItemPreview(item); }}>
                         {inner}
-                      </span>
+                      </button>
                     ) : (
                       <div className="logoloop__content" role="img" aria-label={name || 'Technology logo'} tabIndex={isPrimary && labels === 'hover' ? 0 : undefined}>{inner}</div>
                     )}

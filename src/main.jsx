@@ -1,10 +1,11 @@
 // CHANGE VERSION: DESKTOP-POLISH-R1 | 2026-10-20 | Complete src/main.jsx
 import React from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App";
-import DesktopGate from "./components/DesktopGate";
 import { asset } from "./utils/assets";
-import "./styles/bootstrap.min.css";
+import { initializeTheme } from './utils/theme';
+import { afterFirstPaint } from './utils/pageLoader';
+import './styles/startup-components';
+import "./styles/base.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -15,6 +16,27 @@ import "./styles/about-me.css";
 import "./styles/migration.css";
 import "./styles/refinement.css";
 import "./styles/branding.css";
+import "./styles/surface-refinement.css";
+import "./styles/responsive.css";
+import "./styles/hero-technical.css";
+import "./styles/hero-actions.css";
+import "./styles/hero-polish.css";
+import "./styles/hero-systems.css";
+import "./styles/hero-two-lines.css";
+import "./styles/navigation-depth.css";
+import "./styles/themes.css";
+import "./styles/themes-pages.css";
+import "./styles/runtime-polish.css";
+
+const MotionProbe = import.meta.env.DEV && new URLSearchParams(location.search).has('motion-check')
+  ? React.lazy(() => import('./dev/MotionProbe')) : null;
+
+const App = React.lazy(() => import('./App'));
+function BootApp() {
+  const [painted, setPainted] = React.useState(false);
+  React.useEffect(() => afterFirstPaint(() => setPainted(true)), []);
+  return painted ? <React.Suspense fallback={null}><App /></React.Suspense> : null;
+}
 
 // Restore the portfolio's tab branding even if this localhost tab retained
 // another project's head metadata while the development app was replaced.
@@ -61,10 +83,12 @@ function applyPortfolioMetadata() {
 }
 
 applyPortfolioMetadata();
+initializeTheme();
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <DesktopGate><App /></DesktopGate>
+    <BootApp />
+    {MotionProbe && <React.Suspense fallback={null}><MotionProbe /></React.Suspense>}
   </React.StrictMode>,
 );
 // END OF FILE: DESKTOP-POLISH-R1 | src/main.jsx

@@ -90,7 +90,7 @@ function FadePanel({ children, reducedMotion, className = '', panelRef }) {
 function ScreenButton({ screen, onOpen, className = '', eager = false }) {
   if (!screen) return null;
   return <button className={('sls-capture ' + className).trim()} type="button" onClick={() => onOpen(screen)} aria-label={'View ' + screen.label + ' screenshot'}>
-    <img src={asset(screen.src)} alt={screen.alt} width={screen.width} height={screen.height} loading={eager ? 'eager' : 'lazy'} />
+    <img decoding="async" src={asset(screen.src)} alt={screen.alt} width={screen.width} height={screen.height} loading="lazy" />
     <span className="sls-capture-zoom" aria-hidden="true"><SaltIcon name="expand" /><span>Open View</span></span>
   </button>;
 }
@@ -124,7 +124,7 @@ function ScreenshotViewer({ screen, onClose, onChange }) {
     }}>
     <div className="sls-lightbox__content">
       <header><div><span>SALT &amp; LIGHT / SCREEN GALLERY</span><h2 id={titleId}>{screen.label}</h2></div><button type="button" autoFocus onClick={onClose} aria-label="Close screenshot viewer"><SaltIcon name="close" /></button></header>
-      <div className="sls-lightbox__image"><img src={asset(screen.src)} width={screen.width} height={screen.height} alt={screen.alt} /></div>
+      <div className="sls-lightbox__image"><img decoding="async" src={asset(screen.src)} width={screen.width} height={screen.height} alt={screen.alt} /></div>
       <footer><p id={captionId}>{screen.caption}</p><div><button type="button" onClick={() => move(-1)} aria-label="Previous screenshot"><SaltIcon name="next" className="sls-reverse" /></button><span aria-live="polite">{pad(index + 1)} <i>/</i> {pad(saltShowcaseScreens.length)}</span><button type="button" onClick={() => move(1)} aria-label="Next screenshot"><SaltIcon name="next" /></button></div></footer>
     </div>
   </dialog>, document.body);
@@ -447,7 +447,7 @@ function ScreenGallery({ reducedMotion, onOpen }) {
   const items = screens.map(screen => ({ id: screen.id, img: asset(screen.src), width: screen.width, height: screen.height, span: screen.layout === 'desktop' ? 2 : 1, title: screen.label, description: screen.caption, alt: screen.alt }));
   return <div className="sls-screens"><div className="sls-panel-heading sls-heading-with-mark"><div><h4>See the Journey Take Shape.</h4><p>Planning, reflection, and character growth. A closer look, from desktop to mobile.</p></div><span className="sls-gallery-total" aria-live="polite">{pad(screens.length)} <small>views</small></span></div>
     <div className="sls-gallery-filters" role="group" aria-label="Filter Salt and Light screenshots">{galleryFilters.map(item => <button key={item.key} type="button" aria-pressed={filter === item.key} onClick={() => setFilter(item.key)}><SaltIcon name={item.key === 'mobile' ? 'phone' : item.key === 'character' ? 'layers' : item.key === 'devotion' ? 'book' : item.key === 'welcome' ? 'spark' : 'screen'} />{item.label}</button>)}</div>
-    <Masonry items={items} packing="justified" targetRowHeight={400} reducedMotion={reducedMotion} columnWidth={240} gap={20} radius={4} animateFrom={reducedMotion ? 'none' : 'bottom'} stagger={.045} duration={.65} bounce={.12} blurToFocus={!reducedMotion} hoverEffect={reducedMotion ? 'none' : 'lift'} captions="hover" lightbox={false} draggable onItemClick={(item, index, event) => { event.preventDefault(); onOpen(screensById[item.id]); }} className="sls-masonry" />
+    <Masonry items={items} packing="justified" targetRowHeight={reducedMotion ? 240 : 400} reducedMotion={reducedMotion} columnWidth={240} gap={20} radius={4} animateFrom={reducedMotion ? 'none' : 'bottom'} stagger={.045} duration={.65} bounce={.12} blurToFocus={!reducedMotion} hoverEffect={reducedMotion ? 'none' : 'lift'} captions={reducedMotion ? 'always' : 'hover'} lightbox={false} draggable={!reducedMotion} onItemClick={(item, index, event) => { event.preventDefault(); onOpen(screensById[item.id]); }} className="sls-masonry" />
     <p className="sls-gallery-note"><SaltIcon name="screen" />Actual app captures. Visible progress belongs to an example account.</p>
   </div>;
 }

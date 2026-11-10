@@ -1,0 +1,102 @@
+/* Terminal chrome inspired by Uiverse.io's egehan_1415 and hexday.
+   Shared markup at every size; existing Swiper/text effects own their motion. */
+#home.header.hero-print {
+  --hero-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+#home.header.hero-print .hero-print-title-sheet,
+#home.header.hero-print .hero-workbench-backdrop,
+#home.header.hero-print .hero-three-frame,
+#home.header.hero-print .hero-console {
+  border: 1px solid rgb(147 174 198 / .3);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgb(24 29 39 / .97), rgb(14 19 28 / .95));
+  box-shadow: 0 16px 40px rgb(0 0 0 / .16), inset 0 1px rgb(242 239 232 / .035);
+}
+#home.header.hero-print .hero-window-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  min-height: 43px;
+  padding: 11px 20px;
+  border-bottom: 1px solid rgb(147 174 198 / .17);
+  border-radius: 11px 11px 0 0;
+  background: rgb(147 174 198 / .045);
+  color: var(--muted);
+  font: 500 11px/1.5 var(--hero-mono);
+  letter-spacing: .015em;
+  text-align: left;
+}
+#home.header.hero-print .hero-window-dots { display: inline-flex; flex: none; gap: 5px; }
+#home.header.hero-print .hero-window-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--coral); opacity: .85; }
+#home.header.hero-print .hero-window-dots i:nth-child(2) { background: var(--amber); }
+#home.header.hero-print .hero-window-dots i:nth-child(3) { background: var(--blue); }
+#home.header.hero-print .hero-window-file { display: inline-flex; min-width: 0; align-items: center; gap: 8px; color: var(--text); white-space: nowrap; }
+#home.header.hero-print .hero-window-file svg { width: 15px; height: 15px; flex: none; fill: none; stroke: var(--print-tone, var(--blue)); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+#home.header.hero-print .hero-window-language { margin-left: auto; color: var(--print-tone, var(--blue)); font-size: 10px; white-space: nowrap; }
+#home.header.hero-print .hero-print-title-body { padding-block: clamp(20px, 2.1vw, 30px); }
+#home.header.hero-print .hero-print-workbench { padding: 0; }
+#home.header.hero-print .hero-window-footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  padding: 12px 22px;
+  border-top: 1px solid rgb(147 174 198 / .16);
+  border-radius: 0 0 11px 11px;
+  background: rgb(0 0 0 / .1);
+  font: 400 11px/1.6 var(--hero-mono);
+  text-align: left;
+}
+#home.header.hero-print .hero-window-footer-label { color: var(--muted); }
+#home.header.hero-print .hero-window-footer-label > span { color: var(--print-tone, var(--blue)); }
+#home.header.hero-print .hero-window-footer ul { display: flex; flex-wrap: wrap; gap: 7px 16px; margin: 0; padding: 0; list-style: none; color: var(--text); }
+#home.header.hero-print .hero-window-footer li { display: inline-flex; align-items: center; gap: 7px; }
+#home.header.hero-print .hero-window-footer li::before { content: ''; flex: none; width: 4px; height: 4px; border-radius: 1px; background: var(--print-tone, var(--blue)); opacity: .75; }
+
+/* The existing activity-gated typewriter is the terminal's only motion. */
+#home.header.hero-print .hero-console { width: fit-content; max-width: 100%; min-width: min(100%, 570px); margin-bottom: 25px; overflow: hidden; }
+#home.header.hero-print .hero-console .hero-window-bar { min-height: 34px; padding-block: 7px; font-size: 10px; }
+#home.header.hero-print .hero-console .hero-window-dots { display: none; }
+#home.header.hero-print .hero-console .hero-terminal {
+  width: auto;
+  max-width: 100%;
+  margin: 0;
+  padding: 16px 20px 10px 40px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  font-family: var(--hero-mono);
+  font-size: clamp(12px, 1.25vw, 18px);
+  font-style: normal;
+  line-height: 1.8;
+}
+#home.header.hero-print .hero-console .hero-code-roles,
+#home.header.hero-print .hero-console .hero-code-close { font-family: inherit; font-style: normal; }
+#home.header.hero-print .hero-console-output { display: flex; align-items: baseline; gap: 10px; padding: 0 20px 14px; color: var(--muted); font: 400 11px/1.7 var(--hero-mono); }
+#home.header.hero-print .hero-console-output > span:first-child { color: var(--blue); }
+
+@media (max-width: 999px), (pointer: coarse) {
+  #home.header.hero-print .hero-window-bar { gap: 10px; min-height: 36px; padding: 8px 14px; font-size: 10px; }
+  #home.header.hero-print .hero-window-language { font-size: 9px; }
+  #home.header.hero-print .hero-window-dots { gap: 4px; }
+  #home.header.hero-print .hero-window-dots i { width: 6px; height: 6px; }
+  #home.header.hero-print .hero-window-file { gap: 5px; }
+  #home.header.hero-print .hero-window-file svg { width: 13px; height: 13px; }
+  #home.header.hero-print .hero-print-title-body { padding: 20px 17px 19px; }
+  #home.header.hero-print .hero-print-title-sheet { margin-bottom: 18px; }
+  #home.header.hero-print .hero-console { width: 100%; min-width: 0; margin-bottom: 20px; }
+  #home.header.hero-print .hero-console .hero-terminal { padding: 12px 13px 8px 31px; font-size: clamp(11px, 2.65vw, 15px); line-height: 1.8; }
+  #home.header.hero-print .hero-console-output { padding: 0 13px 11px; font-size: 11px; gap: 8px; }
+  #home.header.hero-print .hero-window-footer { padding: 10px 14px; gap: 5px 13px; font-size: 11px; }
+  #home.header.hero-print .hero-window-footer ul { gap: 5px 12px; }
+  #home.header.hero-print .hero-window-footer li { gap: 5px; }
+}
+@media (max-width: 360px) {
+  #home.header.hero-print .hero-window-bar { gap: 8px; padding-inline: 11px; }
+  #home.header.hero-print .hero-window-language { font-size: 9px; }
+  #home.header.hero-print .hero-window-file svg { display: none; }
+  #home.header.hero-print .hero-print-title-body { padding-block: 17px; }
+  #home.header.hero-print .hero-window-footer { column-gap: 12px; }
+}

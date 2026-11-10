@@ -1,7 +1,8 @@
 /* CHANGE VERSION: PORTFOLIO-REFINE-R3 | React Bits MagicBento interaction engine adapted for the portfolio */
 'use client';
 
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { AnimationActivityContext } from '../hooks/useAnimationActivity';
 
 import '../styles/MagicBento.css';
 
@@ -145,6 +146,9 @@ const MagicBento = ({
   style
 }) => {
   const rootRef = useRef(null);
+  const parentActive = useContext(AnimationActivityContext);
+  const parentActiveRef = useRef(parentActive);
+  parentActiveRef.current = parentActive;
   const cellRefs = useRef([]);
   const cardRefs = useRef([]);
   const starRefs = useRef([]);
@@ -333,6 +337,7 @@ const MagicBento = ({
 
     const frame = now => {
       raf = 0;
+      if (!visible || document.hidden || !motion || !parentActiveRef.current) return;
       const dt = Math.min(0.05, (now - last) / 1000 || 0);
       last = now;
       if (dirty) measure();
@@ -470,11 +475,11 @@ const MagicBento = ({
         }
       });
 
-      if (busy && visible) raf = requestAnimationFrame(frame);
+      if (busy && visible && !document.hidden) raf = requestAnimationFrame(frame);
     };
 
     const wake = () => {
-      if (raf || !visible) return;
+      if (raf || !visible || document.hidden || !motion || !parentActiveRef.current) return;
       last = performance.now();
       raf = requestAnimationFrame(frame);
     };
@@ -486,6 +491,7 @@ const MagicBento = ({
     };
 
     const onPointerMove = event => {
+      if (!visible || !motion || event.pointerType === 'touch') return;
       pointer.x = event.clientX;
       pointer.y = event.clientY;
       pointer.inside = true;
@@ -500,9 +506,10 @@ const MagicBento = ({
     };
 
     const onPointerDown = event => {
+      if (!visible || !motion) return;
       pointer.x = event.clientX;
       pointer.y = event.clientY;
-      pointer.inside = true;
+      pointer.inside = event.pointerType !== 'touch';
       pointer.down = cardIndex(event.target);
       wake();
     };
@@ -611,9 +618,16 @@ const MagicBento = ({
       if (visible) {
         dirty = true;
         wake();
-      }
+      } else { cancelAnimationFrame(raf); raf = 0; }
     });
     visibility?.observe(root);
+    const onVisibility = () => {
+      cancelAnimationFrame(raf); raf = 0;
+      pointer.inside = false; pointer.down = -1;
+      dirty = true;
+      if (!document.hidden) wake();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
 
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     window.addEventListener('pointerdown', onPointerDown, { passive: true });
@@ -626,6 +640,7 @@ const MagicBento = ({
     root.addEventListener('keydown', onKeyDown);
 
     engineRef.current = {
+      suspend: () => { cancelAnimationFrame(raf); raf = 0; pointer.inside = false; pointer.down = -1; dirty = true; },
       sync: () => {
         cellRefs.current.forEach(cell => {
           if (!cell || (!entered && playIntro)) return;
@@ -653,11 +668,17 @@ const MagicBento = ({
       window.removeEventListener('scroll', onScroll, { capture: true });
       window.removeEventListener('resize', onScroll);
       document.removeEventListener('pointerout', onPointerOut);
+      document.removeEventListener('visibilitychange', onVisibility);
       root.removeEventListener('click', onClick);
       root.removeEventListener('keydown', onKeyDown);
       engineRef.current = null;
     };
   }, [reducedMotion, disableAnimations]);
+
+  useEffect(() => {
+    if (parentActive) engineRef.current?.sync();
+    else engineRef.current?.suspend();
+  }, [parentActive]);
 
   useIsomorphicLayoutEffect(() => {
     engineRef.current?.sync();

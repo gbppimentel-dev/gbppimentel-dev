@@ -1,7 +1,8 @@
 // CHANGE VERSION: PORTFOLIO-POLISH-R4 | 2026-10-14 | Complete RotatingText.jsx
 // React Bits RotatingText: content-sized boxes with coordinated sibling layout motion.
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import useAnimationActivity from '../hooks/useAnimationActivity';
 import '../styles/RotatingText.css';
 const cn = (...classes) => classes.filter(Boolean).join(' ');
 const RotatingText = forwardRef((props, ref) => {
@@ -11,6 +12,8 @@ const RotatingText = forwardRef((props, ref) => {
     staggerDuration = 0, staggerFrom = 'first', loop = true, auto = true, splitBy = 'characters', onNext,
     mainClassName, splitLevelClassName, elementLevelClassName, stableWidth = false, ...rest } = props;
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const root = useRef(null);
+  const activity = useAnimationActivity(root, { enabled: auto });
   const currentText = texts[currentTextIndex] ?? texts[0] ?? '';
   const elements = useMemo(() => {
     const splitIntoCharacters = text => typeof Intl !== 'undefined' && Intl.Segmenter
@@ -45,11 +48,11 @@ const RotatingText = forwardRef((props, ref) => {
   const reset = useCallback(() => { if (currentTextIndex !== 0) handleIndexChange(0); }, [currentTextIndex, handleIndexChange]);
   useImperativeHandle(ref, () => ({ next, previous, jumpTo, reset }), [next, previous, jumpTo, reset]);
   useEffect(() => {
-    if (!auto || texts.length < 2) return;
+    if (!activity.active || texts.length < 2) return;
     const id = setInterval(next, rotationInterval);
     return () => clearInterval(id);
-  }, [next, rotationInterval, auto, texts.length]);
-  return <motion.span className={cn('text-rotate', stableWidth && 'text-rotate-stable', mainClassName)} {...rest} data-word-index={currentTextIndex} layout transition={transition}>
+  }, [next, rotationInterval, activity.active, texts.length]);
+  return <motion.span ref={root} className={cn('text-rotate', stableWidth && 'text-rotate-stable', mainClassName)} {...rest} data-word-index={currentTextIndex} layout transition={transition}>
     <span className="text-rotate-sr-only">{currentText}</span>
     {stableWidth && <span className="text-rotate-sizer" aria-hidden="true">{texts.map((text, index) => <span key={index}>{text}</span>)}</span>}
     <AnimatePresence mode={animatePresenceMode} initial={animatePresenceInitial}>

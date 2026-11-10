@@ -1,0 +1,74 @@
+{
+  "version": "0.4.0",
+  "initialAssets": [
+    {
+      "file": "portfolio-loader.css",
+      "bytes": 5496,
+      "gzipBytes": 1794
+    },
+    {
+      "file": "assets/index-DY13hVm2.js",
+      "bytes": 234849,
+      "gzipBytes": 72658
+    },
+    {
+      "file": "assets/index-CDeRQWE6.css",
+      "bytes": 319721,
+      "gzipBytes": 57004
+    }
+  ],
+  "initialGzipBytes": {
+    "javascript": 72658,
+    "css": 58798
+  },
+  "appStartupAssets": [
+    {
+      "file": "assets/App-DOgNQCoC.js",
+      "bytes": 405573,
+      "gzipBytes": 133685
+    }
+  ],
+  "appStartupGzipBytes": {
+    "javascript": 133685,
+    "css": 0
+  },
+  "startupAssets": [
+    {
+      "file": "portfolio-loader.css",
+      "bytes": 5496,
+      "gzipBytes": 1794
+    },
+    {
+      "file": "assets/index-DY13hVm2.js",
+      "bytes": 234849,
+      "gzipBytes": 72658
+    },
+    {
+      "file": "assets/index-CDeRQWE6.css",
+      "bytes": 319721,
+      "gzipBytes": 57004
+    },
+    {
+      "file": "assets/App-DOgNQCoC.js",
+      "bytes": 405573,
+      "gzipBytes": 133685
+    }
+  ],
+  "startupGzipBytes": {
+    "javascript": 206343,
+    "css": 58798
+  },
+  "startupBudgetBytes": {
+    "javascript": 250000,
+    "css": 60000
+  },
+  "previousStartupGzipBytes": {
+    "javascript": 298140,
+    "css": 93400
+  },
+  "generatedImages": {
+    "count": 56,
+    "originalBytes": 24124125,
+    "optimizedBytes": 2368690
+  }
+}

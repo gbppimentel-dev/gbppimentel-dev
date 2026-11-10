@@ -1,0 +1,57 @@
+/* Light page shells use readable surfaces; project collections keep their own brands. */
+html[data-theme='light'] #netsuite .netsuite-page__section-heading h2,
+html[data-theme='light'] #netsuite .netsuite-connect h2 { color: var(--text); }
+html[data-theme='light'] #netsuite .netsuite-page__section-heading h2 > span,
+html[data-theme='light'] #netsuite .netsuite-connect p { color: var(--muted); }
+html[data-theme='light'] #netsuite .netsuite-connect { border-top-color: var(--line); }
+
+html[data-theme='light'] #netsuite .netsuite-note {
+  background: color-mix(in srgb, var(--ns-accent) 14%, var(--surface-raised));
+  border-color: var(--line);
+  color: var(--text);
+  box-shadow: var(--theme-shadow);
+}
+html[data-theme='light'] #netsuite .netsuite-note__top { border-bottom-color: var(--line); }
+html[data-theme='light'] #netsuite .netsuite-note__diagram > span { border-color: var(--line); background: rgb(255 255 255 / .35); }
+html[data-theme='light'] #netsuite .netsuite-focus__tabs > button {
+  background: var(--surface-raised);
+  border-color: var(--line);
+  color: var(--text);
+}
+html[data-theme='light'] #netsuite .netsuite-focus__tabs > button[aria-selected='true'] {
+  background: var(--ns-accent);
+  border-color: var(--ns-accent);
+  color: #fff;
+  box-shadow: 0 4px 12px rgb(54 75 90 / .12);
+}
+html[data-theme='light'] #netsuite .netsuite-focus__symbol,
+html[data-theme='light'] #netsuite .netsuite-page__button,
+html[data-theme='light'] #netsuite .netsuite-page__button:hover { color: #fff; }
+html[data-theme='light'] #netsuite .netsuite-process li {
+  background: var(--surface-raised);
+  border-color: var(--line);
+}
+html[data-theme='light'] #netsuite .netsuite-process h3 { color: var(--text); }
+html[data-theme='light'] #netsuite .netsuite-process p { color: var(--muted); }
+
+html[data-theme='light'] #projects .project-index-label,
+html[data-theme='light'] #projects .project-filters button[aria-pressed='true'] { color: #fff; }
+html[data-theme='light'] #projects .project-showcase__count { color: var(--muted); }
+html[data-theme='light'] #projects .project-showcase__count > b { color: var(--project-accent); }
+@media (hover: hover) and (pointer: fine) {
+  html[data-theme='light'] #projects .project-filters button:hover { color: #fff; }
+}
+
+html[data-theme='light'] #projects .project-collection[data-collection-theme='salt'] .project-toolkit {
+  background: #155334;
+  color: #f7faf5;
+}
+html[data-theme='light'] #projects .project-collection[data-collection-theme='lifecity'] .project-toolkit {
+  background: #153f38;
+  color: #f5f3ec;
+}
+html[data-theme='light'] #projects .project-collection[data-collection-theme='gbp'] .project-toolkit {
+  background: #1c222e;
+  color: #f2e9d6;
+}
+html[data-theme='light'] #projects .project-collection:is([data-collection-theme='salt'], [data-collection-theme='lifecity'], [data-collection-theme='gbp']) .project-toolkit__loop { color: #f5f3ec; }

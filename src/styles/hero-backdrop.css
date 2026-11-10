@@ -1,0 +1,31 @@
+/* The artwork is enhanced with optical depth rather than foreground ornaments. */
+#home.header.hero-print .hero-backdrop { --field-primary: var(--brand-accent,var(--blue)); --field-secondary: var(--blue); --field-strength: 14%; --field-secondary-strength: 9%; --field-opacity: .65; --contour-opacity: .19; position: absolute; z-index: 1; inset: 0; overflow: hidden; pointer-events: none; user-select: none; contain: paint; }
+#home.header.hero-print .hero-backdrop-contours { position: absolute; inset: -4%; animation: hero-contour-drift 6.4s ease-in-out -1.6s infinite alternate paused; }
+#home.header.hero-print .hero-backdrop-mesh { position: absolute; inset: 0; width: 100%; height: 100%; stroke: var(--field-primary); stroke-width: .7; opacity: var(--contour-opacity); mask-image: radial-gradient(ellipse at 48% 44%,transparent 16%,#000 72%); }
+#home.header.hero-print .hero-backdrop-mesh path { vector-effect: non-scaling-stroke; }
+#home.header.hero-print .hero-backdrop-mesh path:nth-child(3n) { stroke: var(--field-secondary); opacity: .55; }
+#home.header.hero-print .hero-backdrop-mesh path:nth-child(3n + 1) { stroke: var(--field-detail,var(--coral)); opacity: .7; }
+#home.header.hero-print .hero-backdrop-sheen { position: absolute; inset: -15% -30%; background: linear-gradient(105deg,transparent 24%,color-mix(in srgb,var(--field-primary) var(--field-strength),transparent) 45%,color-mix(in srgb,var(--field-secondary) var(--field-secondary-strength),transparent) 52%,transparent 74%); opacity: var(--field-opacity); animation: hero-light-pass 5.2s ease-in-out -1.3s infinite alternate paused; }
+#home.header.hero-print .hero-backdrop-grain { position: absolute; inset: 0; background: radial-gradient(circle,var(--text) .6px,transparent 1px) 0 0 / 5px 5px; mask-image: linear-gradient(115deg,transparent 18%,#000 50%,transparent 82%); opacity: .035; }
+#home.header.hero-print .hero-backdrop[data-active='true'] :is(.hero-backdrop-sheen,.hero-backdrop-contours) { animation-play-state: running; }
+/* Cool light contrasts with the warm yellow/coral artwork instead of tinting it
+   with the same adaptive color. Motion timing and the painted area stay fixed. */
+#home.header.hero-print .hero-backdrop--2 { --field-primary: var(--blue); --field-secondary: var(--coral); --field-detail: var(--blue); --field-strength: 36%; --field-secondary-strength: 22%; --field-opacity: .92; --contour-opacity: .4; }
+#home.header.hero-print .hero-backdrop--3 { --field-primary: var(--blue); --field-secondary: var(--amber); --field-detail: var(--blue); --field-strength: 38%; --field-secondary-strength: 24%; --field-opacity: .94; --contour-opacity: .38; }
+#home.header.hero-print .hero-backdrop--2 .hero-backdrop-mesh { transform: scaleY(-1); }
+#home.header.hero-print :is(.hero-backdrop--2,.hero-backdrop--3) .hero-backdrop-mesh { stroke-width: 1; }
+#home.header.hero-print .hero-backdrop--3 .hero-backdrop-mesh { transform: rotate(180deg); }
+@keyframes hero-light-pass { from { transform: translate3d(-9%,0,0); } to { transform: translate3d(9%,0,0); } }
+@keyframes hero-contour-drift { from { transform: translate3d(-18px,-7px,0); } to { transform: translate3d(18px,9px,0); } }
+html[data-theme='light'] #home.header.hero-print .hero-backdrop { --field-opacity: .42; --contour-opacity: .18; }
+html[data-theme='light'] #home.header.hero-print :is(.hero-backdrop--2,.hero-backdrop--3) { --field-strength: 28%; --field-secondary-strength: 17%; --field-opacity: .8; --contour-opacity: .32; }
+@media (max-width:999px),(pointer:coarse) {
+  #home.header.hero-print .hero-backdrop-mesh { opacity: .16; stroke-width: .6; }
+  #home.header.hero-print :is(.hero-backdrop--2,.hero-backdrop--3) .hero-backdrop-mesh { opacity: calc(var(--contour-opacity) * .85); }
+  #home.header.hero-print .hero-backdrop-grain { display: none; }
+  #home.header.hero-print .hero-backdrop-sheen { opacity: .35; }
+  #home.header.hero-print :is(.hero-backdrop--2,.hero-backdrop--3) .hero-backdrop-sheen { opacity: calc(var(--field-opacity) * .85); }
+}
+@media (prefers-reduced-motion:reduce) {
+  #home.header.hero-print :is(.hero-backdrop-sheen,.hero-backdrop-contours) { animation: none; transform: none; }
+}

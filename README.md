@@ -1,3 +1,93 @@
+# gbppimentel-dev — responsive portfolio
+
+The portfolio now uses one shared React application for desktop, tablet, and phone. Its original sliding hero, typography, amber/coral/blue palette, project content, and core interactions remain the basis of the design. Responsive composition and lighter animation work make the same portfolio usable across screen sizes.
+
+This section describes the current application. The older release notes below are retained as history and may describe features, assets, or limitations that have since changed.
+
+## Local development
+
+Use the Node.js version range in `package.json` (Node 20.19+ in the Node 20 series, or 22.12+ in supported newer releases).
+
+```bash
+npm install
+npm run dev
+```
+
+Open the URL printed by Vite. To validate a production bundle and preview it locally:
+
+```bash
+npm test
+npm run build
+node scripts/audit-build.mjs
+npm run preview
+```
+
+The 0.4.0 viewport checks and measured bundle/image changes are recorded in [`docs/responsive-validation.md`](docs/responsive-validation.md) and [`docs/performance-audit.json`](docs/performance-audit.json).
+
+## Keep desktop and mobile together
+
+Every future UI and content edit must work on desktop, tablet, and mobile in both themes. Dark is the default, and the sun/moon control remembers the visitor's choice. Use the existing shared React components and data, rather than creating a separate phone version to maintain.
+
+- Main content and project facts live in `src/data.js` and the showcase modules in `src/data/`.
+- The shared shell and screen-size composition use `src/styles/responsive.css`.
+- About and project layouts have scoped responsive styles alongside their existing component styles.
+- About's technical profile and sourced project evidence use `src/data/aboutProfile.js` and `about-technical.css`. The editable `profile-id-front-r9.svg` / `profile-id-back-r9.svg` artwork keeps the original portrait on a straight matte field. Desktop and touch share the artwork and branded woven strap, whose tint follows the adaptive accent. `id-workbench.css` provides a static recessed color wash, masked halftone, and 14 elliptical contours without decorative initials; the backdrop refinement leaves the r9 card artwork unchanged. About reuses NetSuite's scoped `Crosshair` cursor with target locking, coordinates, and click pulses. It loads lazily only for an active About scene on a desktop hover/fine pointer; touch and reduced motion keep their normal interactions, without another global cursor dot.
+- `themes.css` and `themes-pages.css` define the separate light experience, including page surfaces, artwork treatment, controls, and case-study shells.
+- The accepted finish is in `src/styles/surface-refinement.css`: the decorative hero arrows and print treatment are removed while the original palette, components, and motion remain.
+- Hero window chrome is in `src/styles/hero-technical.css`; stable frames and slim controls are in `src/styles/hero-polish.css`. Primary buttons share `HeroAction.jsx` and `hero-actions.css`. `HeroBackdrop.jsx` enhances the existing backgrounds with optical contours and a light sweep, with no foreground objects or decorative captions. Hero 1 retains its existing treatment; Heroes 2 and 3 use a blue/cool moving field that contrasts with the warm adaptive accent. The 6.4-second contour drift and 5.2-second sweep start midcycle with negative delays, and `useSwiperSlide` explicitly gates them to the active slide alongside shared activity preferences. The carousel dwell remains 5,500ms.
+- The open menu uses `navigation-depth.css` for its artwork and `navigation-tech.css` for its software-directory layout, section paths, selection strips, and header spacing. Tab and Shift+Tab cycle through routes, social profiles, and header controls; Enter opens a route, and Escape closes the menu and restores its toggle. Keyboard focus has a clear row outline and reveals clipped rows within the panel. `runtime-polish.css` adds static sparse dots and diagonal texture to the filled header surface in both themes.
+- Hero 2's two-line fitting lives in `SlideTwoText.jsx` and `hero-two-lines.css`; `design + code` belongs only in the window header. Hero 3's headline and finite staggered word reveal live in `HeroSystems.jsx` and `hero-systems.css`. Hero actions sit in their panel footers, right aligned on desktop and full width on compact screens.
+- `TextLoop.jsx` and `TextLoop.css` provide the open filled/outlined word ribbons with static microchip traces. Keep the existing desktop overlap/cap behavior in About/Contact styles and normal-flow compact layout. `HeroScrollCue.jsx` shares the scene's activity handling for its schematic mouse indicator.
+- Phones and tablets open the actual portfolio directly. The touch identity card flips the same front/back artwork; it does not download the desktop Three.js interaction.
+
+Preserve the established visual identity when making focused edits. Desktop-specific physical effects can use an equivalent touch-friendly interaction, while content and destinations stay shared.
+
+## Animation and image performance
+
+Use `src/hooks/useAnimationActivity.js` for autonomous effects. It combines viewport activity with document visibility, reduced-motion preference, input type, and parent scene activity. Hidden tabs, offscreen content, inactive hero slides, and covered scenes should not keep animation work running. User controls and reduced-motion preferences must continue to work when animation resumes.
+
+The original morph/color loader starts from one HTML overlay before the application initializes. Its critical `public/portfolio-loader.css` animates four small directly painted SVG paths: one filled core and three outlined echoes. All four share the current geometry and color clock with zero phase delay, matching the original animation. Only echo expansion, fading, and stroke weight are staggered; do not freeze echoes as emitted shapes or use unreliable clones of a non-painted definition. HTML echo wrappers retain transform/opacity animation. App import waits for the first painted frames; page content mounts after the isolated intro. `src/utils/pageLoader.js` coordinates intro, document/font/image readiness, lazy-route commit, cancellation, and fallback. `PageLoader.jsx` adopts the existing overlay. Keep one overlay and defer page focus until it dismisses.
+
+`src/styles/startup-components.js` loads eager component CSS in its original order before the global refinements. Keep that list synchronized when adding an eager component stylesheet so deferred JavaScript cannot change the style cascade. The build audit reports head assets, the deferred App increment, and their combined startup total; use the combined total when comparing payloads.
+
+Three.js is lazy-loaded for the visible desktop ID interaction. The card renderer uses bounded simulation work and sleeps at rest. Keep large images out of eager loading paths where they are not needed for the opening screen.
+
+The adaptive palette follows the hero while it is visible and continues on its own 5.5-second timer afterward. The shared visibility preferences stop background cycling when hidden, reduced, loading, or covered by the compact navigation. Contact uses eight smaller, soft color fields on desktop and four on compact screens, with 16 desktop / 8 compact particles, all gated by the same activity hook. Back to Top uses subpixel vertical translation and a short approach curve to clear the visible footer, preserving at least 12px desktop / 10px compact clearance.
+
+Decorative canvas work uses a stable 30Hz budget; pointer/physics rendering is capped at 60Hz, and the ID canvas has a pixel budget. About no longer mounts the moving grid or MagicBento effects. The optional development URL `?motion-check=1` exposes a six-second measurement control; the production build excludes it. Local before/after samples are saved in [`docs/motion-audit.json`](docs/motion-audit.json).
+
+Local image paths pass through `src/utils/assets.js`. The helper resolves the checked-in manifest to optimized derivatives, preserving base paths and version query strings. Original source artwork is left intact.
+
+To regenerate image derivatives:
+
+```bash
+node scripts/optimize-assets.mjs
+```
+
+The optimizer requires a locally available `sharp` module. If it is installed elsewhere, use `--sharp-path` with that module directory, or set `SHARP_MODULE_PATH`. The website and normal production build do not require Sharp. Keep machine-specific module paths out of repository files.
+
+Screenshots under `public/images/projects/` are collected automatically. Add new large hero/background artwork to the optimizer's source list when appropriate. Commit the generated files together:
+
+- `public/images/optimized/`
+- `src/data/asset-manifest.json`
+- `docs/asset-optimization.json`
+
+## Inquiry form
+
+Contact accepts job opportunities, projects, and commissions, with optional budget and timeline. During `npm run dev`, valid submissions are stored in the ignored `.local/inquiries.ndjson` inbox and the receipt clearly states that no email was sent. Public delivery uses the prepared Cloudflare/Resend endpoint and remains unavailable until its recipient and mail credentials are configured. The form keeps a LinkedIn alternative. Follow [`docs/inquiry-delivery.md`](docs/inquiry-delivery.md) to connect delivery; never place mail secrets in frontend variables.
+
+The shared collaboration workspace provides type-specific labels and examples, a character count, and an optional editable brief outline. The outline fills only an empty brief and never submits it. Changing inquiry type preserves existing writing; untouched outline prompts must be edited before sending. A new inquiry resets to Project with blank fields.
+
+## Responsive review checklist
+
+Review both themes at 320, 390, 768, 1024, and 1440 pixels wide, plus phone landscape. Check text wrapping, complete content, touch targets, and horizontal overflow. Exercise the menu and keyboard focus, carousel swipe/controls/pause, identity card, skill branches, project filters, case-study tabs, inquiry validation/delivery states, and screenshot dialogs. Also check reduced motion, hidden-tab suspension, and returning to a previously active scene.
+
+Repository guidance for future edits is recorded in `AGENTS.md`.
+
+---
+
+## Historical release notes
+
 # gbppimentel-dev — portfolio
 
 This version starts from your working **original React + Vite migration**, not the replacement website in v2. The original visual identity remains: the full-screen three-slide carousel, abstract images, Tilt Warp typography, code-style headlines, illustrated About cards, animated full-screen menu, cursor follower, and hover effects.

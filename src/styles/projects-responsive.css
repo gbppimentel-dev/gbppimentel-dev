@@ -1,0 +1,180 @@
+/* Responsive views use the same project data and components as desktop. */
+#projects.project-showcase img { max-width: 100%; }
+#projects.project-showcase :is(.project-case-study__transition, .project-case-study__viewport, .project-toolkit__body) { min-width: 0; }
+#projects.project-showcase .project-tech-detail-close { display: none; }
+#projects.project-showcase [data-motion='reduced'] *,
+#projects.project-showcase [data-motion='reduced'] *::before,
+#projects.project-showcase [data-motion='reduced'] *::after { animation: none !important; transition: none !important; }
+
+@media (max-width: 999px), (pointer: coarse) {
+  #projects.portfolio-projects.project-showcase { padding: 34px clamp(14px, 3.2vw, 28px) 64px; }
+  #projects.project-showcase .project-showcase__heading { gap: 24px; }
+  #projects.project-showcase .project-collection__bar { flex-wrap: wrap; height: auto; min-height: 46px; gap: 10px; padding: 12px 16px; }
+  #projects.project-showcase .project-collection__identity { flex: 1 1 130px; min-width: 0; }
+  #projects.project-showcase .project-collection__bar > span:last-child { display: none; }
+  #projects.project-showcase .project-collection__platforms { max-width: 100%; }
+  #projects.project-showcase .project-collection__platform { padding-inline: 7px; font-size: 10px; }
+  #projects.project-showcase .project-collection__platform > svg { width: 13px; height: 13px; }
+  #projects.project-showcase .project-case-study__viewport { height: auto !important; }
+  #projects.project-showcase .project-case-study__transition[data-notes-active='false'] { display: none; }
+  #projects.project-showcase .project-case-study__overview { grid-template-columns: minmax(0, 1fr); }
+  #projects.project-showcase .project-destination { padding: 22px 0 0; border-left: 0; border-top: 1px solid #b6ac9c; }
+  #projects.project-showcase .project-facts { grid-template-columns: minmax(0, 1fr); }
+  #projects.project-showcase .project-story-grid { grid-template-columns: minmax(0, 1fr); }
+  #projects.project-showcase .project-tech-detail { align-items: flex-start; }
+  #projects.project-showcase .project-tech-detail__copy { min-width: 0; }
+  #projects.project-showcase .project-tech-detail__copy p { overflow-wrap: anywhere; }
+  #projects.project-showcase .project-tech-detail-close { display: inline-flex; align-items: center; min-height: 44px; margin: 0 16px 12px; padding: 8px 12px; border: 1px solid currentColor; border-radius: 6px; background: transparent; color: inherit; font: 500 12px/1.5 'Poppins', sans-serif; }
+
+  /* Narrow tablet case studies have a single reading column. */
+  #projects.project-showcase .salt-study .sls-welcome,
+  #projects.project-showcase .lifecity-study .lcs-welcome,
+  #projects.project-showcase .salt-study .sls-feature-scene,
+  #projects.project-showcase .lifecity-study .lcs-tour-scene,
+  #projects.project-showcase .lifecity-study .lcs-tour-scene--single,
+  #projects.project-showcase .portfolio-study .pps-intro { grid-template-columns: minmax(0, 1fr); }
+  #projects.project-showcase .lifecity-study .lcs-tour-scene--single > .lcs-tour-visual { grid-column: auto; grid-row: auto; }
+  #projects.project-showcase .salt-study .sls-facts,
+  #projects.project-showcase .lifecity-study .lcs-facts { grid-template-columns: minmax(0, 1fr); }
+  #projects.project-showcase .salt-study .sls-journal-body,
+  #projects.project-showcase .lifecity-study .lcs-journal-content { min-height: 0; }
+
+  main.secondary-page #netsuite.netsuite-page { padding: 35px clamp(18px, 4vw, 32px) 65px; }
+  main.secondary-page #netsuite .netsuite-page__intro { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+  main.secondary-page #netsuite .netsuite-note { width: 100%; max-width: 560px; }
+}
+
+@media (max-width: 767px) {
+  #projects.project-showcase .project-showcase__heading { display: block; }
+  #projects.project-showcase .project-showcase__heading h2 { font-size: clamp(46px, 12vw, 70px); }
+  #projects.project-showcase .project-showcase__heading > p { margin-top: 20px; max-width: 100%; }
+  #projects.project-showcase .project-showcase__toolbar { flex-direction: column; align-items: flex-start; gap: 16px; }
+  #projects.project-showcase .project-filters { max-width: 100%; gap: 8px; }
+  #projects.project-showcase .project-filters button { min-height: 44px; padding: 9px 10px; gap: 7px; }
+  #projects.project-showcase .project-case-study { margin-top: 34px; }
+  #projects.project-showcase .project-case-study__bar { padding-inline: 18px; }
+  #projects.project-showcase .project-case-study__overview { padding: 22px; }
+  #projects.project-showcase .project-screens { grid-template-columns: minmax(0, 1fr); }
+  #projects.project-showcase .project-facts,
+  #projects.project-showcase .project-story-grid,
+  #projects.project-showcase .project-screens { padding-inline: 20px; }
+  #projects.project-showcase .project-screens-heading { margin-inline: 20px; }
+  #projects.project-showcase .project-toolkit__heading { padding-inline: 16px; }
+  #projects.project-showcase .project-tech-detail { padding: 16px; gap: 10px; }
+  #projects.project-showcase .project-collection__gallery { padding: 12px; }
+  #projects.project-showcase .accordion-gallery--vertical { height: min(560px, 78svh); min-height: 430px; }
+  #projects.project-showcase .accordion-gallery .ag-panel { will-change: auto; }
+  #projects.project-showcase .accordion-gallery .ag-panel__media { filter: none; will-change: auto; }
+
+  /* App-native headers keep both live and source links in reach. */
+  #projects.project-showcase .salt-study .sls-topbar,
+  #projects.project-showcase .lifecity-study .lcs-topbar { flex-wrap: wrap; gap: 14px; padding: 20px 16px; }
+  #projects.project-showcase .salt-study .sls-topbar-links { flex-wrap: wrap; width: 100%; margin-left: 0; gap: 12px; justify-content: space-between; }
+  #projects.project-showcase .salt-study .sls-topbar-label { font-size: 10px; }
+  #projects.project-showcase .salt-study .sls-welcome,
+  #projects.project-showcase .lifecity-study .lcs-welcome { margin: 16px 12px 0; padding: 20px; gap: 22px; }
+  #projects.project-showcase .salt-study h3 { white-space: normal; font-size: clamp(31px, 9vw, 47px); }
+  #projects.project-showcase .lifecity-study h3 { font-size: clamp(35px, 9vw, 49px); }
+  #projects.project-showcase .salt-study .sls-welcome__copy > p,
+  #projects.project-showcase .lifecity-study .lcs-welcome__lead { font-size: 17px; }
+  #projects.project-showcase .salt-study .sls-welcome__copy > p.sls-summary,
+  #projects.project-showcase .lifecity-study .lcs-welcome__summary { font-size: 15px; }
+  #projects.project-showcase .salt-study .sls-facts,
+  #projects.project-showcase .lifecity-study .lcs-facts { margin: 14px 12px 20px; }
+  #projects.project-showcase .salt-study .sls-journal,
+  #projects.project-showcase .lifecity-study .lcs-journal { margin-inline: 12px; }
+  #projects.project-showcase .salt-study .sls-journal-body,
+  #projects.project-showcase .lifecity-study .lcs-journal-content { padding: 18px; }
+  #projects.project-showcase .salt-study .rubber-segment__item,
+  #projects.project-showcase .lifecity-study .rubber-segment__item { min-height: 44px; }
+  #projects.project-showcase .salt-study .sls-journal-nav,
+  #projects.project-showcase .lifecity-study .lcs-tabs--main { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #projects.project-showcase .salt-study .sls-feature-scene,
+  #projects.project-showcase .lifecity-study .lcs-tour-scene { padding: 18px; gap: 20px; }
+  #projects.project-showcase .salt-study .sls-feature-scene--edge { padding: 0; }
+  #projects.project-showcase .salt-study .sls-feature-scene--wide .sls-feature-detail,
+  #projects.project-showcase .salt-study .sls-feature-scene--multi .sls-feature-detail { display: block; }
+  #projects.project-showcase .salt-study .sls-feature-scene--wide .sls-feature-detail > ul,
+  #projects.project-showcase .salt-study .sls-feature-scene--platform .sls-feature-detail > ul,
+  #projects.project-showcase .salt-study .sls-character-spread,
+  #projects.project-showcase .salt-study .sls-character-card,
+  #projects.project-showcase .salt-study .sls-devotion-screens,
+  #projects.project-showcase .salt-study .sls-milestone-spread,
+  #projects.project-showcase .salt-study .sls-platform-showcase,
+  #projects.project-showcase .lifecity-study .lcs-members-bento,
+  #projects.project-showcase .lifecity-study .lcs-tour-supporting { grid-template-columns: minmax(0, 1fr); }
+  #projects.project-showcase .lifecity-study .lcs-members-bento__directory { grid-column: auto; grid-row: auto; }
+  #projects.project-showcase .lifecity-study .lcs-screen-pair { grid-template-columns: minmax(0, 1fr) !important; }
+  #projects.project-showcase .lifecity-study .lcs-screen[data-layout='phone'] { max-width: 300px; margin-inline: auto; }
+  #projects.project-showcase .salt-study .sls-inline-emphasis { white-space: normal; }
+  #projects.project-showcase .salt-study .sls-capture-zoom,
+  #projects.project-showcase .lifecity-study .lcs-capture__zoom { opacity: 1; transform: none; min-height: 32px; font-size: 11px; }
+  #projects.project-showcase .salt-study .sls-gallery-filters,
+  #projects.project-showcase .lifecity-study .lcs-gallery-filters { gap: 6px; }
+  #projects.project-showcase .salt-study .sls-gallery-filters > button,
+  #projects.project-showcase .lifecity-study .lcs-gallery-filters > button { min-height: 44px; padding: 9px 11px; font-size: 12px; }
+  #projects.project-showcase .salt-study .sls-heading-with-mark { align-items: flex-start; flex-wrap: wrap; gap: 14px; }
+  #projects.project-showcase .salt-study .sls-footer,
+  #projects.project-showcase .lifecity-study .lcs-footer { padding-inline: 16px; }
+
+  #projects.project-showcase .portfolio-study { padding-inline: 18px; }
+  #projects.project-showcase .portfolio-study .pps-chrome { flex-wrap: wrap; margin-inline: -18px; padding-inline: 18px; gap: 10px; }
+  #projects.project-showcase .portfolio-study .pps-intro { gap: 25px; }
+  #projects.project-showcase .portfolio-study .pps-intro h3 { font-size: clamp(27px, 7.6vw, 40px); }
+  #projects.project-showcase .portfolio-study .pps-project-card dl { grid-template-columns: minmax(0, 1fr); }
+  #projects.project-showcase .portfolio-study .pps-editor-tab { min-height: 56px; font-size: 10px; }
+  #projects.project-showcase .portfolio-study .pps-screen-workspace { grid-template-columns: minmax(0, 1fr); }
+  #projects.project-showcase .portfolio-study .pps-screen-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #projects.project-showcase .portfolio-study .pps-screen-tab { min-height: 52px; font-size: 11px; }
+  #projects.project-showcase .portfolio-study .pps-screen figcaption { font-size: 12px; }
+  #projects.project-showcase .portfolio-study .pps-screen__expand { opacity: 1; width: 44px; height: 44px; }
+
+  main.secondary-page #netsuite .netsuite-focus__panel { grid-template-columns: minmax(0, 1fr); gap: 24px; padding: 24px 20px; }
+  main.secondary-page #netsuite .netsuite-focus__points { padding: 22px 0 0; border-left: 0; border-top: 1px solid #aaa5a0; }
+  main.secondary-page #netsuite .netsuite-focus__tabs > button { min-height: 72px; padding: 12px 8px; flex-direction: column; align-items: flex-start; font-size: 11px; gap: 8px; }
+  main.secondary-page #netsuite .netsuite-focus__tab-arrow { display: none; }
+  main.secondary-page #netsuite .netsuite-connect { grid-template-columns: minmax(0, 1fr); }
+
+  /* Native dialogs remain viewport-bound even in short phone landscapes. */
+  dialog.sls-lightbox, dialog.lcs-lightbox { width: calc(100% - 16px); max-width: none; max-height: calc(100svh - 16px); max-height: calc(100dvh - 16px); border-radius: 12px; }
+  .sls-lightbox .sls-lightbox__content, .lcs-lightbox .lcs-lightbox__content { height: min(850px, calc(100svh - 16px)); height: min(850px, calc(100dvh - 16px)); max-height: none; grid-template-rows: auto minmax(0, 1fr) auto; }
+  .sls-lightbox header, .lcs-lightbox header { min-height: 70px; padding: 12px; gap: 10px; }
+  .sls-lightbox header > div:first-child, .lcs-lightbox header > div:first-child { min-width: 0; }
+  .sls-lightbox header span, .lcs-lightbox header > div:first-child > span { font-size: 9px; }
+  .sls-lightbox h2, .lcs-lightbox h2 { font-size: 18px; overflow-wrap: anywhere; }
+  .sls-lightbox button, .lcs-lightbox button { min-width: 44px; min-height: 44px; }
+  .sls-lightbox .sls-lightbox__image, .lcs-lightbox .lcs-lightbox__image { padding: 8px; min-height: 0; overflow: auto; overscroll-behavior: contain; }
+  .sls-lightbox .sls-lightbox__image img, .lcs-lightbox .lcs-lightbox__image:not([data-zoomed='true']) img { max-height: 100%; object-fit: contain; }
+  .sls-lightbox footer, .lcs-lightbox footer { min-height: 0; padding: 12px; gap: 12px; flex-direction: column; align-items: stretch; }
+  .sls-lightbox footer p, .lcs-lightbox footer > p { max-height: 18svh; overflow: auto; font-size: 12px; line-height: 1.6; }
+  .sls-lightbox footer > div, .lcs-lightbox footer > div { align-self: flex-end; }
+}
+
+@media (max-width: 480px) {
+  #projects.project-showcase .project-collection__bar { align-items: flex-start; }
+  #projects.project-showcase .project-collection__identity { justify-content: flex-start; flex-basis: 100%; order: -1; font-size: 12px; }
+  #projects.project-showcase .project-collection__platforms { flex-wrap: wrap; height: auto; }
+  #projects.project-showcase .salt-study .sls-device-scene { height: auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  #projects.project-showcase .salt-study .sls-desktop-preview, #projects.project-showcase .salt-study .sls-phone-preview { position: relative; inset: auto; width: 100%; transform: none; }
+  #projects.project-showcase .salt-study .sls-phone-preview { width: min(100%, 185px); margin-inline: auto; }
+  #projects.project-showcase .salt-study .sls-device-stickers, #projects.project-showcase .salt-study .sls-scene-orbit { display: none; }
+  #projects.project-showcase .salt-study .sls-journal-body, #projects.project-showcase .lifecity-study .lcs-journal-content { padding: 14px; }
+  #projects.project-showcase .salt-study .sls-feature-scene, #projects.project-showcase .lifecity-study .lcs-tour-scene { padding: 15px; }
+  #projects.project-showcase .salt-study .sls-feature-scene--edge { padding: 0; }
+  #projects.project-showcase .salt-study .sls-idea-r9__origin, #projects.project-showcase .salt-study .sls-idea-r9__chapter { padding: 20px; }
+  #projects.project-showcase .salt-study .sls-feature-detail > h5, #projects.project-showcase .lifecity-study .lcs-tour-copy > h5 { font-size: 25px; }
+  #projects.project-showcase .salt-study .sls-feature-detail > p, #projects.project-showcase .lifecity-study .lcs-tour-copy > p { font-size: 15px; }
+  #projects.project-showcase .portfolio-study .pps-screen-tabs { grid-template-columns: minmax(0, 1fr); }
+  main.secondary-page #netsuite .netsuite-process > ol { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-height: 500px) and (max-width: 999px) {
+  dialog.sls-lightbox, dialog.lcs-lightbox { max-height: calc(100svh - 16px); max-height: calc(100dvh - 16px); }
+  .sls-lightbox .sls-lightbox__content, .lcs-lightbox .lcs-lightbox__content { height: calc(100svh - 16px); height: calc(100dvh - 16px); max-height: none; }
+  .sls-lightbox footer p, .lcs-lightbox footer > p { display: block; max-height: 56px; min-width: 0; overflow: auto; font-size: 11px; line-height: 1.45; }
+  .sls-lightbox footer, .lcs-lightbox footer { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; min-height: 0; padding: 7px 12px; gap: 12px; }
+  .sls-lightbox footer > div, .lcs-lightbox footer > div { align-self: center; }
+  .sls-lightbox header, .lcs-lightbox header { min-height: 56px; padding-block: 6px; }
+  .sls-lightbox .sls-lightbox__image, .lcs-lightbox .lcs-lightbox__image { min-height: 0; overflow: auto; }
+  .sls-lightbox .sls-lightbox__image img, .lcs-lightbox .lcs-lightbox__image:not([data-zoomed='true']) img { max-height: 100%; object-fit: contain; }
+}

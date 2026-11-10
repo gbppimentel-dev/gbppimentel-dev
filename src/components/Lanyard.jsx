@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { getAdaptiveAccent, subscribeAdaptiveAccent } from '../utils/adaptiveColors';
+import { createPaintClock, renderPixelRatio } from '../utils/renderBudget';
 
 import './Lanyard.css';
 
@@ -14,9 +15,9 @@ const THICKNESS = 0.018;
 const BEVEL = 0.007;
 const JOINTS = 4;
 const NODE_WEIGHT = 1 / 0.05;
-const MAX_STEP = 1 / 960;
+const MAX_STEP = 1 / 240;
 const ITERATIONS = 2;
-const SAMPLES = 72;
+const SAMPLES = 48;
 const FOV = 24;
 const STRAP_WIDTH = 0.36;
 const RING_RADIUS = 0.095;
@@ -24,6 +25,11 @@ const RING_TUBE = 0.0135;
 const EYELET_RADIUS = 0.036;
 const CLAMP_BODY = 0.15;
 const FACE_WIDTH = 1024;
+
+// A resumed/slow tab must never try to catch up with unbounded physics work.
+export const lanyardSimulationSteps = dt => Math.max(1, Math.min(8, Math.ceil(
+  Math.min(1 / 30, Math.max(0, Number.isFinite(dt) ? dt : 1 / 60)) / MAX_STEP - 1e-6
+)));
 
 const FINISHES = {
   glossy: { roughness: 0.42, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.06, foil: 0, anisotropy: 0 },
@@ -281,8 +287,8 @@ const buildClampGeometry = width => {
 const buildBandGeometry = count => {
   const columns = BAND_COLUMNS.length;
   const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(count * columns * 3), 3));
-  geometry.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(count * columns * 3), 3));
+  geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(count * columns * 3), 3).setUsage(THREE.DynamicDrawUsage));
+  geometry.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(count * columns * 3), 3).setUsage(THREE.DynamicDrawUsage));
   geometry.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(count * columns * 2), 2));
   const index = [];
   for (let i = 0; i < count - 1; i++) {
@@ -433,7 +439,7 @@ const paintFace = (canvas, image, color, fit) => {
 
 const paintStrap = (canvas, image, color) => {
   const across = 192;
-  const along = image ? Math.max(64, Math.round((image.width / image.height) * across)) : across * 2;
+  const along = image ? Math.max(64, Math.round((image.width / image.height) * across)) : across * 4;
   canvas.width = across;
   canvas.height = along;
   const ctx = canvas.getContext('2d');
@@ -449,13 +455,37 @@ const paintStrap = (canvas, image, color) => {
     return along / across;
   }
   const ink = luminance(color) > 0.5 ? [0, 0, 0] : [1, 1, 1];
-  ctx.fillStyle = toCss(ink, 0.05);
+  // One baked brand-tape tile. Adaptive color changes only tint the material;
+  // the weave, print and stitched edges never need repainting during motion.
+  ctx.fillStyle = toCss(ink, 0.065);
   for (let y = 0; y < along; y += 4) ctx.fillRect(0, y, across, 1);
-  ctx.fillStyle = toCss(ink, 0.2);
-  for (let y = 0; y < along; y += 14) {
-    ctx.fillRect(across * 0.075, y, 2, 8);
-    ctx.fillRect(across * 0.925 - 2, y, 2, 8);
+  ctx.fillStyle = toCss(ink, 0.035);
+  for (let x = 0; x < across; x += 3) ctx.fillRect(x, 0, 1, along);
+  ctx.fillStyle = toCss(ink, 0.28);
+  ctx.fillRect(19, 0, 4, along);
+  ctx.fillRect(across - 23, 0, 4, along);
+  ctx.fillStyle = toCss(ink, 0.44);
+  for (let y = 0; y < along; y += 16) {
+    ctx.fillRect(10, y, 2, 9);
+    ctx.fillRect(across - 12, y, 2, 9);
   }
+  ctx.fillStyle = toCss(ink, 0.78);
+  for (const y of [60, along - 70]) {
+    ctx.fillRect(53, y, 86, 4);
+    ctx.fillRect(68, y + 10, 56, 4);
+  }
+  ctx.save();
+  ctx.translate(across / 2, along / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = toCss(ink, 0.88);
+  ctx.font = '700 44px Arial, sans-serif';
+  ctx.fillText('gbppimentel-dev', 0, -10, along * 0.68);
+  ctx.fillStyle = toCss(ink, 0.65);
+  ctx.font = '700 17px Arial, sans-serif';
+  ctx.fillText('DEVELOPMENT / DESIGN', 0, 33, along * 0.62);
+  ctx.restore();
   return along / across;
 };
 
@@ -611,7 +641,7 @@ const configureSimulation = (sim, layout, length) => {
 };
 
 const stepSimulation = (sim, dt, physics, time) => {
-  const steps = Math.max(1, Math.ceil(dt / MAX_STEP - 1e-6));
+  const steps = lanyardSimulationSteps(dt);
   const h = dt / steps;
   const { nodes, previous, velocities, body } = sim;
   const windX = physics.breeze * (Math.sin(time * 0.53) * 0.7 + Math.sin(time * 1.31 + 1.7) * 0.3) * 3;
@@ -698,7 +728,7 @@ const stepSimulation = (sim, dt, physics, time) => {
 
   let energy = body.velocity.lengthSq() + body.angular.lengthSq() * 0.3;
   for (let i = 1; i < JOINTS; i++) energy += velocities[i].lengthSq() * 0.05;
-  sim.calm = energy < 2e-4 ? sim.calm + dt : 0;
+  sim.calm = energy < 1e-3 ? sim.calm + dt : 0;
 };
 
 // Keep the original ID stage as a virtual camera frame while drawing a larger
@@ -730,6 +760,7 @@ const Lanyard = ({
   elasticity = 0.5,
   breeze = 0.5,
   interactive = true,
+  active = true,
   intro = true,
   className = '',
   extendTo = '',
@@ -738,6 +769,7 @@ const Lanyard = ({
   const containerRef = useRef(null);
   const settingsRef = useRef(null);
   const applyRef = useRef(null);
+  const activityRef = useRef(null);
 
   settingsRef.current = {
     frontImage,
@@ -760,6 +792,7 @@ const Lanyard = ({
     elasticity,
     breeze,
     interactive,
+    active,
     intro,
     extendTo
   };
@@ -767,6 +800,7 @@ const Lanyard = ({
   useEffect(() => {
     applyRef.current?.();
   });
+  useEffect(() => { activityRef.current?.(); }, [active]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -793,6 +827,7 @@ const Lanyard = ({
     const canvas = renderer.domElement;
     canvas.className = 'lanyard-canvas';
     canvas.setAttribute('aria-hidden', 'true');
+    canvas.style.opacity = '0';
     if (extended) surface.appendChild(viewport);
     viewport.appendChild(canvas);
 
@@ -854,9 +889,9 @@ const Lanyard = ({
       map: strapTexture,
       normalMap: weave,
       normalScale: new THREE.Vector2(0.7, 0.7),
-      roughness: 0.68,
-      sheen: 1,
-      sheenRoughness: 0.42,
+      roughness: 0.8,
+      sheen: 0.72,
+      sheenRoughness: 0.6,
       sheenColor: new THREE.Color(0.32, 0.32, 0.34),
       side: THREE.DoubleSide
     });
@@ -887,6 +922,7 @@ const Lanyard = ({
     const mouth = new THREE.Vector3();
     const tuck = new THREE.Vector3();
     const curve = new THREE.CatmullRomCurve3(controls, false, 'centripetal');
+    curve.arcLengthDivisions = SAMPLES * 2;
     const view = lanyardViewportFrame({ width: 1, height: 1 });
     let layout = cardLayout('portrait', 0.3);
     let applied = {};
@@ -895,7 +931,7 @@ const Lanyard = ({
     let raf = 0;
     let last = performance.now();
     let time = 0;
-    let visible = true;
+    let visible = false;
     let alive = true;
     let placed = false;
     let hovering = false;
@@ -904,7 +940,13 @@ const Lanyard = ({
     let suppressClickUntil = 0;
     let imageToken = 0;
     let strapPaint = null;
-    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let reducedMotion = motionPreference.matches;
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    const frameInterval = 1000 / (coarsePointer || navigator.hardwareConcurrency <= 4 ? 30 : 60);
+    const paintClock = createPaintClock(1000 / frameInterval);
+    let breezeUntil = performance.now() + 1800;
+    let lastHoverPick = 0;
 
     const paintFaces = () => {
       const s = settingsRef.current;
@@ -972,6 +1014,7 @@ const Lanyard = ({
     const apply = () => {
       const s = settingsRef.current;
       const layoutKey = `${s.orientation}|${s.cornerRadius}`;
+      let wakePhysics = layoutKey !== applied.layoutKey;
       if (layoutKey !== applied.layoutKey) {
         layout = cardLayout(s.orientation, s.cornerRadius);
         const geometry = buildCardGeometry(layout);
@@ -989,6 +1032,7 @@ const Lanyard = ({
       }
       const framingKey = `${layoutKey}|${s.size}|${s.anchor}|${s.strapLength}|${view.width}|${view.height}|${view.referenceWidth}|${view.referenceHeight}|${view.offsetX}|${view.offsetY}`;
       if (framingKey !== applied.framingKey) {
+        wakePhysics = true;
         frameView();
         if (!placed) {
           placeHanging(sim, layout, s.intro && !reducedMotion);
@@ -1047,8 +1091,12 @@ const Lanyard = ({
       }
       canvas.style.touchAction = s.interactive ? 'pan-y' : 'auto';
 
-      applied = { layoutKey, framingKey, imageKey, faceKey, strapColor: s.strapColor, adaptiveTint, strapScale };
-      start();
+      const physicsKey = `${s.gravity}|${s.damping}|${s.elasticity}|${s.breeze}`;
+      wakePhysics ||= physicsKey !== applied.physicsKey;
+      applied = { layoutKey, framingKey, imageKey, faceKey, physicsKey, strapColor: s.strapColor, adaptiveTint, strapScale };
+      // Palette changes need one draw, not a new round of physical movement.
+      if (wakePhysics) start();
+      else if (visible && !document.hidden && !raf) render();
     };
 
     const points = Array.from({ length: SAMPLES }, () => new THREE.Vector3());
@@ -1064,6 +1112,7 @@ const Lanyard = ({
       end: new THREE.Vector3()
     };
 
+    let previousRepeats = NaN;
     const updateBand = () => {
       const hang = sim.nodes[JOINTS];
       const reach = EYELET_RADIUS + CLAMP_BODY + 0.05;
@@ -1087,6 +1136,7 @@ const Lanyard = ({
       const columns = BAND_COLUMNS.length;
       const restLength = sim.rest * JOINTS;
       const repeats = restLength / (strapScale * tileRatio);
+      const updateUv = repeats !== previousRepeats;
       const width = strapScale / Math.pow(Math.max(1, length / Math.max(restLength, 0.001)), 0.35);
       const { tangent, toCamera, across, facing } = work;
       for (let i = 0; i < SAMPLES; i++) {
@@ -1115,13 +1165,13 @@ const Lanyard = ({
             facing.y * bendCos + across.y * bendSin,
             facing.z * bendCos + across.z * bendSin
           );
-          uv.setXY(k, BAND_COLUMNS[c], v);
+          if (updateUv) uv.setXY(k, BAND_COLUMNS[c], v);
         }
       }
       work.end.copy(across);
       position.needsUpdate = true;
       normal.needsUpdate = true;
-      uv.needsUpdate = true;
+      if (updateUv) { uv.needsUpdate = true; previousRepeats = repeats; }
 
       across.copy(work.end).addScaledVector(axis, -work.end.dot(axis)).normalize();
       facing.crossVectors(across, axis).normalize();
@@ -1130,11 +1180,17 @@ const Lanyard = ({
       clampGroup.position.copy(hang);
     };
 
-    const render = () => {
+    const render = (updateGeometry = true) => {
+      if (!alive || !visible || document.hidden || !settingsRef.current.active) return;
       cardGroup.position.copy(sim.body.position);
       cardGroup.quaternion.copy(sim.body.quaternion);
-      updateBand();
+      if (updateGeometry) updateBand();
       renderer.render(scene, camera);
+      // Keep the shared image fallback until an actual textured frame exists.
+      if (images.front) {
+        container.dataset.lanyardReady = 'true';
+        canvas.style.opacity = '1';
+      }
     };
 
     const physics = () => {
@@ -1160,13 +1216,14 @@ const Lanyard = ({
         twistDamping: 3,
         grip: 40,
         gripDamping: 6,
-        breeze: reducedMotion ? 0 : clamp(s.breeze, 0, 1)
+        breeze: reducedMotion || performance.now() > breezeUntil ? 0 : clamp(s.breeze, 0, 1)
       };
     };
 
     const tick = now => {
       raf = 0;
-      if (!alive || !visible || document.hidden) return;
+      if (!alive || !visible || document.hidden || !settingsRef.current.active) return;
+      if (!paintClock.due(now)) { raf = requestAnimationFrame(tick); return; }
       const dt = Math.min(1 / 30, Math.max(1 / 240, (now - last) / 1000));
       last = now;
       time += dt;
@@ -1178,14 +1235,16 @@ const Lanyard = ({
         placeHanging(sim, layout, false);
       }
       render();
-      const resting = sim.calm > 1.2 && !sim.grab && current.breeze === 0;
+      const resting = sim.calm > .8 && !sim.grab && current.breeze === 0;
       if (visible && !resting) raf = requestAnimationFrame(tick);
     };
 
     const start = () => {
-      if (raf || !visible || !alive || document.hidden) return;
+      if (raf || !visible || !alive || document.hidden || !settingsRef.current.active) return;
       sim.calm = 0;
       last = performance.now();
+      paintClock.reset();
+      breezeUntil = last + 1100;
       raf = requestAnimationFrame(tick);
     };
 
@@ -1233,7 +1292,7 @@ const Lanyard = ({
 
     const captureTarget = extended ? surface : canvas;
     const onPointerDown = event => {
-      if (!settingsRef.current.interactive || event.button > 0 || activePointerId !== null || !visible || !pointerInsideSurface(event)) return;
+      if (!settingsRef.current.active || !settingsRef.current.interactive || event.button > 0 || activePointerId !== null || !visible || !pointerInsideSurface(event)) return;
       // A fresh gesture on an uncovered control is unrelated to the ID's click.
       suppressClickUntil = 0;
       toPointer(event);
@@ -1257,8 +1316,17 @@ const Lanyard = ({
     };
 
     const onPointerMove = event => {
-      if (!settingsRef.current.interactive) return;
+      if (!settingsRef.current.active || !settingsRef.current.interactive || !visible || document.hidden) return;
       if (sim.grab && event.pointerId !== activePointerId) return;
+      if (!sim.grab) {
+        if (event.pointerType === 'touch' || !pointerInsideSurface(event)) {
+          if (hovering) { hovering = false; setCursor(''); }
+          return;
+        }
+        const now = performance.now();
+        if (now - lastHoverPick < 40) return;
+        lastHoverPick = now;
+      }
       toPointer(event);
       if (sim.grab) {
         if (press && Math.hypot(event.clientX - press.x, event.clientY - press.y) > 6) press = null;
@@ -1314,7 +1382,7 @@ const Lanyard = ({
         referenceLeft: (referenceRect.left - surfaceRect.left) * scaleX,
         referenceTop: (referenceRect.top - surfaceRect.top) * scaleY,
       }));
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setPixelRatio(renderPixelRatio(view.width, view.height, window.devicePixelRatio || 1, coarsePointer ? 1 : 1.5));
       renderer.setSize(view.width, view.height, false);
       apply();
       render();
@@ -1334,6 +1402,20 @@ const Lanyard = ({
       else { cancelInteraction(); cancelAnimationFrame(raf); raf = 0; setCursor(''); }
     };
     document.addEventListener('visibilitychange', onVisibility);
+    activityRef.current = () => {
+      if (settingsRef.current.active) {
+        if (visible && !document.hidden) render();
+        start();
+      } else {
+        cancelInteraction();
+        cancelAnimationFrame(raf);
+        raf = 0;
+        hovering = false;
+        setCursor('');
+      }
+    };
+    const onMotionPreference = () => { reducedMotion = motionPreference.matches; breezeUntil = 0; start(); };
+    motionPreference.addEventListener('change', onMotionPreference);
 
     applyRef.current = apply;
     resize();
@@ -1344,7 +1426,7 @@ const Lanyard = ({
       bandMaterial.color.setStyle(color);
       // A tint change should not wake or reset the physical simulation. An
       // already-running physics frame renders it; a resting card needs one draw.
-      if (visible && !document.hidden && !raf) render();
+      if (s.active && visible && !document.hidden && !raf) render(false);
     });
 
     return () => {
@@ -1352,9 +1434,11 @@ const Lanyard = ({
       unsubscribeAccent();
       cancelAnimationFrame(raf);
       applyRef.current = null;
+      activityRef.current = null;
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
+      motionPreference.removeEventListener('change', onMotionPreference);
       cancelInteraction();
       setCursor('');
       pointerTarget.removeEventListener('pointerdown', onPointerDown, pointerOptions);
@@ -1369,12 +1453,13 @@ const Lanyard = ({
       [frontTexture, backTexture, strapTexture, grain, weave].forEach(texture => texture.dispose());
       environment.dispose();
       renderer.dispose();
+      delete container.dataset.lanyardReady;
       if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
       if (extended) viewport.remove();
     };
   }, []);
 
-  return <div ref={containerRef} className={`lanyard ${className}`.trim()} style={style} />;
+  return <div ref={containerRef} className={`lanyard ${className}`.trim()} style={style} data-lanyard-active={active} />;
 };
 
 export default Lanyard;

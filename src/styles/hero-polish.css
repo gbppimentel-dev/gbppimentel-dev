@@ -1,0 +1,100 @@
+/* A steady technical surface, with animation left to the words and controls. */
+#home.header.hero-print .hero-playground .hero-play-halo {
+  inset: 14% -3% 16%;
+  width: auto;
+  aspect-ratio: auto;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(rgb(147 174 198 / .1) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(147 174 198 / .1) 1px, transparent 1px);
+  background-size: 70px 70px;
+  mask-image: linear-gradient(90deg, transparent, #000 24%, #000 76%, transparent);
+  opacity: .5;
+  rotate: none;
+  transform: translate(calc(var(--hero-play-x) * 7px), calc(var(--hero-play-y) * 5px));
+}
+#home.header.hero-print .slide-two .hero-print-workbench {
+  width: min(100%, 900px);
+  max-width: 100%;
+  border: 0;
+  border-radius: 8px;
+  padding: 0;
+}
+#home.header.hero-print .hero-workbench-backdrop {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  outline: none;
+}
+#home.header.hero-print .hero-three-parallax-shell {
+  width: min(100%, 800px);
+  max-width: 100%;
+}
+#home.header.hero-print .hero-three-frame {
+  width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
+  border-radius: 8px;
+}
+#home.header.hero-print .hero-three-frame .hero-three-code { margin-inline: auto; }
+#home.header.hero-print :is(.hero-print-workbench, .hero-three-frame) .hero-window-bar { border-radius: 7px 7px 0 0; }
+#home.header.hero-print :is(.hero-print-workbench, .hero-three-frame) .hero-window-footer { border-radius: 0 0 7px 7px; }
+#home.header.hero-print .slide-three .hero-three-frame { margin-bottom: 0; }
+#home.header.hero-print .hero-console { margin-bottom: 0; }
+
+/* Actions belong to their window: a dedicated toolbar rather than a floating link. */
+#home.header.hero-print .hero-panel-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px 22px; padding: 16px 22px; border-top: 1px solid rgb(147 174 198 / .17); border-radius: 0 0 7px 7px; background: rgb(147 174 198 / .035); }
+#home.header.hero-print .hero-footer-detail { display: flex; align-items: center; gap: 12px; min-width: 0; color: var(--muted); font: 400 10px/1.6 var(--hero-mono); text-align: left; }
+#home.header.hero-print .hero-footer-detail > span:last-child { display: grid; gap: 2px; }
+#home.header.hero-print .hero-footer-detail strong { color: var(--text); font: 500 11px/1.5 var(--hero-mono); }
+#home.header.hero-print .hero-footer-detail strong > span { color: var(--print-tone, var(--blue)); }
+#home.header.hero-print .hero-footer-detail small { font: inherit; }
+#home.header.hero-print .hero-footer-file { flex: none; width: 26px; height: 30px; fill: none; stroke: var(--print-tone, var(--blue)); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+#home.header.hero-print .hero-project-count { display: grid; place-items: center; flex: none; width: 39px; height: 37px; border: 1px solid rgb(147 174 198 / .25); border-radius: 4px; background: rgb(147 174 198 / .035); color: var(--blue); font: 400 19px/1 var(--hero-mono); letter-spacing: -.07em; }
+#home.header.hero-print .hero-panel-actions > .hero-action { flex-shrink: 0; }
+#home.header.hero-print .hero-window-footer-actions { display: flex; margin-left: auto; }
+#home.header.hero-print .hero-window-footer:has(.hero-window-footer-actions) { gap: 12px 18px; padding-block: 16px; }
+
+/* Restore the old slim rail. Visuals stay thin; hit targets remain 44px. */
+#home.header.hero-print .hero-carousel-nav {
+  width: 44px;
+  padding: 0;
+  gap: 12px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+#home.header.hero-print .hero-carousel-nav button {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text);
+  font: 500 10px/1.3 var(--hero-mono);
+  letter-spacing: .12em;
+  transform: none;
+}
+#home.header.hero-print .hero-carousel-control .hero-carousel-window { transform: rotate(90deg); }
+#home.header.hero-print .hero-carousel-toggle svg { width: 12px; height: 14px; }
+#home.header.hero-print .hero-carousel-nav button:is(:hover, :active) { color: var(--brand-accent, var(--amber)); background: transparent; }
+#home.header.hero-print .hero-carousel-nav button:focus-visible { outline: 1px solid var(--brand-accent, var(--amber)); outline-offset: 2px; background: rgb(20 21 27 / .35); }
+
+@media (max-width: 999px), (pointer: coarse) {
+  #home.header.hero-print .hero-playground .hero-play-halo { background-size: 42px 42px; opacity: .3; }
+  #home.header.hero-print .hero-panel-actions { flex-wrap: wrap; gap: 12px; padding: 12px 14px; }
+  #home.header.hero-print .hero-footer-detail { gap: 10px; }
+  #home.header.hero-print .hero-footer-detail > span:last-child { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; }
+  #home.header.hero-print .hero-footer-detail strong { font-size: 10px; }
+  #home.header.hero-print .hero-footer-file { width: 18px; height: 22px; }
+  #home.header.hero-print .hero-project-count { width: 29px; height: 25px; font-size: 14px; }
+  #home.header.hero-print .hero-panel-actions .hero-action { width: 100%; min-width: 0; }
+  #home.header.hero-print .hero-window-footer-actions { flex-basis: 100%; margin: 0; }
+  #home.header.hero-print .hero-window-footer-actions .hero-action { width: 100%; min-width: 0; }
+  #home.header.hero-print .hero-carousel-nav { width: auto; gap: 5px; padding: 0; }
+  #home.header.hero-print .hero-carousel-control .hero-carousel-window { transform: none; }
+}

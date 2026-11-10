@@ -1,0 +1,46 @@
+/* The identity artwork and profile content are shared by desktop and touch.
+   Touch devices use a lightweight card instead of starting a WebGL renderer. */
+.about-id-stage:has(> .lanyard[data-lanyard-ready='true']) > .about-id-loading { visibility: hidden; }
+.about-touch-id { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; min-width: 0; padding-block: 8px 18px; }
+.about-touch-id__strap { position: relative; display: block; flex: 0 0 58px; width: 22px; background: var(--about-strap-color, var(--amber)); border-radius: 3px; box-shadow: inset 4px 0 0 rgb(255 255 255 / .1), inset -4px 0 0 rgb(0 0 0 / .12); }
+.about-touch-id__strap::after { content: ''; position: absolute; bottom: -5px; left: -5px; width: 32px; height: 13px; z-index: 1; border: 1px solid #5f6570; border-radius: 4px; background: #222732; }
+.about-touch-id__card { position: relative; display: block; flex: none; width: min(72%, 250px); padding: 0; margin: 1px 0 0; border: 0; border-radius: 14px; overflow: hidden; background: transparent; color: inherit; box-shadow: 0 18px 40px rgb(0 0 0 / .24); cursor: pointer; touch-action: pan-y; }
+.about-touch-id__image { display: block; width: 100%; height: auto; aspect-ratio: 1024 / 1440; object-fit: contain; animation: about-card-turn .2s ease-out both; }
+.about-touch-id__hint { margin: 15px 0 0; color: var(--muted); font: 400 11px/1.6 'Poppins', sans-serif; text-align: center; }
+.about-touch-id__hint > span { display: inline-block; margin-left: 6px; color: var(--brand-accent, var(--about-strap-color, var(--amber))); }
+@keyframes about-card-turn { from { opacity: .6; transform: scaleX(.92); } to { opacity: 1; transform: scaleX(1); } }
+
+@media (max-width: 999px), (pointer: coarse) {
+  .works.about-profile.about-profile--bento { padding-inline: clamp(18px, 4vw, 32px); padding-bottom: 44px; }
+  .about-profile--bento .about-studio-layout { grid-template-columns: minmax(0, 1fr); height: auto; gap: 22px; }
+  .about-profile--bento .about-centerpiece { grid-column: auto; grid-row: auto; width: min(100%, 420px); margin-inline: auto; }
+  .about-profile--bento .about-id-stage { height: clamp(380px, 60svh, 480px); }
+  .about-profile--bento .about-bento { grid-auto-rows: minmax(190px, auto) !important; }
+  .about-bento-shell { max-width: 700px; padding-block: 0; }
+  .about-bento .magic-bento__content { padding: 18px; }
+  .about-profile--bento h2#about-profile-name { font-size: clamp(30px, 5.5vw, 43px); line-height: 1.07; }
+  .about-bento__roles { font-size: 12px; line-height: 1.8; gap: 2px 15px; }
+  .about-profile--bento .about-bento__card-heading h3 { font-size: 27px; }
+  .about-bento__skill-detail { margin-top: 12px; padding-top: 12px; }
+  .about-bento__skill-detail strong, .about-bento__skill-detail p { font-size: 12px; line-height: 1.7; }
+  .about-bento__tools li { font-size: 11px; gap: 10px; }
+  .about-bento__tools li > svg, .about-bento__tool-letter { width: 36px; height: 36px; }
+  .about-bento__work-content > p { margin-block: 12px 16px; font-size: 17px; }
+  .about-bento__work-links { gap: 8px 24px; }
+  .about-bento__work-links a { min-height: 44px; font-size: 12px; }
+  .about-bento__cv { min-height: 64px; font-size: 10px; }
+}
+@media (max-width: 600px) {
+  .about-profile--bento .about-bento { grid-template-columns: minmax(0, 1fr) !important; grid-auto-rows: minmax(172px, auto) !important; }
+  .about-profile--bento .about-bento .magic-bento__cell { grid-column: 1 / -1 !important; grid-row: auto !important; }
+  .about-profile--bento .magic-bento__cell:has([data-card='identity']) { min-height: 204px; }
+  .about-profile--bento .magic-bento__cell:has([data-card='skills']) { min-height: 385px; }
+  .about-profile--bento .magic-bento__cell:has([data-card='work']) { min-height: 220px; }
+  .about-profile--bento h2#about-profile-name { max-width: calc(100% - 64px); font-size: clamp(29px, 8vw, 42px); }
+  .about-bento__roles { max-width: calc(100% - 10px); font-size: 11px; }
+  .about-bento__cv { width: 52px; }
+  .about-bento__tools { padding-block: 8px; }
+  .about-bento__work-content > p { margin-top: 2px; }
+  .about-bento .magic-bento__card { user-select: text; -webkit-user-select: text; }
+}
+@media (prefers-reduced-motion: reduce) { .about-touch-id__image { animation: none; } }

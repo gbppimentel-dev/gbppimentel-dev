@@ -1,0 +1,37 @@
+/* Finite word reveals restart only when the shared activity state allows motion. */
+#home.header.hero-print .hero-systems { padding: clamp(24px, 3vw, 42px) clamp(22px, 3vw, 40px) 28px; text-align: left; }
+#home.header.hero-print .hero-systems-comment { margin: 0 0 24px; color: var(--muted); font: 400 11px/1.7 var(--hero-mono); }
+#home.header.hero-print .hero-systems-comment > span { margin-right: 7px; color: var(--blue); }
+#home.header.hero-print .hero-systems-title { margin: 0; color: var(--text); font: 400 clamp(48px, 6vw, 86px)/1.08 var(--display); letter-spacing: -.035em; }
+#home.header.hero-print .hero-systems-source-line { display: grid; grid-template-columns: 26px minmax(0, 1fr); align-items: baseline; gap: 22px; white-space: nowrap; }
+#home.header.hero-print .hero-systems-source-line + .hero-systems-source-line { margin-top: 8px; }
+#home.header.hero-print .hero-systems-line-number { color: rgb(147 174 198 / .48); font: 400 11px/1 var(--hero-mono); letter-spacing: 0; }
+#home.header.hero-print .hero-systems-word-mask { display: inline-block; overflow: clip; vertical-align: top; padding-block: .14em .18em; margin-block: -.14em -.18em; }
+#home.header.hero-print .hero-systems-word { display: inline-block; transform-origin: left bottom; }
+#home.header.hero-print .hero-systems-title em { position: relative; display: inline-block; color: var(--blue); font-style: normal; }
+#home.header.hero-print .hero-systems-title em::after { content: ''; position: absolute; inset: auto 0 -.07em; height: 2px; background: linear-gradient(90deg, var(--blue), var(--amber)); transform-origin: left; }
+#home.header.hero-print .hero-systems-description { position: relative; margin: 30px 0 0 48px; padding: 16px 0 0; border-top: 1px solid rgb(147 174 198 / .16); color: var(--muted); font: 400 13px/1.8 var(--hero-mono); }
+#home.header.hero-print .hero-systems-description::before { content: ''; position: absolute; inset: -1px 0 auto; height: 1px; background: linear-gradient(90deg, var(--blue), var(--amber), transparent); transform-origin: left; }
+#home.header.hero-print .hero-systems-description-word { display: inline-block; }
+#home.header.hero-print .hero-systems[data-reveal='true'] .hero-systems-word { animation: hero-word-roll .84s var(--word-delay) cubic-bezier(.2, .8, .2, 1) both; }
+#home.header.hero-print .hero-systems[data-reveal='true'] .hero-systems-title em::after { animation: hero-source-trace .65s .9s ease-out both; }
+#home.header.hero-print .hero-systems[data-reveal='true'] .hero-systems-description::before { animation: hero-source-trace .8s .55s ease-out both; }
+#home.header.hero-print .hero-systems[data-reveal='true'] .hero-systems-description-word { animation: hero-source-reveal .45s var(--word-delay) ease-out both; }
+@keyframes hero-word-roll { from { opacity: 0; transform: translateY(115%) rotate(5deg); } 35% { opacity: 1; } 78% { transform: translateY(-.04em) rotate(0); } to { opacity: 1; transform: translateY(0) rotate(0); } }
+@keyframes hero-source-reveal { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes hero-source-trace { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (max-width: 999px), (pointer: coarse) {
+  #home.header.hero-print .hero-systems { padding: 22px 17px 20px; }
+  #home.header.hero-print .hero-systems-comment { margin-bottom: 19px; font-size: 10px; }
+  #home.header.hero-print .hero-systems-title { font-size: clamp(27px, 6.8vw, 56px); }
+  #home.header.hero-print .hero-systems-source-line { grid-template-columns: 16px minmax(0, 1fr); gap: 10px; }
+  #home.header.hero-print .hero-systems-line-number { font-size: 9px; }
+  #home.header.hero-print .hero-systems-description { margin: 23px 0 0 26px; padding-top: 12px; font-size: 12px; line-height: 1.8; }
+}
+@media (max-width: 360px) {
+  #home.header.hero-print .hero-systems { padding-inline: 13px; }
+  #home.header.hero-print .hero-systems-comment { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #home.header.hero-print .hero-systems *, #home.header.hero-print .hero-systems *::before, #home.header.hero-print .hero-systems *::after { animation: none !important; }
+}

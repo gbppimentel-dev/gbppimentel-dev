@@ -3,6 +3,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import Crosshair from './Crosshair';
 import { getAdaptiveAccent, subscribeAdaptiveAccent } from '../utils/adaptiveColors';
 import '../styles/NetSuite.css';
+import '../styles/projects-responsive.css';
 
 // Keep the page content here so the skill areas can grow with the portfolio.
 export const netsuiteFocusAreas = [
@@ -54,12 +55,19 @@ function ArrowIcon() {
 
 export default function NetSuite() {
   const [selected, setSelected] = useState(0);
+  const [showCrosshair, setShowCrosshair] = useState(() => typeof window !== 'undefined' && window.matchMedia('(min-width: 1000px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches);
   const [crosshairColor, setCrosshairColor] = useState(() => getAdaptiveAccent() || '#d8b97c');
   const sectionRef = useRef(null);
   const tabRefs = useRef([]);
   const uid = `netsuite-${useId().replace(/:/g, '')}`;
 
   useEffect(() => subscribeAdaptiveAccent(setCrosshairColor), []);
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1000px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
+    const update = () => setShowCrosshair(query.matches);
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
 
   const handleTabKey = (event, index) => {
     let next = index;
@@ -74,10 +82,10 @@ export default function NetSuite() {
   };
 
   return <section ref={sectionRef} id="netsuite" className="netsuite-page" aria-labelledby={`${uid}-title`}>
-    <Crosshair containerRef={sectionRef} viewport color={crosshairColor}
+    {showCrosshair && <Crosshair containerRef={sectionRef} viewport color={crosshairColor}
       thickness={1} opacity={0.65} gap={14} fade={0.45} smoothing={0.3}
       targetEffect="lock" showCoordinates clickPulse hideCursor={false}
-      className="netsuite-crosshair" style={{ zIndex: 3 }} />
+      className="netsuite-crosshair" style={{ zIndex: 3 }} />}
     <div className="netsuite-page__intro">
       <div className="netsuite-page__intro-copy">
         <span className="netsuite-page__kicker">03 / ERP · TECHNICAL · SUPPORT</span>

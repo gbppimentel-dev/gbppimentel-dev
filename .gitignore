@@ -8,4 +8,9 @@ dist/
 heart-exports/
 cloudflare/hearts/.migration/
 cloudflare/hearts/.wrangler/
+.local/
+cloudflare/inquiries/.wrangler/
+# Separate applications copied here for portfolio reference.
+/salt-light/
+/lifecity-attendance/
 # END OF FILE: HEARTS-CLOUDFLARE-R5

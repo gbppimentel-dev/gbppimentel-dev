@@ -2,10 +2,20 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 export const HERO_SLIDE_DELAY = 5500;
 const clamp = value => Math.min(1, Math.max(0, value));
+
+/** Fixed heroes are covered by the incoming scene; flow heroes leave above
+ * the fixed navigation. Use those visible edges instead of a scroll ratio. */
+export function isHeroCovered({ fixed = false, heroBottom = Infinity, overlayTop = Infinity, headerInset = 0 }) {
+  const edge = Math.max(0, Number(headerInset) || 0) + 1;
+  return fixed
+    ? Number.isFinite(overlayTop) && overlayTop <= edge
+    : Number.isFinite(heroBottom) && heroBottom <= edge;
+}
+
 export function createHeroPlayback(onPaused = () => {}) {
   let swiper, bar, remaining = HERO_SLIDE_DELAY, restarting = false;
-  const hold = { manual: false, hidden: typeof document !== 'undefined' && document.hidden };
-  const isPaused = () => hold.manual || hold.hidden;
+  const hold = { manual: false, hidden: typeof document !== 'undefined' && document.hidden, reduced: typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches, offscreen: false };
+  const isPaused = () => hold.manual || hold.hidden || hold.reduced || hold.offscreen;
   const paint = () => { if (bar) bar.style.transform = `scaleX(${clamp(1 - remaining / HERO_SLIDE_DELAY)})`; };
   const sync = () => {
     const paused = isPaused();
@@ -28,8 +38,8 @@ export function createHeroPlayback(onPaused = () => {}) {
     bind(instance) { swiper = instance; sync(); },
     setBar(node) { bar = node; paint(); },
     setHold(reason, value) {
-      if (reason !== 'hidden') return;
-      hold.hidden = value;
+      if (reason !== 'hidden' && reason !== 'reduced' && reason !== 'offscreen') return;
+      hold[reason] = value;
       sync();
     },
     toggle() {
@@ -52,7 +62,7 @@ export function useHeroPlayback() {
   const progressRef = useCallback(node => player.setBar(node), [player]);
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const motion = () => setReduced(preference.matches);
+    const motion = () => { setReduced(preference.matches); player.setHold('reduced', preference.matches); };
     const visibility = () => player.setHold('hidden', document.hidden);
     preference.addEventListener('change', motion); document.addEventListener('visibilitychange', visibility);
     motion(); visibility();

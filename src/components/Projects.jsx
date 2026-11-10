@@ -12,14 +12,17 @@ import PortfolioProjectNotes from './PortfolioProjectNotes';
 import SaltLightProjectNotes from './SaltLightProjectNotes';
 import { SaltPlatformIcon } from './SaltPlatformBadges';
 import '../styles/ProjectGallery.css';
+import '../styles/projects-responsive.css';
 
 const pad = value => String(value).padStart(2, '0');
 const categoryOptions = ['All', ...new Set(projects.map(project => project.category))];
 
 function useProjectReducedMotion() {
-  const [reduced, setReduced] = useState(() => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  // Mobile avoids animating the height of entire, image-rich case studies.
+  const query = '(prefers-reduced-motion: reduce), (max-width: 999px), (pointer: coarse)';
+  const [reduced, setReduced] = useState(() => typeof window !== 'undefined' && window.matchMedia(query).matches);
   useEffect(() => {
-    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const preference = window.matchMedia(query);
     const sync = () => setReduced(preference.matches);
     sync();
     preference.addEventListener('change', sync);
@@ -57,15 +60,18 @@ function ProjectTechnologyLoop({ logos, projectTitle, reducedMotion }) {
   }, [cancelClose]);
   const closePreview = useCallback(() => {
     cancelClose();
+    if (document.activeElement?.classList.contains('project-tech-detail-close')) {
+      wrapperRef.current?.querySelector('.logoloop__list[data-primary] .logoloop__item[data-preview-active="true"] button')?.focus({ preventScroll: true });
+    }
     setActive(null);
   }, [cancelClose]);
   useEffect(() => () => window.clearTimeout(closeTimer.current), []);
   return <div ref={wrapperRef} className="project-tech-explorer"
-    onPointerEnter={cancelClose} onPointerLeave={closeLater}
+    onPointerEnter={cancelClose} onPointerLeave={event => { if (!reducedMotion && event.pointerType !== 'touch') closeLater(); }}
     onFocusCapture={cancelClose}
     onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) closeLater(); }}
     onKeyDown={event => { if (event.key === 'Escape') { closePreview(); event.stopPropagation(); } }}>
-    <LogoLoop logos={logos} speed={active ? 0 : 42} direction="left" logoHeight={27} gap={29}
+    <LogoLoop logos={logos} speed={active || reducedMotion ? 0 : 42} direction="left" logoHeight={27} gap={29}
       hoverSpeed={0} fadeOut fadeOutWidth={.06} scaleOnHover labels="inline" layout="line" intro={false} draggable
       previewOnly onItemPreview={preview} activeItemId={active?.id} previewId={detailId}
       ariaLabel={projectTitle + ' technology stack'} className="project-toolkit__loop" />
@@ -82,6 +88,7 @@ function ProjectTechnologyLoop({ logos, projectTitle, reducedMotion }) {
           <strong>{detail.title}</strong><p>{detail.description}</p>
         </motion.div>
       </div>}
+      {active && <button type="button" className="project-tech-detail-close" onClick={closePreview}>Close technology details</button>}
     </motion.div>
   </div>;
 }
@@ -99,7 +106,7 @@ function DestinationLink({ href, children, icon = 'arrow', label }) {
 function ScreenshotSlot({ screen, number }) {
   return <figure className={'project-screen' + (screen?.src ? ' project-screen--real' : ' project-screen--draft')}>
     <div className="project-screen__chrome" aria-hidden="true"><span /><span /><span /><i>{pad(number)} / SCREEN</i></div>
-    {screen?.src ? <img src={asset(screen.src)} alt={screen.alt || 'Project screen ' + number} loading="lazy" /> : <div className="project-screen__placeholder">
+    {screen?.src ? <img decoding="async" src={asset(screen.src)} alt={screen.alt || 'Project screen ' + number} loading="lazy" /> : <div className="project-screen__placeholder">
       <div className="project-screen__wireframe" aria-hidden="true"><i /><div><b /><b /><b /></div><span /><span /></div>
       <strong>{number === 1 ? 'The main experience' : 'A closer look'}</strong>
       <span>{number === 1 ? 'Add the primary product screenshot here.' : 'Add a feature, flow, or detail screen here.'}</span>
@@ -266,12 +273,13 @@ export default function Projects() {
                 </span>)}
             </motion.div>
             <span className="project-collection__identity">
-              {selected.id === 'salt-and-light' ? <img src={asset('images/projects/salt-light-icon-r1.png')} alt="" width="22" height="22" /> : selected.id === 'lifecity-attendance' ? <img src={asset('images/projects/lifecity-r2/app-icon.png')} alt="" width="22" height="22" /> : selected.id === 'gbppimentel-dev' ? <img src={asset('brand/triangle-logo.png')} alt="" width="22" height="22" /> : <span aria-hidden="true">✦</span>}
+              {selected.id === 'salt-and-light' ? <img decoding="async" src={asset('images/projects/salt-light-icon-r1.png')} alt="" width="22" height="22" /> : selected.id === 'lifecity-attendance' ? <img decoding="async" src={asset('images/projects/lifecity-r2/app-icon.png')} alt="" width="22" height="22" /> : selected.id === 'gbppimentel-dev' ? <img decoding="async" src={asset('brand/triangle-logo.png')} alt="" width="22" height="22" /> : <span aria-hidden="true">✦</span>}
               <motion.span key={selected.id} initial={reducedMotion ? false : { opacity: 0, y: 3 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : .35 }}>{selected.title}</motion.span>
             </span><span aria-hidden="true">01 — {pad(shown.length)}</span>
           </div>
           <div className="project-collection__gallery">
             <AccordionGallery items={galleryItems} defaultIndex={0} expandRatio={0.7} height={450}
+              trigger={reducedMotion ? 'click' : 'hover'}
               duration={1} ease="power3.inOut" tilt={2} gap={14} radius={14} detailsId={detailsId}
               onSelectionChange={handleSelection} onItemActivate={handleActivation}
               label={(category === 'All' ? 'Selected' : category) + ' projects'} />

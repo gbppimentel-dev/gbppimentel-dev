@@ -1,4 +1,5 @@
 // CHANGE VERSION: PORTFOLIO-REFINE-R4 | Local drifting artwork behind the project collection
+import { useEffect, useState } from 'react';
 import GridMotion from './GridMotion';
 import { asset } from '../utils/assets';
 
@@ -13,6 +14,14 @@ const tiles = [
 ];
 
 export default function ProjectsBackdrop() {
+  const [enabled, setEnabled] = useState(() => typeof window !== 'undefined' && window.matchMedia('(min-width: 1000px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches);
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1000px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
+    const update = () => setEnabled(query.matches);
+    update(); query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
+  if (!enabled) return null;
   return <div className="projects-backdrop" aria-hidden="true" inert>
     <div className="projects-backdrop__art" style={{ backgroundImage: 'url(' + asset('images/slide03.png') + ')' }} />
     <GridMotion items={tiles} rows={4} aspectRatio={1.55} gap={20} radius={16}

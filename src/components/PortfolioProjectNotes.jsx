@@ -63,7 +63,7 @@ function BuildScreenshot({ screen, index, reducedMotion }) {
   return <motion.a className="pps-screen__image" href={asset(screen.src)} target="_blank" rel="noopener noreferrer"
     aria-label={`Open portfolio screenshot ${index + 1} at full size`} aria-hidden={present ? undefined : true} inert={!present} tabIndex={present ? undefined : -1}
     initial={reducedMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reducedMotion ? 0 : .38 }}>
-    <img src={asset(screen.src)} alt={screen.alt} loading="lazy" /><span className="pps-screen__expand"><WorkbenchIcon name="expand" /></span>
+    <img decoding="async" src={asset(screen.src)} alt={screen.alt} loading="lazy" /><span className="pps-screen__expand"><WorkbenchIcon name="expand" /></span>
   </motion.a>;
 }
 
@@ -102,7 +102,7 @@ export default function PortfolioProjectNotes({ project, headingId, reducedMotio
 
   return <div className="portfolio-study" data-motion={reducedMotion ? 'reduced' : 'full'}>
     <header className="pps-chrome">
-      <div className="pps-chrome__brand"><img src={asset('brand/triangle-logo.png')} width="26" height="26" alt="" /><span>gbppimentel<span>-dev</span></span></div>
+      <div className="pps-chrome__brand"><img decoding="async" src={asset('brand/triangle-logo.png')} width="26" height="26" alt="" /><span>gbppimentel<span>-dev</span></span></div>
       <span className="pps-chrome__label"><span aria-hidden="true">✦</span> A CASE STUDY OF THIS VERY SITE</span>
       <span className="pps-chrome__dots" aria-hidden="true"><i /><i /><i /></span>
     </header>

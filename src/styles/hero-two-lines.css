@@ -1,0 +1,80 @@
+/* Two nonwrapping lines with natural word widths and horizontal layout springs.
+   The font and reserved row height change only with container/font changes. */
+#home.header.hero-print .slide-two .hero-two-lines .hero-rotating-line {
+  display: block;
+  margin: 0;
+  min-width: 0;
+  font-size: var(--hero-line-size, clamp(14px, 4.7vw, 64px)) !important;
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: -.035em;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+#home.header.hero-print .slide-two .hero-two-lines h2.hero-rotating-line { margin: .18em 0 0; }
+#home.header.hero-print .slide-two .hero-two-lines .hero-rotating-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: .22em;
+  height: var(--hero-row-height, 1.6em);
+  min-height: var(--hero-row-height, 1.6em);
+  min-width: 0;
+  white-space: nowrap;
+}
+#home.header.hero-print .slide-two .hero-two-lines .hero-static-phrase {
+  flex: 0 0 auto;
+  font-size: 1em;
+  white-space: nowrap;
+}
+#home.header.hero-print .slide-two .hero-two-lines .hero-word-run {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  width: max-content;
+  min-width: 0;
+}
+#home.header.hero-print .slide-two .hero-two-lines .hero-word-run > .text-rotate {
+  width: max-content;
+  max-width: none;
+  flex: none;
+  justify-content: center;
+  box-sizing: border-box;
+}
+#home.header.hero-print .slide-two .hero-two-lines .hero-word-run .text-rotate-content { justify-content: center; }
+#home.header.hero-print .slide-two .hero-two-lines .hero-fit-probes {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+#home.header.hero-print .slide-two .hero-two-lines .hero-fit-probe {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: .22em;
+  width: max-content;
+  font-size: 64px !important;
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: -.035em;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+#home.header.hero-print .slide-two .hero-two-lines .hero-fit-probe .text-rotate {
+  display: inline-flex;
+  width: max-content;
+  padding: .025em .16em .055em;
+  overflow: hidden;
+  border: 2px solid;
+  border-radius: .16em;
+}
+@media (max-width: 767px) {
+  #home.header.hero-print .slide-two .hero-two-lines .hero-fit-probe .text-rotate { padding-inline: .12em; }
+  #home.header.hero-print .slide-two .hero-two-lines .hero-fit-probe .hero-rotate-design[data-word-index='1'] { padding-inline: .16em; }
+}

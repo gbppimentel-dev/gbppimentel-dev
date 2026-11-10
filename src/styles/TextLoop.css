@@ -1,70 +1,21 @@
-/* CHANGE VERSION: TEXT-LOOP-COMPACT-R1 | Thinner ribbon and tighter type spacing */
-.text-loop {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: min(var(--text-loop-height, 88px), 64px);
-  overflow: hidden;
-  isolation: isolate;
-  background: var(--text-loop-background, var(--brand-accent, var(--amber)));
-  color: var(--text-loop-color, var(--ink));
-  font: var(--text-loop-weight, 800) min(var(--text-loop-size, 36px), 28px)/1.1 'Poppins', sans-serif;
-  letter-spacing: min(var(--text-loop-tracking, 1.8px), .7px);
-  touch-action: pan-y;
-  user-select: none;
-  transition: background-color .35s ease;
-}
-.text-loop-waves {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-/* The base changes with the strap immediately. Leave the final 8/88 untinted;
-   the lower curve now sits near the edge instead of forming a thick solid band. */
-.text-loop-wave-base { fill: var(--text-loop-background, var(--brand-accent, var(--amber))); }
-.text-loop-wave-shade { fill: var(--ink, #14151b); }
-.text-loop-wave-shade--middle { opacity: .12; }
-.text-loop-wave-shade--upper { opacity: .10; }
-.text-loop-wave-layers {
-  transform-box: view-box;
-  transform-origin: center;
-  animation: text-loop-wave-drift 18s ease-in-out infinite alternate;
-  will-change: transform;
-}
-.text-loop-wave-contour, .text-loop-wave-orbits {
-  fill: none;
-  stroke: var(--ink, #14151b);
-  stroke-width: .8;
-  stroke-linecap: round;
-  opacity: .10;
-}
-.text-loop-wave-contour, .text-loop-wave-orbits ellipse { vector-effect: non-scaling-stroke; }
-.text-loop-wave-orbits { opacity: .08; }
-.text-loop-wave-dots { fill: var(--ink, #14151b); opacity: .13; }
-@keyframes text-loop-wave-drift {
-  from { transform: translateX(-12px); }
-  to { transform: translateX(12px); }
-}
-.text-loop-track, .text-loop-group { display: flex; align-items: center; flex: none; width: max-content; }
-.text-loop-track { position: relative; z-index: 1; will-change: transform; }
-.text-loop-unit { display: inline-flex; align-items: center; flex: none; gap: .4em; padding: 0 .2em; white-space: nowrap; }
+/* Open typography keeps the words and the section transition in focus. */
+.text-loop { position: relative; display: flex; align-items: center; width: 100%; height: min(var(--text-loop-height,88px),64px); overflow: hidden; isolation: isolate; background: var(--text-loop-background,var(--brand-accent,var(--amber))); color: var(--text-loop-color,var(--ink)); font: var(--text-loop-weight,800) min(var(--text-loop-size,36px),26px)/1.1 'Poppins',sans-serif; letter-spacing: min(var(--text-loop-tracking,1.8px),.7px); touch-action: pan-y; user-select: none; }
+.text-loop-track,.text-loop-group { display: flex; align-items: center; flex: none; width: max-content; }
+.text-loop-track { position: relative; z-index: 1; }
+.text-loop-circuit { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; fill: none; stroke: var(--text-loop-background,var(--brand-accent,var(--blue))); stroke-width: .8; opacity: .13; pointer-events: none; }
+.text-loop-circuit * { vector-effect: non-scaling-stroke; }
+.text-loop-circuit-nodes { fill: var(--text-loop-background,var(--brand-accent,var(--blue))); stroke: none; }
+.text-loop-unit { display: inline-flex; align-items: center; flex: none; gap: .8em; padding: 0 .4em; white-space: nowrap; }
 .text-loop-label { display: block; flex: none; }
-.text-loop-separator { display: grid; place-items: center; flex: 0 0 .85em; width: .85em; height: 1.1em; font-size: 1.02em; line-height: 1; letter-spacing: 0; }
-.text-loop-separator--0 { color: var(--text-loop-separator-first, var(--coral)); }
-.text-loop-separator--1 { color: var(--text-loop-separator-second, var(--blue)); }
-.text-loop-separator { transition: color .35s ease; }
+.text-loop-separator { display: grid; place-items: center; flex: none; min-width: .85em; height: 1.1em; font-size: .7em; font-weight: 400; line-height: 1; letter-spacing: 0; }
+.text-loop-separator--0 { color: var(--text-loop-separator-first,var(--coral)); }
+.text-loop-separator--1 { color: var(--text-loop-separator-second,var(--blue)); }
 .text-loop-measure { position: absolute; left: 0; top: 0; visibility: hidden; pointer-events: none; }
-@media (max-width: 767px) {
-  .text-loop { height: min(var(--text-loop-height, 88px), 52px); font-size: min(var(--text-loop-size, 36px), 22px); letter-spacing: min(var(--text-loop-tracking, 1.8px), .5px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .text-loop-wave-layers { animation: none; will-change: auto; }
-  .text-loop-track { will-change: auto; }
-  .text-loop, .text-loop-separator { transition: none; }
-}
-/* END OF FILE: TEXT-LOOP-COMPACT-R1 | TextLoop.css */
+.text-loop--connected[data-ribbon='true'] { background: var(--surface,#141b26); box-shadow: inset 0 1px color-mix(in srgb,var(--text-loop-background) 24%,transparent),inset 0 -1px color-mix(in srgb,var(--text-loop-background) 24%,transparent); }
+.text-loop--connected .text-loop-unit { gap: 0; padding: 0; }
+.text-loop--connected .text-loop-label { display: inline-flex; align-items: center; padding: 0 8px; color: var(--text-loop-color,var(--text)); font: 400 43px/1 var(--display,'Tilt Warp',sans-serif); letter-spacing: -.025em; }
+.text-loop--connected .text-loop-unit[data-tone='1'] .text-loop-label { color: transparent; -webkit-text-stroke: 1px var(--text-loop-background); }
+.text-loop-connector { display: grid; place-items: center; flex: 0 0 58px; width: 58px; height: 24px; color: var(--text-loop-background); }
+.text-loop-connector > i { width: 7px; height: 7px; border: 1px solid currentColor; rotate: 45deg; }
+@media (max-width:767px) { .text-loop { height: min(var(--text-loop-height,88px),52px); font-size: min(var(--text-loop-size,36px),22px); letter-spacing: min(var(--text-loop-tracking,1.8px),.5px); } .text-loop--connected .text-loop-label { font-size: 33px; padding-inline: 5px; } .text-loop-connector { flex-basis: 36px; width: 36px; } }
+@media (prefers-reduced-motion:reduce) { .text-loop-track { will-change: auto; } }

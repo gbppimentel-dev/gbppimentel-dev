@@ -1,0 +1,33 @@
+/* The portfolio uses only the original reset, containers and navbar layout.
+   Keep those primitives without shipping the unused Bootstrap component suite. */
+*, *::before, *::after { box-sizing: border-box; }
+html { line-height: 1.15; -webkit-text-size-adjust: 100%; }
+body { margin: 0; font-weight: 400; line-height: 1.5; text-align: left; }
+main, header, footer, nav, section, article, aside, figure { display: block; }
+h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: .5rem; font-weight: 500; line-height: 1.2; }
+p { margin-top: 0; margin-bottom: 1rem; }
+ol, ul, dl { margin-top: 0; margin-bottom: 1rem; }
+ol ol, ul ul, ol ul, ul ol { margin-bottom: 0; }
+blockquote, figure { margin: 0 0 1rem; }
+dd { margin-bottom: .5rem; margin-left: 0; }
+dt, b, strong { font-weight: bolder; }
+small { font-size: 80%; }
+img { vertical-align: middle; border-style: none; }
+svg { vertical-align: middle; overflow: hidden; }
+a { background-color: transparent; text-decoration: none; }
+a:hover { text-decoration: underline; }
+button, input, optgroup, select, textarea { margin: 0; font-family: inherit; font-size: inherit; line-height: inherit; }
+button, input { overflow: visible; }
+button, select { text-transform: none; }
+button, [type='button'], [type='reset'], [type='submit'] { -webkit-appearance: button; }
+button::-moz-focus-inner, [type='button']::-moz-focus-inner { padding: 0; border-style: none; }
+textarea { overflow: auto; resize: vertical; }
+table { border-collapse: collapse; }
+label { display: inline-block; margin-bottom: .5rem; }
+[hidden] { display: none !important; }
+.container, .container-fluid { width: 100%; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto; }
+.navbar { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; padding: .5rem 1rem; }
+@media (min-width: 576px) { .container { max-width: 540px; } }
+@media (min-width: 768px) { .container { max-width: 720px; } }
+@media (min-width: 992px) { .container { max-width: 960px; } }
+@media (min-width: 1200px) { .container { max-width: 1140px; } }

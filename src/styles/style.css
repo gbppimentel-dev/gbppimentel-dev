@@ -295,7 +295,7 @@ a {
   position: absolute;
   left: 0;
   top: 0;
-  background-image: url(../../public/images/menu-background.png);
+  background-image: url(../../public/images/optimized/menu-background.webp);
   background-size: cover;
   transition-delay: 0.8s;
 }

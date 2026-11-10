@@ -1,10 +1,12 @@
 // CHANGE VERSION: NAV-TYPE-R2 | 2026-10-14 | Complete TerminalText.jsx
 import { Children, cloneElement, isValidElement, useLayoutEffect, useRef } from 'react';
 import { useSwiperSlide } from 'swiper/react';
+import useAnimationActivity from '../hooks/useAnimationActivity';
 
 export default function TerminalText({ children, reduced = false }) {
   const ref = useRef(null), slide = useSwiperSlide();
   const active = slide ? slide.isActive : true;
+  const activity = useAnimationActivity(ref, { enabled: active });
   let index = 0;
   const reveal = nodes => Children.map(nodes, node => {
     if (typeof node === 'string' || typeof node === 'number') return Array.from(String(node), char => <span key={index++} className="hero-terminal-char">{char}</span>);
@@ -13,7 +15,7 @@ export default function TerminalText({ children, reduced = false }) {
   const content = reveal(children);
   useLayoutEffect(() => {
     const node = ref.current;
-    if (!node || !active || reduced) return;
+    if (!node || !activity.active || reduced) return;
     const chars = Array.from(node.querySelectorAll('.hero-terminal-char'));
     let next = 350;
     const beats = chars.map((char, i) => {
@@ -50,7 +52,7 @@ export default function TerminalText({ children, reduced = false }) {
     };
     frame = requestAnimationFrame(tick);
     return finish;
-  }, [active, reduced, index]);
+  }, [activity.active, reduced, index]);
   return <span ref={ref} className="hero-terminal-text" aria-hidden="true"><span className="hero-terminal-prompt">›</span>{content}<span className="hero-terminal-caret" /></span>;
 }
 // END OF FILE: NAV-TYPE-R2 | TerminalText.jsx

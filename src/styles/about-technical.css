@@ -1,0 +1,107 @@
+/* Plain technical surfaces keep pointer animation and canvas work out of the profile. */
+#about.about-profile--technical {
+  --about-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  background: var(--surface, #10151e);
+}
+#about.about-profile--technical::before { background: linear-gradient(100deg, color-mix(in srgb, var(--surface, #10151e) 88%, transparent), color-mix(in srgb, var(--surface, #10151e) 56%, transparent) 48%, color-mix(in srgb, var(--surface, #10151e) 88%, transparent)); }
+#about.about-profile--technical::after { content: ''; position: absolute; z-index: 0; inset: var(--about-divider-height) 0 0; background: radial-gradient(var(--blue, #93aec6) .7px, transparent 1px) 0 0 / 22px 22px; opacity: .08; pointer-events: none; }
+#about.about-profile--technical .about-studio-layout { grid-template-columns: minmax(0, .34fr) minmax(0, .66fr); align-items: center; gap: clamp(20px, 2.6vw, 42px); width: min(100%, 1360px); }
+#about.about-profile--technical .about-centerpiece { grid-template-rows: minmax(0, 1fr); align-self: stretch; }
+#about.about-profile--technical .about-id-stage { height: 100%; }
+#about.about-profile--technical .about-id-stage::before,
+#about.about-profile--technical .about-id-stage::after { display: none; }
+#about .about-technical { display: grid; gap: 13px; align-self: center; width: 100%; min-width: 0; color: var(--text, #f2efe8); }
+#about .about-technical__panel { min-width: 0; border: 1px solid var(--line, #36414f); border-radius: 8px; background: var(--surface-raised, #19212d); box-shadow: 0 12px 30px rgb(0 0 0 / .1); }
+#about .about-technical__bar { display: flex; align-items: center; gap: 11px; min-height: 40px; padding: 0 19px; border-bottom: 1px solid var(--line, #36414f); color: var(--muted, #a4acb8); font: 500 10px/1.5 var(--about-mono); }
+#about .about-technical__dots { display: inline-flex; gap: 5px; flex: none; }
+#about .about-technical__dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--coral); }
+#about .about-technical__dots i:nth-child(2) { background: var(--amber); }
+#about .about-technical__dots i:nth-child(3) { background: var(--blue); }
+#about .about-technical__cv { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; margin-left: auto; color: var(--text, #f2efe8); font: 500 10px/1.5 var(--about-mono); text-decoration: none; }
+#about .about-technical__cv svg { width: 14px; height: 14px; fill: none; stroke: var(--brand-accent, var(--amber)); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+#about .about-technical__intro { padding: 21px 23px 20px; }
+#about .about-technical__eyebrow { margin: 0 0 11px; color: var(--brand-accent, var(--amber)); font: 500 10px/1.5 var(--about-mono); }
+#about .about-technical h2#about-profile-name { max-width: 100%; margin: 0 0 12px; color: var(--text, #f2efe8); font: 400 clamp(32px, 3.3vw, 48px)/1.02 var(--display, 'Tilt Warp', sans-serif); letter-spacing: -.035em; }
+#about .about-technical h2#about-profile-name > span { display: inline-block; }
+#about .about-technical__period { color: var(--blue); }
+#about .about-technical__bio { max-width: 70ch; margin: 0 0 15px; color: var(--muted, #a4acb8); font: 400 12px/1.75 'Poppins', sans-serif; }
+#about .about-technical__roles { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 0; margin: 0; list-style: none; font: 400 10px/1.6 var(--about-mono); }
+#about .about-technical__roles li { display: inline-flex; align-items: center; gap: 7px; }
+#about .about-technical__roles li::before { content: ''; width: 4px; height: 4px; flex: none; border-radius: 1px; background: var(--brand-accent, var(--amber)); }
+#about .about-technical__lower { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 13px; min-width: 0; }
+#about .about-technical__skills,
+#about .about-technical__evidence { display: flex; flex-direction: column; min-width: 0; padding: 17px 18px 16px; }
+#about .about-technical__heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 11px; }
+#about .about-technical__heading h3 { margin: 0; color: var(--text, #f2efe8); font: 400 clamp(19px, 1.7vw, 24px)/1.15 var(--display, 'Tilt Warp', sans-serif); letter-spacing: -.025em; }
+#about .about-technical__heading > span { color: var(--blue); font: 400 12px/1 var(--about-mono); }
+#about .about-technical .branched-menu { width: 100%; max-width: 100%; flex: none; }
+#about .about-technical .branched-menu__head:hover,
+#about .about-technical .branched-menu__item:hover { background: color-mix(in srgb, var(--brand-accent, var(--amber)) 7%, transparent); }
+#about .about-technical .branched-menu__item[data-active] { background: color-mix(in srgb, var(--brand-accent, var(--amber)) 10%, transparent); color: var(--brand-accent, var(--amber)); }
+#about .about-technical__skill-detail { min-height: 52px; margin-top: 12px; padding-top: 11px; border-top: 1px solid var(--line, #36414f); }
+#about .about-technical__skill-detail strong { display: block; margin: 0 0 4px; color: var(--text, #f2efe8); font: 500 10px/1.5 var(--about-mono); }
+#about .about-technical__skill-detail p { margin: 0; color: var(--muted, #a4acb8); font: 400 10px/1.65 'Poppins', sans-serif; overflow-wrap: anywhere; }
+#about .about-technical__tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+#about .about-technical__tabs button { flex: 1 1 0; min-width: 0; min-height: 31px; padding: 6px 7px; border: 1px solid var(--line, #36414f); border-radius: 4px; background: transparent; color: var(--muted, #a4acb8); font: 500 10px/1.4 var(--about-mono); cursor: pointer; }
+#about .about-technical__tabs button[aria-selected='true'] { border-color: var(--brand-accent, var(--amber)); color: var(--text, #f2efe8); background: color-mix(in srgb, var(--brand-accent, var(--amber)) 9%, transparent); }
+#about .about-technical__proof { flex: 1; min-width: 0; }
+#about .about-technical__proof h4 { margin: 0 0 11px; min-height: 37px; color: var(--text, #f2efe8); font: 500 12px/1.55 'Poppins', sans-serif; }
+#about .about-technical__proof ul { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; }
+#about .about-technical__proof li { display: flex; align-items: baseline; gap: 8px; color: var(--muted, #a4acb8); font: 400 10px/1.6 'Poppins', sans-serif; }
+#about .about-technical__proof li::before { content: '↳'; flex: none; color: var(--blue); font-family: var(--about-mono); }
+#about .about-technical__projects { display: inline-flex; align-items: center; gap: 12px; min-height: 29px; width: fit-content; margin-top: 13px; color: var(--text, #f2efe8); font: 500 10px/1.5 var(--about-mono); text-decoration: none; }
+#about .about-technical__projects > span { color: var(--brand-accent, var(--amber)); }
+#about .about-technical :is(a, button):focus-visible { outline: 2px solid var(--brand-accent, var(--amber)); outline-offset: 4px; }
+@media (min-width: 1000px) and (max-height: 780px) {
+  #about .about-technical { gap: 11px; }
+  #about .about-technical__intro { padding: 17px 19px; }
+  #about .about-technical h2#about-profile-name { font-size: clamp(31px, 3vw, 39px); }
+  #about .about-technical__bio { font-size: 11px; margin-bottom: 12px; }
+  #about .about-technical__lower { gap: 11px; }
+  #about .about-technical__skills, #about .about-technical__evidence { padding: 14px 15px; }
+  #about .about-technical__heading { margin-bottom: 9px; }
+}
+@media (min-width: 1000px) and (max-height: 660px) {
+  #about .about-technical__bar { min-height: 34px; padding-inline: 15px; }
+  #about .about-technical__cv { min-height: 34px; }
+  #about .about-technical__intro { padding: 12px 15px; }
+  #about .about-technical__eyebrow { margin-bottom: 7px; font-size: 9px; }
+  #about .about-technical h2#about-profile-name { margin-bottom: 8px; font-size: 29px; }
+  #about .about-technical__bio { font-size: 10px; line-height: 1.65; margin-bottom: 8px; }
+  #about .about-technical__roles { font-size: 9px; gap: 4px 11px; }
+  #about .about-technical__heading h3 { font-size: 19px; }
+  #about .about-technical__skills, #about .about-technical__evidence { padding: 11px 13px; }
+  #about .about-technical__skill-detail { margin-top: 8px; padding-top: 8px; min-height: 48px; }
+  #about .about-technical__proof h4 { margin-bottom: 7px; }
+  #about .about-technical__proof ul { gap: 5px; }
+  #about .about-technical__projects { margin-top: 8px; }
+}
+@media (max-width: 999px), (pointer: coarse) {
+  #about.about-profile--technical { padding-inline: clamp(18px, 4vw, 32px); padding-bottom: 40px; }
+  #about.about-profile--technical .about-studio-layout { grid-template-columns: minmax(0, 1fr); height: auto; gap: 18px; }
+  #about.about-profile--technical .about-centerpiece { grid-column: auto; grid-row: auto; width: min(100%, 420px); margin-inline: auto; }
+  #about.about-profile--technical .about-id-stage { --about-id-height: clamp(365px, 56svh, 470px); height: var(--about-id-height); }
+  #about.about-profile--technical .about-touch-id__card { width: min(72%, 250px, calc((var(--about-id-height) - 125px) * .71111)); }
+  #about .about-technical { width: min(100%, 720px); margin-inline: auto; gap: 13px; }
+  #about .about-technical__intro { padding: 21px; }
+  #about .about-technical__eyebrow { font-size: 10px; line-height: 1.7; }
+  #about .about-technical h2#about-profile-name { font-size: clamp(31px, 5.8vw, 44px); }
+  #about .about-technical__bio { font-size: 12px; line-height: 1.8; }
+  #about .about-technical__roles { font-size: 10px; gap: 7px 13px; }
+  #about .about-technical__heading h3 { font-size: 24px; }
+  #about .about-technical__skills, #about .about-technical__evidence { padding: 21px; }
+  #about .about-technical__skill-detail { min-height: 65px; }
+  #about .about-technical__skill-detail strong, #about .about-technical__skill-detail p { font-size: 12px; }
+  #about .about-technical__tabs button { min-height: 44px; font-size: 11px; }
+  #about .about-technical__proof h4 { min-height: 0; font-size: 14px; line-height: 1.7; }
+  #about .about-technical__proof li { font-size: 12px; line-height: 1.8; }
+  #about .about-technical__projects { min-height: 44px; font-size: 11px; margin-top: 16px; }
+}
+@media (max-width: 650px) {
+  #about .about-technical__bar { gap: 8px; padding-inline: 14px; font-size: 9px; }
+  #about .about-technical__cv { font-size: 9px; }
+  #about .about-technical__intro { padding: 19px 17px; }
+  #about .about-technical__lower { grid-template-columns: minmax(0, 1fr); }
+  #about .about-technical__skills, #about .about-technical__evidence { padding: 20px 17px; }
+  #about .about-technical__roles { gap: 7px 12px; }
+}

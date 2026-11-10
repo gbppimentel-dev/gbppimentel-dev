@@ -1,0 +1,338 @@
+[
+  {
+    "source": "images/about-me.png",
+    "originalBytes": 2190984,
+    "optimizedBytes": 61264,
+    "mobileBytes": 18544
+  },
+  {
+    "source": "images/backside-bg.png",
+    "originalBytes": 1606428,
+    "optimizedBytes": 50420,
+    "mobileBytes": 14918
+  },
+  {
+    "source": "images/menu-background.png",
+    "originalBytes": 1601969,
+    "optimizedBytes": 40994,
+    "mobileBytes": 13238
+  },
+  {
+    "source": "images/profile-id-front-r6.svg",
+    "originalBytes": 2485594,
+    "optimizedBytes": 96378,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/profile-portrait-r5.png",
+    "originalBytes": 1842852,
+    "optimizedBytes": 131098,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/gbppimentel-dev-about-r4.png",
+    "originalBytes": 661550,
+    "optimizedBytes": 87010,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/gbppimentel-dev-creative-r4.png",
+    "originalBytes": 665512,
+    "optimizedBytes": 72716,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/gbppimentel-dev-hero-r4.png",
+    "originalBytes": 671725,
+    "optimizedBytes": 95866,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/gbppimentel-dev-menu-r4.png",
+    "originalBytes": 411002,
+    "optimizedBytes": 60944,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-attendance-stack-r1.png",
+    "originalBytes": 140500,
+    "optimizedBytes": 71778,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-attendance-welcome-r1.png",
+    "originalBytes": 479170,
+    "optimizedBytes": 55892,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/app-icon.png",
+    "originalBytes": 23098,
+    "optimizedBytes": 8628,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/appearance-settings.png",
+    "originalBytes": 306721,
+    "optimizedBytes": 58290,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/attendance-history.png",
+    "originalBytes": 159163,
+    "optimizedBytes": 66400,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/attendance-records.png",
+    "originalBytes": 381785,
+    "optimizedBytes": 51986,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/dashboard-desktop.png",
+    "originalBytes": 434301,
+    "optimizedBytes": 54848,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/dashboard-mobile.png",
+    "originalBytes": 142996,
+    "optimizedBytes": 28416,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/feedback-desktop.png",
+    "originalBytes": 169162,
+    "optimizedBytes": 22760,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/feedback-mobile.png",
+    "originalBytes": 142403,
+    "optimizedBytes": 20286,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/feedback-workspace.png",
+    "originalBytes": 189899,
+    "optimizedBytes": 42884,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/manual-checkin.png",
+    "originalBytes": 33709,
+    "optimizedBytes": 9632,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/member-directory.png",
+    "originalBytes": 459891,
+    "optimizedBytes": 91260,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/member-id-export.png",
+    "originalBytes": 835359,
+    "optimizedBytes": 46074,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/member-registration.png",
+    "originalBytes": 213027,
+    "optimizedBytes": 36102,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/member-space.png",
+    "originalBytes": 303335,
+    "optimizedBytes": 35810,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/members-export.png",
+    "originalBytes": 224280,
+    "optimizedBytes": 71992,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/members-import.png",
+    "originalBytes": 281415,
+    "optimizedBytes": 32636,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/records-export.png",
+    "originalBytes": 162966,
+    "optimizedBytes": 39826,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/scanner-desktop.png",
+    "originalBytes": 190360,
+    "optimizedBytes": 17658,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/scanner-mobile.png",
+    "originalBytes": 123445,
+    "optimizedBytes": 20160,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/service-create-mobile.png",
+    "originalBytes": 109075,
+    "optimizedBytes": 23150,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/services-desktop.png",
+    "originalBytes": 309772,
+    "optimizedBytes": 54504,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/welcome-desktop.png",
+    "originalBytes": 735063,
+    "optimizedBytes": 75994,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/welcome-mobile.png",
+    "originalBytes": 254286,
+    "optimizedBytes": 26130,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/lifecity-r2/workspace-mobile.png",
+    "originalBytes": 140288,
+    "optimizedBytes": 18746,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-character-setup-r1.png",
+    "originalBytes": 37385,
+    "optimizedBytes": 14300,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-devotion-calendar-r1.png",
+    "originalBytes": 36777,
+    "optimizedBytes": 15780,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-icon-r1.png",
+    "originalBytes": 38916,
+    "optimizedBytes": 12220,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-login-r1.png",
+    "originalBytes": 63433,
+    "optimizedBytes": 34580,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-r2/achievements.png",
+    "originalBytes": 107971,
+    "optimizedBytes": 18832,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-r2/dashboard.png",
+    "originalBytes": 83591,
+    "optimizedBytes": 19994,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-r2/devotion-calendar.png",
+    "originalBytes": 32164,
+    "optimizedBytes": 15488,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-r2/devotion-tour.png",
+    "originalBytes": 43734,
+    "optimizedBytes": 14058,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-r2/devotion.png",
+    "originalBytes": 64584,
+    "optimizedBytes": 25466,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-r2/equipment.png",
+    "originalBytes": 112774,
+    "optimizedBytes": 30192,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-r2/feedback.png",
+    "originalBytes": 49111,
+    "optimizedBytes": 21730,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-r2/goals.png",
+    "originalBytes": 55071,
+    "optimizedBytes": 21736,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-r2/jobs.png",
+    "originalBytes": 90932,
+    "optimizedBytes": 40114,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-r2/onboarding.png",
+    "originalBytes": 59082,
+    "optimizedBytes": 15132,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-r2/skills.png",
+    "originalBytes": 46978,
+    "optimizedBytes": 21716,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-r2/welcome.png",
+    "originalBytes": 80163,
+    "optimizedBytes": 41300,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-r6/achievement-collection.png",
+    "originalBytes": 82859,
+    "optimizedBytes": 34124,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/projects/salt-light-r6/welcome-mobile.png",
+    "originalBytes": 71093,
+    "optimizedBytes": 37686,
+    "mobileBytes": 0
+  },
+  {
+    "source": "images/slide01.png",
+    "originalBytes": 1542197,
+    "optimizedBytes": 61202,
+    "mobileBytes": 18780
+  },
+  {
+    "source": "images/slide02.png",
+    "originalBytes": 1131001,
+    "optimizedBytes": 44600,
+    "mobileBytes": 12548
+  },
+  {
+    "source": "images/slide03.png",
+    "originalBytes": 1211224,
+    "optimizedBytes": 49908,
+    "mobileBytes": 16266
+  }
+]

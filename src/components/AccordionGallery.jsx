@@ -55,7 +55,10 @@ export default function AccordionGallery({
   const firstRun = useRef(true);
   const mediaSizeRef = useRef(320);
   const callbackRef = useRef(onSelectionChange);
-  const [environment, setEnvironment] = useState({ narrow: false, reduced: false });
+  const [environment, setEnvironment] = useState(() => ({
+    narrow: typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches,
+    reduced: typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  }));
   const [selection, setSelection] = useState(() => {
     const index = clamp(Math.trunc(defaultIndex), 0, Math.max(0, items.length - 1));
     return items[index] ? itemKey(items[index], index) : null;
@@ -71,7 +74,7 @@ export default function AccordionGallery({
   callbackRef.current = onSelectionChange;
 
   useLayoutEffect(() => {
-    const queries = [window.matchMedia('(max-width: 640px)'), window.matchMedia('(prefers-reduced-motion: reduce)')];
+    const queries = [window.matchMedia('(max-width: 767px)'), window.matchMedia('(prefers-reduced-motion: reduce)')];
     const sync = () => setEnvironment({ narrow: queries[0].matches, reduced: queries[1].matches });
     sync();
     queries.forEach(query => query.addEventListener?.('change', sync));
@@ -84,13 +87,13 @@ export default function AccordionGallery({
 
   const applyLayout = useCallback((animate = true) => {
     timelineRef.current?.kill();
-    const seconds = animate && !environment.reduced ? clamp(duration, 0, 3) : 0;
+    const seconds = animate && !environment.reduced ? clamp(duration, 0, environment.narrow ? .35 : 3) : 0;
     const grow = count > 1 ? (ratio * (count - 1)) / (1 - ratio) : 1;
     const timeline = gsap.timeline();
     panelRefs.current.slice(0, count).forEach((panel, index) => {
       if (!panel) return;
       const expanded = index === active;
-      const rotation = expanded || environment.reduced ? 0 : (index < active ? tilt : -tilt);
+      const rotation = expanded || environment.reduced || environment.narrow ? 0 : (index < active ? tilt : -tilt);
       timeline.to(panel, {
         flexGrow: expanded ? grow : 1,
         rotateX: vertical ? -rotation : 0, rotateY: vertical ? 0 : rotation,
@@ -240,7 +243,7 @@ export default function AccordionGallery({
         style={{ '--ag-dim': 0.36 }}>
         <div className="ag-panel__frame" aria-hidden="true">
           <div className="ag-panel__media" ref={node => { mediaRefs.current[index] = node; }}>
-            <img src={item.image} alt="" draggable="false" loading={index === active ? 'eager' : 'lazy'} />
+            <img src={item.image} alt="" draggable="false" decoding="async" loading={index === active ? 'eager' : 'lazy'} />
           </div>
           <span className="ag-panel__overlay" />
           {!item.hasScreenshot && <span className="ag-panel__artmark"><span>{String(index + 1).padStart(2, '0')}</span><svg viewBox="0 0 96 96" fill="none"><path d="M48 8v80M8 48h80M20 20l56 56M20 76l56-56" /></svg></span>}

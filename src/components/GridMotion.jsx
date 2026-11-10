@@ -1,7 +1,9 @@
 // CHANGE VERSION: PORTFOLIO-REFINE-R3 | React Bits GridMotion with visibility and motion preference suspension
 // Adapted from the GridMotion source supplied for this project.
 
-import { isValidElement, useEffect, useMemo, useRef, useState } from 'react';
+import { isValidElement, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { AnimationActivityContext } from '../hooks/useAnimationActivity';
+import { createPaintClock } from '../utils/renderBudget';
 
 import '../styles/GridMotion.css';
 
@@ -59,7 +61,7 @@ const EMPTY = { kind: 'empty' };
 
 const Tile = ({ tile }) => (
   <div className="grid-motion__tile">
-    {tile.kind === 'image' && <img src={tile.src} alt={tile.alt} draggable={false} decoding="async" />}
+    {tile.kind === 'image' && <img src={tile.src} alt={tile.alt} draggable={false} decoding="async" loading="lazy" />}
     {tile.kind === 'text' && <span className="grid-motion__text">{tile.text}</span>}
     {tile.kind === 'node' && tile.node}
   </div>
@@ -87,6 +89,10 @@ const GridMotion = ({
   style
 }) => {
   const rootRef = useRef(null);
+  const parentActive = useContext(AnimationActivityContext);
+  const parentActiveRef = useRef(parentActive);
+  parentActiveRef.current = parentActive;
+  const playbackRef = useRef(null);
   const planeRef = useRef(null);
   const motionRef = useRef({ offsets: [], shifts: [], intro: 0, pointer: { x: 0, y: 0, active: false } });
   const [size, setSize] = useState({ width: 0, height: 0 });
@@ -151,6 +157,7 @@ const GridMotion = ({
     window.addEventListener('resize', measure);
     const motion = motionRef.current;
     const onMove = event => {
+      if (event.pointerType === 'touch') return;
       motion.pointer.x = event.clientX;
       motion.pointer.y = event.clientY;
       motion.pointer.active = true;
@@ -183,7 +190,8 @@ const GridMotion = ({
     if (!root || !plane || !layout) return undefined;
 
     const preference = window.matchMedia?.('(prefers-reduced-motion: reduce)');
-    let reduce = preference?.matches ?? false;
+    const compact = window.matchMedia?.('(pointer: coarse), (max-width: 767px)');
+    let reduce = (preference?.matches ?? false) || (compact?.matches ?? false);
     const motion = motionRef.current;
     const rowEls = Array.from(plane.children);
     const tileEls = rowEls.map(row => Array.from(row.children));
@@ -193,6 +201,10 @@ const GridMotion = ({
     let last = performance.now();
     let visible = typeof IntersectionObserver === 'undefined';
     let alive = true;
+    let bounds;
+    let boundsDirty = true;
+    let spotlightPending = false;
+    const paintClock = createPaintClock(30);
     if (motion.intro >= 1) plane.style.opacity = '1';
 
     const paint = (now, animate = true) => {
@@ -209,7 +221,8 @@ const GridMotion = ({
         plane.style.opacity = String(1 - (1 - motion.intro) ** 3);
       }
 
-      const rect = root.getBoundingClientRect();
+      if (boundsDirty || !bounds) { bounds = root.getBoundingClientRect(); boundsDirty = false; }
+      const rect = bounds;
       const scale = rect.width ? root.clientWidth / rect.width : 1;
       const halfWidth = root.clientWidth / 2 || 1;
       const halfHeight = root.clientHeight / 2 || 1;
@@ -230,6 +243,8 @@ const GridMotion = ({
       const nudge = motion.pointer.active ? clamp(px / halfWidth, -1, 1) : 0;
       const reach = (0.6 + 2.2 * s.spotlight) * Math.max(layout.tileWidth, layout.tileHeight);
       const settle = 1 - Math.exp(-dt / 0.22);
+      const spotlightActive = !reduce && inside && s.spotlight > 0;
+      let nextSpotlightPending = false;
 
       rowEls.forEach((row, r) => {
         const drift = s.direction === 'left' ? -1 : s.direction === 'right' ? 1 : r % 2 ? 1 : -1;
@@ -244,6 +259,10 @@ const GridMotion = ({
         const x = -layout.period + wrap(motion.offsets[r] + motion.shifts[r], layout.period);
         row.style.transform = `translate3d(${x.toFixed(2)}px, 0, 0)`;
 
+        // A drifting row needs one transform; its individual tiles need no work
+        // until a nearby pointer lights them or an existing spotlight settles.
+        if (!spotlightActive && !spotlightPending) return;
+
         const rowY = layout.top + r * (layout.tileHeight + s.gap) + layout.tileHeight / 2 - layout.planeHeight / 2;
         const left = x - layout.planeWidth / 2 + layout.tileWidth / 2;
         const list = tileEls[r];
@@ -251,23 +270,26 @@ const GridMotion = ({
         const marks = written[r];
         for (let k = 0; k < list.length; k++) {
           let wanted = 0;
-          if (!reduce && inside && s.spotlight > 0) {
+          if (spotlightActive) {
             const distance = Math.hypot(left + k * layout.step - planeX, rowY - planeY) / reach;
             wanted = 1 - smoothstep(0.25, 1, distance);
           }
           values[k] += (wanted - values[k]) * settle;
+          if (values[k] >= 0.004 || wanted > 0) nextSpotlightPending = true;
           if (Math.abs(values[k] - marks[k]) > 0.004 || (wanted === 0 && values[k] < 0.004 && marks[k] !== 0)) {
             marks[k] = values[k] < 0.004 ? 0 : values[k];
             list[k].style.setProperty('--spot', marks[k].toFixed(3));
           }
         }
       });
-
+      spotlightPending = nextSpotlightPending;
     };
 
     const frame = now => {
       raf = 0;
-      if (!alive || !visible || document.hidden || reduce) return;
+      if (!alive || !visible || document.hidden || reduce || !parentActiveRef.current) return;
+      // These low-speed background rows do not need foreground's 60+ fps.
+      if (!paintClock.due(now)) { raf = requestAnimationFrame(frame); return; }
       paint(now);
       raf = requestAnimationFrame(frame);
     };
@@ -276,20 +298,25 @@ const GridMotion = ({
       raf = 0;
       if (!alive) return;
       last = performance.now();
+      paintClock.reset();
       // A reduced-motion view stays fully visible without a polling RAF loop.
       if (reduce) paint(last, false);
-      else if (visible && !document.hidden) raf = requestAnimationFrame(frame);
+      else if (visible && !document.hidden && parentActiveRef.current) raf = requestAnimationFrame(frame);
     };
+    playbackRef.current = syncPlayback;
     const changeMotion = () => {
-      reduce = preference?.matches ?? false;
+      reduce = (preference?.matches ?? false) || (compact?.matches ?? false);
       syncPlayback();
     };
+    const invalidateBounds = () => { boundsDirty = true; };
     const visibility = typeof IntersectionObserver === 'undefined' ? null : new IntersectionObserver(entries => {
       visible = entries.some(entry => entry.isIntersecting);
       syncPlayback();
     });
     visibility?.observe(root);
     document.addEventListener('visibilitychange', syncPlayback);
+    window.addEventListener('scroll', invalidateBounds, { capture: true, passive: true });
+    compact?.addEventListener?.('change', changeMotion);
     if (preference?.addEventListener) preference.addEventListener('change', changeMotion);
     else preference?.addListener?.(changeMotion);
     paint(last, false);
@@ -297,13 +324,18 @@ const GridMotion = ({
 
     return () => {
       alive = false;
+      playbackRef.current = null;
       cancelAnimationFrame(raf);
       visibility?.disconnect();
       document.removeEventListener('visibilitychange', syncPlayback);
+      window.removeEventListener('scroll', invalidateBounds, { capture: true });
+      compact?.removeEventListener?.('change', changeMotion);
       if (preference?.removeEventListener) preference.removeEventListener('change', changeMotion);
       else preference?.removeListener?.(changeMotion);
     };
   }, [layout, tiles]);
+
+  useEffect(() => { playbackRef.current?.(); }, [parentActive]);
 
   const rowTiles = layout
     ? Array.from({ length: settings.rows }, (_, r) =>

@@ -1,0 +1,177 @@
+{
+  "method": "Six-second RAF samples, 1440x900 IAB, dark theme. Main hero comparison visits About until WebGL is ready before returning to hero 1; carousel manually paused.",
+  "before": {
+    "heroOne": {
+      "durationMs": 6133.3,
+      "frames": 264,
+      "averageFps": 43.04,
+      "medianFrameMs": 16.7,
+      "p95FrameMs": 33.3,
+      "framesOver34ms": 7,
+      "longTasks": 0,
+      "longTaskMs": 0,
+      "viewport": [
+        1440,
+        900
+      ],
+      "visible": true,
+      "scene": "slide-inner slide-one",
+      "canvases": [
+        {
+          "width": 1132,
+          "height": 175
+        },
+        {
+          "width": 1315,
+          "height": 714
+        }
+      ]
+    },
+    "heroTwo": {
+      "durationMs": 6000,
+      "frames": 347,
+      "averageFps": 57.83,
+      "medianFrameMs": 16.7,
+      "p95FrameMs": 16.8,
+      "framesOver34ms": 3,
+      "longTasks": 1,
+      "longTaskMs": 70,
+      "viewport": [
+        1440,
+        900
+      ],
+      "visible": true,
+      "scene": "slide-inner slide-two",
+      "canvases": [
+        {
+          "width": 1021,
+          "height": 154
+        }
+      ]
+    },
+    "about": {
+      "durationMs": 6000,
+      "frames": 348,
+      "averageFps": 58,
+      "medianFrameMs": 16.7,
+      "p95FrameMs": 16.8,
+      "framesOver34ms": 2,
+      "longTasks": 0,
+      "longTaskMs": 0,
+      "viewport": [
+        1440,
+        900
+      ],
+      "visible": true,
+      "scene": "#about",
+      "canvases": [
+        {
+          "width": 1021,
+          "height": 154
+        },
+        {
+          "width": 1315,
+          "height": 714
+        }
+      ]
+    }
+  },
+  "after": {
+    "heroOne": {
+      "durationMs": 6016.6,
+      "frames": 361,
+      "averageFps": 60,
+      "medianFrameMs": 16.7,
+      "p95FrameMs": 16.8,
+      "framesOver34ms": 0,
+      "longTasks": 0,
+      "longTaskMs": 0,
+      "viewport": [
+        1440,
+        900
+      ],
+      "visible": true,
+      "scene": "slide-inner slide-one",
+      "canvases": [
+        {
+          "width": 1132,
+          "height": 175
+        },
+        {
+          "width": 1315,
+          "height": 714
+        }
+      ]
+    },
+    "heroTwo": {
+      "durationMs": 6000,
+      "frames": 354,
+      "averageFps": 59,
+      "medianFrameMs": 16.7,
+      "p95FrameMs": 16.8,
+      "framesOver34ms": 1,
+      "longTasks": 0,
+      "longTaskMs": 0,
+      "viewport": [
+        1440,
+        900
+      ],
+      "visible": true,
+      "scene": "slide-inner slide-two",
+      "canvases": [
+        {
+          "width": 1132,
+          "height": 175
+        }
+      ]
+    },
+    "about": {
+      "durationMs": 6000,
+      "frames": 360,
+      "averageFps": 60,
+      "medianFrameMs": 16.7,
+      "p95FrameMs": 16.8,
+      "framesOver34ms": 0,
+      "longTasks": 0,
+      "longTaskMs": 0,
+      "viewport": [
+        1440,
+        900
+      ],
+      "visible": true,
+      "scene": "#about",
+      "canvases": [
+        {
+          "width": 1132,
+          "height": 175
+        },
+        {
+          "width": 1315,
+          "height": 714
+        }
+      ]
+    }
+  },
+  "earlierColdHeroOne": {
+    "durationMs": 6000,
+    "frames": 360,
+    "averageFps": 60,
+    "medianFrameMs": 16.7,
+    "p95FrameMs": 16.8,
+    "framesOver34ms": 0,
+    "longTasks": 0,
+    "longTaskMs": 0,
+    "viewport": [
+      1440,
+      900
+    ],
+    "visible": true,
+    "scene": "slide-inner slide-one",
+    "canvases": [
+      {
+        "width": 1132,
+        "height": 175
+      }
+    ]
+  }
+}

@@ -1,44 +1,13 @@
-/* CHANGE VERSION: ABOUT-PROFILE-R2 | 2026-10-20 | Complete BackToTop.css */
-button.portfolio-back-to-top {
-  position: fixed;
-  z-index: 7;
-  right: calc(28px + env(safe-area-inset-right, 0px));
-  bottom: calc(28px + env(safe-area-inset-bottom, 0px));
-  display: grid;
-  place-items: center;
-  box-sizing: border-box;
-  width: 44px;
-  height: 44px;
-  margin: 0;
-  padding: 0;
-  border: 2px solid #20222a;
-  border-radius: 50%;
-  background: var(--brand-accent, #d8b97c);
-  color: #20222a;
-  box-shadow: 0 4px 0 #090c12;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(8px);
-  pointer-events: none;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  transition: opacity .22s ease, transform .25s ease, background-color .6s ease, visibility 0s linear .25s;
-}
+/* A slim return rail, sharing the hero controls' quiet vertical rhythm. */
+/* Subpixel footer lift uses translate, separate from the reveal transition. */
+button.portfolio-back-to-top { --return-clearance: 12px; --return-approach: 96px; position: fixed; z-index: 7; right: calc(20px + env(safe-area-inset-right,0px)); bottom: calc(24px + env(safe-area-inset-bottom,0px)); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; width: 44px; height: 116px; margin: 0; padding: 8px 6px; border: 0; border-radius: 3px; background: transparent; color: var(--text); box-shadow: none; opacity: 0; visibility: hidden; translate: 0 calc(0px - var(--footer-lift,0px)); transform: translateY(7px); pointer-events: none; cursor: pointer; appearance: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: opacity .2s,transform .25s,visibility 0s .25s; }
 button.portfolio-back-to-top[data-visible] { opacity: 1; visibility: visible; transform: none; pointer-events: auto; transition-delay: 0s; }
-button.portfolio-back-to-top svg { display: block; width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
-button.portfolio-back-to-top:focus-visible { outline: 3px solid #f2e9d6; outline-offset: 5px; }
-button.portfolio-back-to-top:active { box-shadow: 0 1px 0 #090c12; }
-button.portfolio-back-to-top:disabled { cursor: default; }
-@media (hover: hover) and (pointer: fine) {
-  button.portfolio-back-to-top[data-visible]:hover { transform: translateY(-2px); }
-}
-@media (max-width: 767px) {
-  button.portfolio-back-to-top { right: calc(22px + env(safe-area-inset-right, 0px)); bottom: calc(22px + env(safe-area-inset-bottom, 0px)); }
-}
-@media (prefers-reduced-motion: reduce) {
-  button.portfolio-back-to-top { transition: none; transform: none !important; }
-}
-/* END OF FILE: ABOUT-PROFILE-R2 | BackToTop.css */
+button.portfolio-back-to-top svg { flex: none; width: 22px; height: 22px; fill: none; stroke: var(--brand-accent,var(--blue)); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; transition: transform .3s; pointer-events: none; }
+button.portfolio-back-to-top .return-label { writing-mode: vertical-rl; color: var(--muted); font: 500 8px/1.5 ui-monospace,monospace; letter-spacing: .08em; }
+button.portfolio-back-to-top .return-progress { position: absolute; inset: 33px 7px 9px auto; width: 1px; background: var(--line); }
+button.portfolio-back-to-top .return-progress::after { content: ''; position: absolute; inset: 0; background: var(--brand-accent,var(--blue)); transform: scaleY(var(--scroll-progress,0)); transform-origin: bottom; }
+button.portfolio-back-to-top:focus-visible { outline: 1px solid var(--brand-accent,var(--blue)); outline-offset: 3px; background: var(--surface); }
+button.portfolio-back-to-top:active svg { transform: translateY(1px); }
+@media (hover:hover) and (pointer:fine) { button.portfolio-back-to-top[data-visible]:hover svg { transform: translateY(-4px); } button.portfolio-back-to-top[data-visible]:hover .return-label { color: var(--text); } }
+@media (max-width:999px),(pointer:coarse) { button.portfolio-back-to-top { --return-clearance: 10px; --return-approach: 56px; right: calc(13px + env(safe-area-inset-right,0px)); bottom: calc(16px + env(safe-area-inset-bottom,0px)); width: 44px; height: 44px; padding: 10px; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); } button.portfolio-back-to-top .return-label { display: none; } button.portfolio-back-to-top .return-progress { inset: auto 11px 5px; width: auto; height: 1px; } button.portfolio-back-to-top .return-progress::after { transform: scaleX(var(--scroll-progress,0)); transform-origin: left; } }
+@media (prefers-reduced-motion:reduce) { button.portfolio-back-to-top,button.portfolio-back-to-top svg { transition: none; transform: none !important; } }
